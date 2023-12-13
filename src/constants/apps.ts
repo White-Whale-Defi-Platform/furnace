@@ -14,7 +14,6 @@ export enum AppCategories {
   DeFi = 'DeFi',
   NFT = 'NFT',
   Games = 'Games',
-  Casino = 'Casino',
   Governance = 'Governance'
 }
 
@@ -106,7 +105,7 @@ export const Apps = new Map<AppNames, AppInfo>([
     logo: '/apps/racoon-supply/racoon-bet/avatar.png',
     banner: '/apps/racoon-supply/racoon-bet/banner.png',
     description: 'Play 2 Win',
-    category: AppCategories.Casino,
+    category: AppCategories.Games,
     href: {
       internal: '',
       external: 'https://www.racoon.bet/'
