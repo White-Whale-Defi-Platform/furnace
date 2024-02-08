@@ -6,7 +6,7 @@ import { selectUserAsset } from '@/state'
 import { backboneLabsAtom } from './state'
 import { Card, CardActions, CardContent, CardHeader, Stack, Typography, LinearProgress } from '@mui/material'
 import { AssetInput, ExecuteButton } from '@/components'
-import { useExecuteBond, useExecuteUnbond, useExecuteWithdraw } from './hooks'
+import { useExecuteBond, useExecuteUnbond, useExecuteWithdraw } from './commands'
 
 export const StakeTabPanel = (): JSX.Element => {
   const whale = useRecoilValue(selectUserAsset('Whale'))

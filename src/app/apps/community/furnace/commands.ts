@@ -14,7 +14,7 @@ export const useExecuteBurn = (amount: number): UseExecuteContractResult => {
   const whale = selectAssetByName('Whale')
 
   return useExecuteContract(
-    Contracts.Furnace,
+    Contracts.Migaloo.WhaleFurnace,
     createBurnExecuteMsg(),
     [{ denom: whale.id, amount: amount.toString() }]
   )

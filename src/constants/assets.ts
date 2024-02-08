@@ -54,10 +54,8 @@ export const AssetInfos: AssetInfo[] = [
   }
 
 ]
-// Todo: Comment
 const createAsset = (name: string, logo: string, decimals: number, id: string): Asset => ({ name, id, decimals, logo: `/assets/${logo}`, amount: 0, description: { short: '', long: '' } })
 
-// Todo: Comment
 export const ASSETS: Asset[] = [
   // Whale
   createAsset(
