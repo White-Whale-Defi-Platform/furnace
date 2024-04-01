@@ -10,6 +10,7 @@
     "unimported": "npx unimported"
   },
   "dependencies": {
+    "@chain-registry/client": "^1.21.9",
     "@cosmos-kit/core": "^2.7.6",
     "@cosmos-kit/keplr": "^2.4.10",
     "@cosmos-kit/react": "^2.9.8",
@@ -18,7 +19,7 @@
     "@mui/icons-material": "^5.14.18",
     "@mui/lab": "^5.0.0-alpha.153",
     "@mui/material": "^5.14.18",
-    "chain-registry": "^1.20.0",
+    "chain-registry": "^1.33.15",
     "next": "^14.0.1",
     "react": "^18",
     "react-countup": "^6.5.0",
