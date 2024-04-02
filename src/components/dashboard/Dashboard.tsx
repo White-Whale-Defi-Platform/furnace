@@ -1,30 +1,48 @@
-import { Padding } from '@mui/icons-material'
-import { Container, Grid, Paper, Typography } from '@mui/material'
+import { Grid, Paper, Typography } from '@mui/material'
 import React, { type FC } from 'react'
 
 const Dashboard: FC = () => {
   return (
-    <Grid container spacing={2} >
-      {/* Table goes here */}
-      <Grid xs={12} item>
-        <Paper
-          sx={{
-            p: 2,
-            display: 'flex',
-            flexDirection: 'column',
-            height: 240
-          }}
-        >
-            <Typography>Aggregated information in Table</Typography>
-            <Typography>How many furnaces/chains/assets are there?</Typography>
-        </Paper>
-      </Grid>
-      {/* Pie chart goes here */}
-      <Grid item xs={12}>
-        <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-        <Typography>pie chart goes here</Typography>
-        </Paper>
-      </Grid>
+    <Grid gap={3} container justifyContent='space-between'>
+       <Paper
+    sx={{
+      p: 4,
+      display: 'flex',
+      flexGrow: 1,
+      flexDirection: 'column',
+      gap: 2,
+      alignContent: 'center'
+    }}
+      >
+        <Typography sx={{ fontSize: 20, fontWeight: 'bold', color: 'lightslategray' }}>Total Tokens Burned</Typography>
+        <Typography>1000,000,000</Typography>
+    </Paper>
+    <Paper
+    sx={{
+      p: 4,
+      display: 'flex',
+      flexGrow: 1,
+      flexDirection: 'column',
+      gap: 2,
+      alignContent: 'center'
+    }}
+      >
+        <Typography sx={{ fontSize: 20, fontWeight: 'bold', color: 'lightslategray' }}>Chains Supported</Typography>
+        <Typography>1</Typography>
+    </Paper>
+    <Paper
+    sx={{
+      p: 4,
+      display: 'flex',
+      flexGrow: 1,
+      flexDirection: 'column',
+      gap: 2,
+      alignContent: 'center'
+    }}
+      >
+        <Typography sx={{ fontSize: 20, fontWeight: 'bold', color: 'lightslategray' }}>Assets Supported</Typography>
+        <Typography>2</Typography>
+    </Paper>
     </Grid>
   )
 }
