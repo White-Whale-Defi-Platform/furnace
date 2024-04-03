@@ -80,7 +80,6 @@ const FurnaceSearchBar: FC = () => {
           '&:hover': { bgcolor: 'black' }
         }}
         component="label"
-        role={undefined}
         variant="outlined"
         startIcon={<Search />}
         onClick={() => setOpen(true)}
