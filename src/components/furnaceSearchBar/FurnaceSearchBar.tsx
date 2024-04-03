@@ -20,7 +20,7 @@ const getAssetInfo = {
   }]
 }
 
-const SearchAssetField: FC = () => {
+const FurnaceSearchBar: FC = () => {
   // format the getAssetInfo into array then flatten every asset info into one arry
   const assetOptions = Object.entries(getAssetInfo).flatMap(([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain })))
   const [open, setOpen] = useState(false)
@@ -91,4 +91,4 @@ const SearchAssetField: FC = () => {
   )
 }
 
-export default SearchAssetField
+export default FurnaceSearchBar

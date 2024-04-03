@@ -10,7 +10,6 @@
     "unimported": "npx unimported"
   },
   "dependencies": {
-    "@chain-registry/client": "^1.21.9",
     "@cosmos-kit/core": "^2.7.6",
     "@cosmos-kit/keplr": "^2.4.10",
     "@cosmos-kit/react": "^2.9.8",

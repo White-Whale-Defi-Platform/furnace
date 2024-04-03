@@ -7,7 +7,7 @@ import { useModal } from './provider'
 import { KadoModal } from './modals/KadoModal'
 import { Language, X } from '@mui/icons-material'
 import { Discord } from './icons/Discord'
-import SearchAssetField from './searchAssetField/SearchAssetField'
+import FurnaceSearchBar from './furnaceSearchBar/FurnaceSearchBar'
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const theme = useTheme()
@@ -24,7 +24,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
             <Stack direction="row" alignItems="center" gap={1} sx={{ width: 128 }}>
               <Avatar src="/chains/migaloo.svg" onClick={() => router.push('/')} sx={{ cursor: 'pointer' }} />
             </Stack>
-           <SearchAssetField />
+           <FurnaceSearchBar />
             <Stack direction="row" alignItems="center" justifyContent="end" spacing={2} sx={{ width: 256 }}>
               <Button variant="outlined" color="inherit" onClick={() => modal.open(<KadoModal />)}>
                 Buy Whale
