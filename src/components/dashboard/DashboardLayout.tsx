@@ -1,102 +1,57 @@
-import { Unstable_Grid2 as Grid, Paper, Typography } from '@mui/material'
+import { Unstable_Grid2 as Grid, Paper, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
 import AssetBurnedTable from './AssetBurnedTable'
+
+const DashboardBox = styled(Paper)({
+  display: 'flex',
+  flexDirection: 'column',
+  flexGrow: 1,
+  justifyContent: 'space-between',
+  alignContent: 'center',
+  padding: 20
+})
 
 const DashboardLayout: FC = () => {
   return (
     <Grid gap={3} container justifyContent="space-between">
-      <Paper
-        sx={{
-          p: 4,
-          display: 'flex',
-          flexGrow: 1,
-          flexDirection: 'column',
-          gap: 2,
-          alignContent: 'center'
-        }}
-      >
-        <Typography
-          sx={{ fontSize: 20, fontWeight: 'bold', color: 'lightslategray' }}
-        >
+      <DashboardBox>
+        <Typography color='GrayText'>
           Total Tokens Burned
         </Typography>
-        <Typography>1000,000,000</Typography>
-      </Paper>
-      <Paper
-        sx={{
-          p: 4,
-          display: 'flex',
-          flexGrow: 1,
-          flexDirection: 'column',
-          gap: 2,
-          alignContent: 'center'
-        }}
-      >
-        <Typography
-          sx={{ fontSize: 20, fontWeight: 'bold', color: 'lightslategray' }}
-        >
+        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>1000,000,000</Typography>
+      </DashboardBox>
+      <DashboardBox>
+        <Typography color='GrayText'>
           Chains Supported
         </Typography>
-        <Typography>1</Typography>
-      </Paper>
-      <Paper
-        sx={{
-          p: 4,
-          display: 'flex',
-          flexGrow: 1,
-          flexDirection: 'column',
-          gap: 2,
-          alignContent: 'center'
-        }}
-      >
         <Typography
-          sx={{ fontSize: 20, fontWeight: 'bold', color: 'lightslategray' }}
-        >
+          sx={{ fontSize: 20, fontWeight: 'bold' }}
+        >1</Typography>
+      </DashboardBox>
+      <DashboardBox>
+        <Typography color='GrayText'>
           Assets Supported
         </Typography>
-        <Typography>2</Typography>
-      </Paper>
+        <Typography
+          sx={{ fontSize: 20, fontWeight: 'bold' }}
+        >2</Typography>
+      </DashboardBox>
+
       <Grid xs={12}>
-        <Paper
-          sx={{
-            p: 4,
-            display: 'flex',
-            flexGrow: 1,
-            flexDirection: 'column',
-            alignContent: 'center'
-          }}
-        >
-          <AssetBurnedTable />
-        </Paper>
+        <DashboardBox>
+        <AssetBurnedTable/>
+        </DashboardBox>
       </Grid>
       <Grid xs={12} spacing={3} container direction="row">
         <Grid xs={12} sm={6} justifyContent="space-between">
-          <Paper
-            sx={{
-              p: 4,
-              display: 'flex',
-              flexGrow: 1,
-              flexDirection: 'column',
-              gap: 2,
-              alignContent: 'center'
-            }}
-          >
+          <DashboardBox>
             <Typography>Pie chart 1 goes here</Typography>
-          </Paper>
+          </DashboardBox>
         </Grid>
         <Grid xs={12} sm={6}>
-          <Paper
-            sx={{
-              p: 4,
-              display: 'flex',
-              flexGrow: 1,
-              flexDirection: 'column',
-              gap: 2,
-              alignContent: 'center'
-            }}
-          >
+          <DashboardBox>
             <Typography>Pie chart 2 goes here</Typography>
-          </Paper>
+          </DashboardBox>
         </Grid>
       </Grid>
     </Grid>
