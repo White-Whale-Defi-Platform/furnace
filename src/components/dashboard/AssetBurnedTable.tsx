@@ -1,4 +1,5 @@
 import { ENDPOINTS } from '@/constants'
+import { getAssetLogo } from '@/util/asset/getAssetLogo'
 import {
   TableContainer,
   Table,
@@ -12,6 +13,7 @@ import {
   Typography
 } from '@mui/material'
 import { assets } from 'chain-registry'
+import type { Asset } from '@chain-registry/types'
 import type { FC } from 'react'
 
 // This is dummy data just to build ui for now
@@ -46,7 +48,7 @@ const AssetBurnedTable: FC = () => {
   )
   return (
     <TableContainer>
-      <Table aria-label="simple table">
+      <Table aria-label="assets burned table">
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -60,18 +62,19 @@ const AssetBurnedTable: FC = () => {
         <TableBody>
           {assetData.map(({ chain, asset, burned }) => {
             const { chainColor } = ENDPOINTS[chain.toLowerCase()]
-            return (
+
+            return ((asset != null) &&
               <TableRow
-                key={`${asset?.base}`}
+                key={`${asset.base}`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
                   <Stack direction='row' gap={1}>
                     <Avatar
-                      alt="asset logo"
+                      alt={`${asset.symbol} Logo`}
                       sx={{ width: 24, height: 24 }}
-                      src={asset?.logo_URIs?.png ?? asset?.logo_URIs?.svg} />
-                    <Typography>{asset?.symbol}</Typography>
+                      src={getAssetLogo(asset as Asset)} />
+                    <Typography>{asset.symbol}</Typography>
                     <Chip
                       sx={{
                         borderColor: chainColor,
