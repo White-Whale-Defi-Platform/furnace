@@ -1,5 +1,6 @@
 import { Unstable_Grid2 as Grid, Paper, Typography } from '@mui/material'
 import React, { type FC } from 'react'
+import AssetBurnedTable from './AssetBurnedTable'
 
 const DashboardLayout: FC = () => {
   return (
@@ -55,7 +56,6 @@ const DashboardLayout: FC = () => {
         </Typography>
         <Typography>2</Typography>
       </Paper>
-
       <Grid xs={12}>
         <Paper
           sx={{
@@ -63,11 +63,10 @@ const DashboardLayout: FC = () => {
             display: 'flex',
             flexGrow: 1,
             flexDirection: 'column',
-            gap: 2,
             alignContent: 'center'
           }}
         >
-          <Typography>Table goes here</Typography>
+          <AssetBurnedTable />
         </Paper>
       </Grid>
       <Grid xs={12} spacing={3} container direction="row">
