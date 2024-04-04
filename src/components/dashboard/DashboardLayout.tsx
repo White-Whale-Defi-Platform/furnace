@@ -1,7 +1,7 @@
 import { Unstable_Grid2 as Grid, Paper, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
 
-const DashboardPaper = styled(Paper)({
+const DashboardBox = styled(Paper)({
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,
@@ -13,44 +13,44 @@ const DashboardPaper = styled(Paper)({
 const DashboardLayout: FC = () => {
   return (
     <Grid gap={3} container justifyContent="space-between">
-      <DashboardPaper>
+      <DashboardBox>
         <Typography color='GrayText'>
           Total Tokens Burned
         </Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>1000,000,000</Typography>
-      </DashboardPaper>
-      <DashboardPaper>
+      </DashboardBox>
+      <DashboardBox>
         <Typography color='GrayText'>
           Chains Supported
         </Typography>
         <Typography
           sx={{ fontSize: 20, fontWeight: 'bold' }}
         >1</Typography>
-      </DashboardPaper>
-      <DashboardPaper>
+      </DashboardBox>
+      <DashboardBox>
         <Typography color='GrayText'>
           Assets Supported
         </Typography>
         <Typography
           sx={{ fontSize: 20, fontWeight: 'bold' }}
         >2</Typography>
-      </DashboardPaper>
+      </DashboardBox>
 
       <Grid xs={12}>
-        <DashboardPaper>
+        <DashboardBox>
           <Typography>Table goes here</Typography>
-        </DashboardPaper>
+        </DashboardBox>
       </Grid>
       <Grid xs={12} spacing={3} container direction="row">
         <Grid xs={12} sm={6} justifyContent="space-between">
-          <DashboardPaper>
+          <DashboardBox>
             <Typography>Pie chart 1 goes here</Typography>
-          </DashboardPaper>
+          </DashboardBox>
         </Grid>
         <Grid xs={12} sm={6}>
-          <DashboardPaper>
+          <DashboardBox>
             <Typography>Pie chart 2 goes here</Typography>
-          </DashboardPaper>
+          </DashboardBox>
         </Grid>
       </Grid>
     </Grid>
