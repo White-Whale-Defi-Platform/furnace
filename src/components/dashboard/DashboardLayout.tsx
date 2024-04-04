@@ -1,7 +1,7 @@
 import { Unstable_Grid2 as Grid, Paper, Typography } from '@mui/material'
 import React, { type FC } from 'react'
 
-const Dashboard: FC = () => {
+const DashboardLayout: FC = () => {
   return (
     <Grid gap={3} container justifyContent="space-between">
       <Paper
@@ -103,4 +103,4 @@ const Dashboard: FC = () => {
     </Grid>
   )
 }
-export default Dashboard
+export default DashboardLayout

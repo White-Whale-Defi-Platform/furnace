@@ -6,7 +6,7 @@ import { useModal } from '@/components'
 import { PageLayout } from '@/components/complex/PageLayout'
 import { LeaveWebsiteModal } from '@/components/modals/LeaveWebsiteModal'
 import { Avatar, Card, CardActionArea, CardContent, CardHeader, CardMedia, Chip, Grid, Link, Stack, Typography } from '@mui/material'
-import Dashboard from '@/components/dashboard/Dashboard'
+import DashboardLayout from '@/components/dashboard/DashboardLayout'
 
 const Page = (): JSX.Element => {
   const router = useRouter()
@@ -15,7 +15,7 @@ const Page = (): JSX.Element => {
 
   return (
     <PageLayout title="Furnace" subtitle="Burn Whale & Receive Ash">
-      <Dashboard/>
+      <DashboardLayout/>
     </PageLayout >
   )
 }
