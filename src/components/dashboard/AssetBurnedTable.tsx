@@ -62,7 +62,7 @@ const AssetBurnedTable: FC = () => {
             const { chainColor } = ENDPOINTS[chain.toLowerCase()]
             return (
               <TableRow
-                key={burned}
+                key={`${asset?.base}`}
                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
