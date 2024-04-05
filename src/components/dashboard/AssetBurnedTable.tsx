@@ -15,6 +15,7 @@ import {
 import { assets } from 'chain-registry'
 import type { Asset } from '@chain-registry/types'
 import type { FC } from 'react'
+import { unique } from 'next/dist/build/utils'
 
 // This is dummy data just to build ui for now
 const getAssetInfo = {
@@ -23,13 +24,15 @@ const getAssetInfo = {
       asset: assets
         .find(({ chain_name: chainName }) => chainName === 'migaloo')
         ?.assets.find(({ symbol }) => symbol === 'WHALE'),
-      burned: 3_428_978
+      burned: 3_428_978,
+      uniques: 5_428
     },
     {
       asset: assets
         .find(({ chain_name: chainName }) => chainName === 'migaloo')
         ?.assets.find(({ symbol }) => symbol === 'GUPPY'),
-      burned: 43_768_000
+      burned: 43_768_000,
+      uniques: 428
     }
   ],
   chihuahua: [
@@ -37,7 +40,8 @@ const getAssetInfo = {
       asset: assets
         .find(({ chain_name: chainName }) => chainName === 'chihuahua')
         ?.assets.find(({ symbol }) => symbol === 'HUAHUA'),
-      burned: 234_789
+      burned: 234_789,
+      uniques: 128
     }
   ]
 }
@@ -54,43 +58,59 @@ const AssetBurnedTable: FC = () => {
             <TableCell sx={{ fontSize: 20, fontWeight: 'bold' }}>
               Asset
             </TableCell>
-            <TableCell sx={{ fontSize: 20, fontWeight: 'bold' }}>
-              Burned
+            <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
+              Burned Tokens
+            </TableCell>
+            <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
+              Burned Value
+            </TableCell>
+            <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
+              Unique Burners
             </TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {assetData.map(({ chain, asset, burned }) => {
+          {assetData.map(({ chain, asset, burned, uniques }) => {
             const { chainColor } = ENDPOINTS[chain.toLowerCase()]
 
-            return ((asset != null) &&
-              <TableRow
-                key={`${asset.base}`}
-                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  <Stack direction='row' gap={1}>
-                    <Avatar
-                      alt={`${asset.symbol} Logo`}
-                      sx={{ width: 24, height: 24 }}
-                      src={getAssetLogo(asset as Asset)} />
-                    <Typography>{asset.symbol}</Typography>
-                    <Chip
-                      sx={{
-                        borderColor: chainColor,
-                        color: chainColor
-                      }}
-                      variant="outlined"
-                      size="small"
-                      label={chain} />
-                  </Stack>
-                </TableCell>
-                <TableCell>
-                  <Typography fontSize='medium'>
-                    {new Intl.NumberFormat().format(burned)}
-                  </Typography>
-                </TableCell>
-              </TableRow>
+            return (
+              asset != null && (
+                <TableRow
+                  key={`${asset.base}`}
+                  sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                >
+                  <TableCell component="th" scope="row">
+                    <Stack direction="row" gap={1}>
+                      <Avatar
+                        alt={`${asset.symbol} Logo`}
+                        sx={{ width: 24, height: 24 }}
+                        src={getAssetLogo(asset)}
+                      />
+                      <Typography>{asset.symbol}</Typography>
+                      <Chip
+                        sx={{
+                          borderColor: chainColor,
+                          color: chainColor
+                        }}
+                        variant="outlined"
+                        size="small"
+                        label={chain}
+                      />
+                    </Stack>
+                  </TableCell>
+                  <TableCell align="center">
+                    <Typography fontSize="medium">
+                      {new Intl.NumberFormat().format(burned)}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="center">-</TableCell>
+                  <TableCell align="center">
+                    <Typography fontSize="medium">
+                      {new Intl.NumberFormat().format(uniques)}
+                    </Typography>
+                  </TableCell>
+                </TableRow>
+              )
             )
           })}
         </TableBody>
