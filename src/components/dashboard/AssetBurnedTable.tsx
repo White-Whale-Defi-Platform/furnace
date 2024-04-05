@@ -13,11 +13,10 @@ import {
   Typography
 } from '@mui/material'
 import { assets } from 'chain-registry'
-import type { Asset } from '@chain-registry/types'
 import type { FC } from 'react'
 
 // This is dummy data just to build ui for now
-const getAssetInfo = {
+const assetInfo = {
   migaloo: [
     {
       asset: assets
@@ -42,13 +41,13 @@ const getAssetInfo = {
   ]
 }
 
-const AssetBurnedTable: FC = () => {
-  const assetData = Object.entries(getAssetInfo).flatMap(([chain, chainInfo]) =>
+export const AssetBurnedTable: FC = () => {
+  const assetData = Object.entries(assetInfo).flatMap(([chain, chainInfo]) =>
     chainInfo.map((asset) => ({ chain, ...asset }))
   )
   return (
     <TableContainer>
-      <Table aria-label="assets burned table">
+      <Table aria-label="burned assets table">
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -73,7 +72,7 @@ const AssetBurnedTable: FC = () => {
                     <Avatar
                       alt={`${asset.symbol} Logo`}
                       sx={{ width: 24, height: 24 }}
-                      src={getAssetLogo(asset as Asset)} />
+                      src={getAssetLogo(asset)} />
                     <Typography>{asset.symbol}</Typography>
                     <Chip
                       sx={{
@@ -98,5 +97,3 @@ const AssetBurnedTable: FC = () => {
     </TableContainer>
   )
 }
-
-export default AssetBurnedTable

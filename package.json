@@ -18,7 +18,7 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/lab": "^5.0.0-alpha.153",
     "@mui/material": "^5.14.18",
-    "chain-registry": "^1.20.0",
+    "chain-registry": "^1.33.17",
     "next": "^14.0.1",
     "react": "^18",
     "react-countup": "^6.5.0",
