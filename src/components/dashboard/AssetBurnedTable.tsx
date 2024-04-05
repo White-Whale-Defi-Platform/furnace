@@ -17,7 +17,7 @@ import { assets } from 'chain-registry'
 import { useState, type FC } from 'react'
 
 // This is dummy data just to build ui for now
-const getAssetInfo = {
+const assetInfo = {
   migaloo: [
     {
       asset: assets
@@ -46,7 +46,7 @@ const getAssetInfo = {
 }
 
 const AssetBurnedTable: FC = () => {
-  const assetData = Object.entries(getAssetInfo).flatMap(([chain, chainInfo]) =>
+  const assetData = Object.entries(assetInfo).flatMap(([chain, chainInfo]) =>
     chainInfo.map((asset) => ({ chain, ...asset }))
   )
   const [filterChain, setFilterChain] = useState<string>()
@@ -65,7 +65,7 @@ const AssetBurnedTable: FC = () => {
                onClick={() => setFilterChain(undefined)}/>
        {
          Object
-           .keys(getAssetInfo)
+           .keys(assetInfo)
            .map((chainName) => (
              <Chip
                key={chainName}
@@ -94,7 +94,6 @@ const AssetBurnedTable: FC = () => {
               Unique Burners
             </TableCell>
           </TableRow>
-          {/* <TableRow><Chip label={'df'}/><Chip label={'df'}/><Chip label={'df'}/></TableRow> */}
         </TableHead>
         <TableBody>
           {filteredAssets.map(({ chain, asset, burned, uniques }) => {
