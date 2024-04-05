@@ -1,3 +1,4 @@
+import { ENDPOINTS } from '@/constants'
 import { Paper, Stack, styled, Typography } from '@mui/material'
 import { assets } from 'chain-registry'
 import React, { type FC } from 'react'
@@ -11,23 +12,25 @@ import {
 } from 'recharts'
 
 // This is dummy data just to build ui for now
-const getAssetInfo = {
+const assetInfo = {
   migaloo: [
     {
       asset: assets
         .find(({ chain_name: chainName }) => chainName === 'migaloo')
         ?.assets.find(({ symbol }) => symbol === 'WHALE'),
-      events: 428_978,
+      totalBurned: 828_978,
       uniques: 23_123,
-      fill: '#31c259'
+      fill: '#31c259',
+      tokenPrice: 0.03
     },
     {
       asset: assets
         .find(({ chain_name: chainName }) => chainName === 'migaloo')
         ?.assets.find(({ symbol }) => symbol === 'GUPPY'),
-      events: 768_000,
+      totalBurned: 21_768_000,
       uniques: 20_000,
-      fill: '#054499'
+      fill: '#054499',
+      tokenPrice: 0.002
     }
   ],
   chihuahua: [
@@ -35,8 +38,9 @@ const getAssetInfo = {
       asset: assets
         .find(({ chain_name: chainName }) => chainName === 'chihuahua')
         ?.assets.find(({ symbol }) => symbol === 'HUAHUA'),
-      events: 234_789,
+      totalBurned: 30_234_789,
       uniques: 30_123,
+      tokenPrice: 0.0003,
       fill: '#F0A841'
     }
   ]
@@ -49,9 +53,15 @@ const PieChartContainer = styled(Paper)({
 })
 
 export const BurnPieChart: FC = () => {
-  const assetData = Object.entries(getAssetInfo).flatMap(([chain, chainInfo]) =>
-    chainInfo.map((asset) => ({ chain, name: asset.asset?.symbol, ...asset }))
+  const assetData = Object.entries(assetInfo).flatMap(([chain, chainInfo]) =>
+    chainInfo.map((asset) => ({ chain, name: asset.asset?.symbol, ...asset, avgBurnedPerUnique: asset.totalBurned / asset.uniques * asset.tokenPrice }))
   )
+  const uniqueChainBurners = Object.entries(assetInfo)
+    .map(([chain, furnaceAssets]) => ({
+      label: chain,
+      fill: ENDPOINTS[chain].chainColor,
+      value: furnaceAssets.map(({ uniques }) => uniques).reduce((initial, accum) => initial + accum, 0)
+    }))
   return (
     <Stack spacing={3} direction={{ sm: 'column', md: 'row' }} >
           <PieChartContainer >
@@ -63,25 +73,25 @@ export const BurnPieChart: FC = () => {
                 pb: 3
               }}
             >
-              Number of Burn Events
+              Number of Unique Burners by Chains
             </Typography>
             <ResponsiveContainer width='100%' minHeight='250px'>
               <PieChart>
                 <Legend verticalAlign="top" height={36} />
                 <Tooltip
-                  label={'burn events'}
+                  label={'unique burners by chains'}
                   formatter={(value) =>
-                    `${new Intl.NumberFormat().format(Number(value))} burn events`}
+                    `${new Intl.NumberFormat().format(Number(value))} burners`}
                 />
                 <Pie
-                  dataKey="events"
-                  nameKey="name"
-                  data={assetData}
+                  dataKey="value"
+                  nameKey="label"
+                  data={uniqueChainBurners}
                   labelLine={false}
                   innerRadius={40}
                   outerRadius={90}
                 >
-                  {assetData.map((entry, index) => (
+                  {uniqueChainBurners.map((entry, index) => (
                     <Cell key={`cell-${index}`} color={entry.fill} />
                   ))}
                 </Pie>
@@ -97,18 +107,18 @@ export const BurnPieChart: FC = () => {
                 pb: 3
               }}
             >
-              Number of Unique Burners
+              Avg Value Burned Per User
             </Typography>
             <ResponsiveContainer width='100%' minHeight='250px'>
               <PieChart>
                 <Legend verticalAlign="top" height={36} />
                 <Tooltip
-                  label='burners'
+                  label='avg value burned per user'
                   formatter={(value) =>
-                    `${new Intl.NumberFormat().format(Number(value))} burners`}
+                    `$${new Intl.NumberFormat().format(Number(value))}/user`}
                 />
                 <Pie
-                  dataKey="uniques"
+                  dataKey="avgBurnedPerUnique"
                   nameKey="name"
                   data={assetData}
                   labelLine={false}
