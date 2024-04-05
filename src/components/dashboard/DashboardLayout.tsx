@@ -17,7 +17,7 @@ const DashboardLayout: FC = () => {
         <Typography color='GrayText'>
           Total Value Burned
         </Typography>
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>1000,000,000</Typography>
+        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>1,000,000</Typography>
       </DashboardBox>
       <DashboardBox>
         <Typography color='GrayText'>
