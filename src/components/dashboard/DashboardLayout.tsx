@@ -17,7 +17,7 @@ export const DashboardLayout: FC = () => {
     <Grid gap={3} container justifyContent="space-between">
       <DashboardBox>
         <Typography color='GrayText'>
-          Total Tokens Burned
+          Total Value Burned
         </Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>1000,000,000</Typography>
       </DashboardBox>
