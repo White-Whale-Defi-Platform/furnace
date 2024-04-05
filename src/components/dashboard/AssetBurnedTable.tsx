@@ -10,12 +10,11 @@ import {
   Chip,
   Avatar,
   Stack,
-  Typography
+  Typography,
+  Grid
 } from '@mui/material'
 import { assets } from 'chain-registry'
-import type { Asset } from '@chain-registry/types'
-import type { FC } from 'react'
-import { unique } from 'next/dist/build/utils'
+import { useState, type FC } from 'react'
 
 // This is dummy data just to build ui for now
 const getAssetInfo = {
@@ -50,7 +49,34 @@ const AssetBurnedTable: FC = () => {
   const assetData = Object.entries(getAssetInfo).flatMap(([chain, chainInfo]) =>
     chainInfo.map((asset) => ({ chain, ...asset }))
   )
+  const [filterChain, setFilterChain] = useState<string>()
+
+  // Filtered Assets by chain name. Default to be all chains
+  const filteredAssets = filterChain === undefined
+    ? assetData
+    : assetData.filter(({ chain }) => chain === filterChain)
+
   return (
+    <Grid>
+      {
+       <Stack direction="row" gap={1} maxWidth={300}>
+        <Chip label="All" variant="outlined"
+               color={filterChain === undefined ? 'primary' : 'default'}
+               onClick={() => setFilterChain(undefined)}/>
+       {
+         Object
+           .keys(getAssetInfo)
+           .map((chainName) => (
+             <Chip
+               key={chainName}
+               variant="outlined"
+               label={chainName}
+               color={filterChain === chainName ? 'primary' : 'default'}
+               onClick={() => setFilterChain(chainName)} />
+           ))
+       }
+     </Stack>
+      }
     <TableContainer>
       <Table aria-label="assets burned table">
         <TableHead>
@@ -68,9 +94,10 @@ const AssetBurnedTable: FC = () => {
               Unique Burners
             </TableCell>
           </TableRow>
+          {/* <TableRow><Chip label={'df'}/><Chip label={'df'}/><Chip label={'df'}/></TableRow> */}
         </TableHead>
         <TableBody>
-          {assetData.map(({ chain, asset, burned, uniques }) => {
+          {filteredAssets.map(({ chain, asset, burned, uniques }) => {
             const { chainColor } = ENDPOINTS[chain.toLowerCase()]
 
             return (
@@ -116,6 +143,7 @@ const AssetBurnedTable: FC = () => {
         </TableBody>
       </Table>
     </TableContainer>
+    </Grid>
   )
 }
 
