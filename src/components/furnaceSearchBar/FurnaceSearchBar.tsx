@@ -29,10 +29,9 @@ const getAssetInfo = {
       from: assets
         .find(({ chain_name: chainName }) => chainName === 'migaloo')
         ?.assets.find(({ symbol }) => symbol === 'GUPPY'),
-      // I used the FABLE as a filler since there is no GASH in the chain registry
       to: assets
         .find(({ chain_name: chainName }) => chainName === 'migaloo')
-        ?.assets.find(({ symbol }) => symbol === 'FABLE')
+        ?.assets.find(({ symbol }) => symbol === 'GASH')
     }
   ],
   chihuahua: [
@@ -46,7 +45,6 @@ const getAssetInfo = {
     }
   ]
 }
-
 const FurnaceSearchBar: FC = () => {
   // format the getAssetInfo into array then flatten every asset info into one arry
   const assetOptions = Object.entries(getAssetInfo).flatMap(
