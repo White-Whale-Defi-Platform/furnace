@@ -1,6 +1,7 @@
 import { Unstable_Grid2 as Grid, Paper, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
-import AssetBurnedTable from './AssetBurnedTable'
+import { AssetBurnedTable } from './AssetBurnedTable'
+import { BurnPieChart } from './BurnPieChart'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -11,7 +12,7 @@ const DashboardBox = styled(Paper)({
   padding: 20
 })
 
-const DashboardLayout: FC = () => {
+export const DashboardLayout: FC = () => {
   return (
     <Grid gap={3} container justifyContent="space-between">
       <DashboardBox>
@@ -36,23 +37,13 @@ const DashboardLayout: FC = () => {
           sx={{ fontSize: 20, fontWeight: 'bold' }}
         >2</Typography>
       </DashboardBox>
-
       <Grid xs={12}>
         <DashboardBox>
         <AssetBurnedTable/>
         </DashboardBox>
       </Grid>
-      <Grid xs={12} spacing={3} container direction="row">
-        <Grid xs={12} sm={6} justifyContent="space-between">
-          <DashboardBox>
-            <Typography>Pie chart 1 goes here</Typography>
-          </DashboardBox>
-        </Grid>
-        <Grid xs={12} sm={6}>
-          <DashboardBox>
-            <Typography>Pie chart 2 goes here</Typography>
-          </DashboardBox>
-        </Grid>
+      <Grid xs={12} >
+        <BurnPieChart />
       </Grid>
     </Grid>
   )

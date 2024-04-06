@@ -45,7 +45,7 @@ const assetInfo = {
   ]
 }
 
-const AssetBurnedTable: FC = () => {
+export const AssetBurnedTable: FC = () => {
   const assetData = Object.entries(assetInfo).flatMap(([chain, chainInfo]) =>
     chainInfo.map((asset) => ({ chain, ...asset }))
   )
@@ -78,7 +78,7 @@ const AssetBurnedTable: FC = () => {
      </Stack>
       }
     <TableContainer>
-      <Table aria-label="assets burned table">
+      <Table aria-label="burned assets table">
         <TableHead>
           <TableRow>
             <TableCell sx={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -145,5 +145,3 @@ const AssetBurnedTable: FC = () => {
     </Grid>
   )
 }
-
-export default AssetBurnedTable
