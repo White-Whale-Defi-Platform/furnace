@@ -1,5 +1,6 @@
 import { Unstable_Grid2 as Grid, Paper, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
+import AssetBurnedTable from './AssetBurnedTable'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -38,7 +39,7 @@ const DashboardLayout: FC = () => {
 
       <Grid xs={12}>
         <DashboardBox>
-          <Typography>Table goes here</Typography>
+        <AssetBurnedTable/>
         </DashboardBox>
       </Grid>
       <Grid xs={12} spacing={3} container direction="row">
