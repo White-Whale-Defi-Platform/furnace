@@ -22,7 +22,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
         <Toolbar>
           <Stack direction="row" alignItems="center" justifyContent="space-between" width='100%'>
             <Stack direction="row" alignItems="center" gap={1} sx={{ width: 128 }}>
-              <Avatar src="/chains/migaloo.svg" onClick={() => router.push('/')} sx={{ cursor: 'pointer' }} />
+              <Avatar src="/assets/ashdao.jpg" onClick={() => router.push('/')} sx={{ cursor: 'pointer' }} />
             </Stack>
            <FurnaceSearchBar />
             <Stack direction="row" alignItems="center" justifyContent="end" spacing={2} sx={{ width: 256 }}>
