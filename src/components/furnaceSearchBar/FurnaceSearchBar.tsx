@@ -70,7 +70,7 @@ export const FurnaceSearchBar: FC = () => {
       })
       : assetOptions
   return (
-    <Stack sx={{ width: '40%' }}>
+    <Stack>
       <Button
         focusRipple
         sx={{

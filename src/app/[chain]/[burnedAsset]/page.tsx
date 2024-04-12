@@ -4,11 +4,9 @@ import { Grid } from '@mui/material'
 import { isValidTokenInput } from '@/util'
 import { useRecoilValue } from 'recoil'
 import { selectUserAsset } from '@/state'
-import { PageLayout } from '@/components/complex/PageLayout'
 import { ENDPOINTS } from '@/constants'
 import { useRouter } from 'next/navigation'
-import Burner from '@/components/burner/Burner'
-import { LeaderboardLayout } from '@/components/leaderboard/LeaderboardLayout'
+import { Burner, PageLayout, LeaderboardLayout } from '@/components'
 import { useExecuteBurn } from '@/hooks'
 
 const Burn = ({ params }: {
@@ -33,7 +31,7 @@ const Burn = ({ params }: {
   }, [chain, burnedAsset, router])
 
   return (
-    <PageLayout title={`${params.burnedAsset.toUpperCase()} Furnace`} subtitle={`Burn ${params.burnedAsset} and Receive`}>
+    <PageLayout title={`${params.burnedAsset.toUpperCase()} Furnace`} subtitle={`Burn ${params.burnedAsset} and Receive Ash`}>
       <Grid container direction={'column'} alignItems='center' justifyContent='center' gap={5} >
         <Burner nativeAsset={whale} mintAsset={ash} input={input} onChange={onChange} />
         <LeaderboardLayout />

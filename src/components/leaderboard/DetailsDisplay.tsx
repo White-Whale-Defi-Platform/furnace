@@ -1,3 +1,4 @@
+'use client'
 import { Grid } from '@mui/material'
 import type { FC, PropsWithChildren } from 'react'
 

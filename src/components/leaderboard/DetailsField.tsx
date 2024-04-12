@@ -1,3 +1,4 @@
+'use client'
 import {
   Unstable_Grid2 as Grid,
   Typography

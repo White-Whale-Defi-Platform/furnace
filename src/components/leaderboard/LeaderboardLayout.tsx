@@ -1,3 +1,4 @@
+'use client'
 import { Grid, Typography, Paper, Divider } from '@mui/material'
 import React, { type FC } from 'react'
 import DetailsField from './DetailsField'

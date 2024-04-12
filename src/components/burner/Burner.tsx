@@ -1,3 +1,4 @@
+'use client'
 import { Card, CardActions, CardContent, CardHeader, Grid, Stack } from '@mui/material'
 import React, { type FC } from 'react'
 import { AssetInput, ExecuteButton } from '../complex'
@@ -12,7 +13,7 @@ interface Props {
   onChange: () => void
 }
 
-const Burner: FC <Props> = ({ nativeAsset, mintAsset, onChange, input }) => {
+export const Burner: FC <Props> = ({ nativeAsset, mintAsset, onChange, input }) => {
   const executeBurn = useExecuteBurn(Number(input) * Math.pow(10, nativeAsset.decimals))
   const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, nativeAsset.decimals)) <= nativeAsset.amount
   const action = input === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
