@@ -7,7 +7,7 @@ import { selectUserAsset } from '@/state'
 import { AssetInput, ExecuteButton } from '@/components'
 import { PageLayout } from '@/components/complex/PageLayout'
 import { AppNames, Apps } from '@/constants'
-import { useExecuteBurn } from './commands'
+import { useExecuteBurn } from './useExecuteBurn'
 
 const info = Apps.get(AppNames.Furnace)
 

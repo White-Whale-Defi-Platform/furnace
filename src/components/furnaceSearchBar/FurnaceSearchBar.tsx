@@ -47,7 +47,7 @@ const assetInfo = {
   ]
 }
 
-const FurnaceSearchBar: FC = () => {
+export const FurnaceSearchBar: FC = () => {
   // format the getAssetInfo into array then flatten every asset info into one arry
   const assetOptions = Object.entries(assetInfo).flatMap(
     ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))

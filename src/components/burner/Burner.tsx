@@ -3,7 +3,7 @@ import React, { type FC } from 'react'
 import { AssetInput, ExecuteButton } from '../complex'
 import { formatAmount } from '@/util'
 import type { Asset } from '@/types'
-import { useExecuteBurn } from '@/app/apps/community/furnace/commands'
+import { useExecuteBurn } from '@/app/apps/community/furnace/useExecuteBurn'
 
 interface Props {
   nativeAsset: Asset

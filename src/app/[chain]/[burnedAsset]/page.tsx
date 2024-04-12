@@ -6,10 +6,10 @@ import { useRecoilValue } from 'recoil'
 import { selectUserAsset } from '@/state'
 import { PageLayout } from '@/components/complex/PageLayout'
 import { ENDPOINTS } from '@/constants'
-import { useExecuteBurn } from '../../apps/community/furnace/commands'
 import { useRouter } from 'next/navigation'
 import Burner from '@/components/burner/Burner'
 import { LeaderboardLayout } from '@/components/leaderboard/LeaderboardLayout'
+import { useExecuteBurn } from '@/hooks'
 
 const Burn = ({ params }: {
   params: {

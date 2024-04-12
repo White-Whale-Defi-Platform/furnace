@@ -1,11 +1,7 @@
 import { Grid } from '@mui/material'
-import type { FC, ReactNode } from 'react'
+import type { FC, PropsWithChildren } from 'react'
 
-interface Prop {
-  children: ReactNode
-}
-
-export const DetailsDisplay: FC<Prop> = ({ children }) => {
+export const DetailsDisplay: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Grid container sx={{ background: '#18181b', padding: 3 }}>
       {children}
