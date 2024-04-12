@@ -1,15 +1,14 @@
 'use client'
 import React, { useState } from 'react'
-import { CardActions, CardContent, CardHeader, Grid, Stack, Card } from '@mui/material'
-import { formatAmount, isValidTokenInput } from '@/util'
+import { Grid } from '@mui/material'
+import { isValidTokenInput } from '@/util'
 import { useRecoilValue } from 'recoil'
 import { selectUserAsset } from '@/state'
-import { AssetInput, ExecuteButton } from '@/components'
 import { PageLayout } from '@/components/complex/PageLayout'
 import { AppNames, Apps } from '@/constants'
 import { useExecuteBurn } from '../../apps/community/furnace/commands'
-
-const info = Apps.get(AppNames.Furnace)
+import LeaderboardLayout from '@/components/leaderboard/LeaderboardLayout'
+import Burner from '@/components/burner/Burner'
 
 const Burn = ({ params }: {
   params: {
@@ -25,65 +24,11 @@ const Burn = ({ params }: {
   const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, whale.decimals)) <= whale.amount
   const action = input === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
 
-  // const selectedFurnace = useQueryingChainAssets(params.chain, params.burnedAsset)
-
-  // if (selectedFurnace === undefined) return <>Loading</>
-
   return (
-    <PageLayout
-      title={info?.name}
-      subtitle={info?.description}
-    >
-      <Grid
-        container
-        alignItems="center"
-        justifyContent="center"
-      >
-        <Grid
-          item
-          container
-          maxWidth={512}
-        >
-          <Grid
-            item
-            xs={12}
-          >
-            <Card>
-              <CardHeader
-                title="Burn"
-              />
-              <CardContent>
-                <Stack
-                  direction="column"
-                  alignItems="center"
-                  spacing={2}
-                >
-                  <AssetInput
-                    asset={whale}
-                    value={input}
-                    label="Input"
-                    onChange={onChange}
-                    helperText={`Available: ${formatAmount(whale)}`}
-                  />
-                  <AssetInput
-                    asset={ash}
-                    value={input}
-                    label="Output"
-                    disabled={true}
-                    helperText={`Available: ${formatAmount(ash)}`}
-                  />
-                  <CardActions>
-                    <ExecuteButton
-                      action={action}
-                      disabled={!canExecute}
-                      {...executeBurn}
-                    />
-                  </CardActions>
-                </Stack>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
+    <PageLayout title={`${params.burnedAsset.toUpperCase()} Furnace`} subtitle={`Burn ${params.burnedAsset} and Receive`}>
+      <Grid container direction={'column'} alignItems='center' justifyContent='center' gap={5} >
+        <Burner nativeAsset={whale} mintAsset={ash} input={input} onChange={onChange} />
+        <LeaderboardLayout />
       </Grid>
     </PageLayout>
   )

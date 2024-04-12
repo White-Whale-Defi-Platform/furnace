@@ -35,7 +35,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
         </Toolbar>
       </AppBar>
       <Toolbar />
-      <Stack component="main" direction="column" minHeight='100vh' p={2}>
+      <Stack component="main" direction="column" minHeight='calc(100vh - 128px)' px={5} py={3}>
         {children}
       </Stack>
       <AppBar component='footer' position='fixed' sx={{ position: 'relative', bottom: 0 }}>

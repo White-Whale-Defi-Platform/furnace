@@ -32,7 +32,7 @@ export interface PageLayoutProps extends PropsWithChildren {
 
 export const PageLayout: FC<PageLayoutProps> = ({ title, subtitle, children }): JSX.Element => (
   <>
-    <Box pb={2}>
+    <Box>
       <BreadcrumbComponent />
       <Typography variant='h4'>{title}</Typography>
       <Typography variant='h6' color="GrayText">{subtitle}</Typography>
