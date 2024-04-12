@@ -30,11 +30,14 @@ const Burn = ({ params }: {
     if (!ENDPOINTS[chain] || !['whale', 'guppy', 'huahua'].includes(burnedAsset)) { router.push('/') }
   }, [chain, burnedAsset, router])
 
+  // TODO : Remove this ternary once denom is dynamic
+  const mintDenom = (burnedAsset === 'whale' ? 'Ash' : burnedAsset === 'guppy' ? 'gASh' : burnedAsset === 'huahua' ? 'puppy' : '')
+
   return (
-    <PageLayout title={`${params.burnedAsset.toUpperCase()} Furnace`} subtitle={`Burn ${params.burnedAsset} and Receive Ash`}>
+     <PageLayout title={`${params.burnedAsset.toUpperCase()} Furnace`} subtitle={`Burn ${params.burnedAsset} and Receive ${mintDenom}`}>
       <Grid container direction={'column'} alignItems='center' justifyContent='center' gap={5} >
         <Burner nativeAsset={whale} mintAsset={ash} input={input} onChange={onChange} />
-        <LeaderboardLayout />
+        <LeaderboardLayout mintDenom={mintDenom} />
       </Grid>
     </PageLayout>
   )

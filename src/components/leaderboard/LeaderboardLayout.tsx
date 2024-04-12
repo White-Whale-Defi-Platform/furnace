@@ -1,8 +1,6 @@
 'use client'
 import { Grid, Typography, Paper, Divider } from '@mui/material'
 import React, { type FC } from 'react'
-import DetailsField from './DetailsField'
-import DetailsDisplay from './DetailsDisplay'
 import RankingTable from './RankingTable'
 
 const tableData = [{
@@ -277,22 +275,38 @@ const tableData = [{
   totalBurn: '234223424'
 }]
 
-export const LeaderboardLayout: FC = () => {
+interface Props {
+  mintDenom: string
+}
+
+export const LeaderboardLayout: FC<Props> = ({ mintDenom }) => {
   const formatData = (data: number): string => new Intl.NumberFormat().format(data)
   return (
     <Grid component={Paper} sx={{ gap: 3, flexDirection: 'column', display: 'flex', padding: 3 }}>
       <Typography sx={{ fontSize: 30 }} >
           Leaderboard
       </Typography>
-       <DetailsDisplay>
-        <DetailsField label={'Total Burned'} data={formatData(29_691_404_419)} />
-        <DetailsField label={'Community Burn'} data={formatData(1_540_358_394)} />
-        <DetailsField label={'Foundation Burn'} data={formatData(28_151_000)} />
-          <Grid xs={12} sx={{ paddingY: 2 }}><Divider flexItem /></Grid>
-        <DetailsField label={'Total Burners'} data={formatData(29_691_404_419)} />
-        <DetailsField label={'My Rank'} data={formatData(1_540_358_394)} />
-        <DetailsField label={'My Ash Tokens'} data={formatData(28_151_000)} />
-       </DetailsDisplay>
+      <Grid container xs={12} sx={{ background: '#18181b', padding: 3 }}>
+      <Grid xs={6} flexGrow={1} gap={3}>
+          <Typography color="GrayText">Total Burned</Typography>
+          <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>{formatData(29_691_404_419)}</Typography>
+        </Grid>
+        <Grid xs={6} flexGrow={1} gap={3}>
+          <Typography color="GrayText">Total Burners</Typography>
+          <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>{formatData(29_691_404_419)}</Typography>
+        </Grid>
+        <Grid xs={12} sx={{ paddingY: 2 }}><Divider flexItem /></Grid>
+        <Grid xs={6} flexGrow={1} gap={3}>
+          <Typography color="GrayText">My Rank</Typography>
+          <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>{formatData(404_419)}</Typography>
+        </Grid>
+        <Grid xs={6} flexGrow={1} gap={3}>
+          <Typography color="GrayText">{`My ${mintDenom} Tokens`}</Typography>
+          <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>{formatData(404_419)}</Typography>
+        </Grid>
+
+      </Grid>
+
        <RankingTable data={tableData} />
     </Grid>
 
