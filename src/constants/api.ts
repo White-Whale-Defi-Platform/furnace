@@ -8,7 +8,9 @@ string,
     rpc: ['https://migaloo-rpc.polkachu.com'],
     rest: ['https://migaloo-api.polkachu.com'],
     furnaces: [
+      // whale
       'migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup',
+      // guppy
       'migaloo1r9x8fz4alekzr78k42rpmr9unpa7egsldpqeynmwl2nfvzexue9sn8l5rg'
     ],
     chainColor: '#31c259'

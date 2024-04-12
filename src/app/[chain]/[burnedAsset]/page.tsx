@@ -1,13 +1,14 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { CardActions, CardContent, CardHeader, Grid, Stack, Card } from '@mui/material'
 import { formatAmount, isValidTokenInput } from '@/util'
 import { useRecoilValue } from 'recoil'
 import { selectUserAsset } from '@/state'
 import { AssetInput, ExecuteButton } from '@/components'
 import { PageLayout } from '@/components/complex/PageLayout'
-import { AppNames, Apps } from '@/constants'
+import { AppNames, Apps, ENDPOINTS } from '@/constants'
 import { useExecuteBurn } from '../../apps/community/furnace/commands'
+import { useRouter } from 'next/navigation'
 
 const info = Apps.get(AppNames.Furnace)
 
@@ -17,6 +18,9 @@ const Burn = ({ params }: {
     burnedAsset: string
   }
 }): JSX.Element => {
+  const { chain, burnedAsset } = params
+  const router = useRouter()
+
   const [input, setInput] = useState('')
   const whale = useRecoilValue(selectUserAsset('Whale'))
   const ash = useRecoilValue(selectUserAsset('Ash'))
@@ -25,9 +29,9 @@ const Burn = ({ params }: {
   const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, whale.decimals)) <= whale.amount
   const action = input === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
 
-  // const selectedFurnace = useQueryingChainAssets(params.chain, params.burnedAsset)
-
-  // if (selectedFurnace === undefined) return <>Loading</>
+  useEffect(() => {
+    if (!ENDPOINTS[chain] || !['whale', 'guppy', 'huahua'].includes(burnedAsset)) { router.push('/') }
+  }, [chain, burnedAsset, router])
 
   return (
     <PageLayout
