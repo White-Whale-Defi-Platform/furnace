@@ -1,15 +1,15 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { CardActions, CardContent, CardHeader, Grid, Stack, Card } from '@mui/material'
-import { formatAmount, isValidTokenInput } from '@/util'
+import { Grid } from '@mui/material'
+import { isValidTokenInput } from '@/util'
 import { useRecoilValue } from 'recoil'
 import { selectUserAsset } from '@/state'
 import { PageLayout } from '@/components/complex/PageLayout'
-import { AppNames, Apps, ENDPOINTS } from '@/constants'
+import { ENDPOINTS } from '@/constants'
 import { useExecuteBurn } from '../../apps/community/furnace/commands'
 import { useRouter } from 'next/navigation'
-
-const info = Apps.get(AppNames.Furnace)
+import Burner from '@/components/burner/Burner'
+import { LeaderboardLayout } from '@/components/leaderboard/LeaderboardLayout'
 
 const Burn = ({ params }: {
   params: {
