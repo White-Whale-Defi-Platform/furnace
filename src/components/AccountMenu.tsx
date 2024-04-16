@@ -1,10 +1,11 @@
 'use client'
 import { useChainContext } from '@/hooks'
 import { WalletStatus } from '@cosmos-kit/core'
-import { AccountBox, Campaign, Feedback, Logout, Newspaper, Settings, Support } from '@mui/icons-material'
+import { AccountBox, Campaign, Feedback, Logout, Newspaper, Settings, Support, Paid } from '@mui/icons-material'
 import { Avatar, Button, Divider, Menu, MenuItem, styled, Tooltip, Typography } from '@mui/material'
 import { useState } from 'react'
-import { useSnackbar } from './provider'
+import { useModal, useSnackbar } from './provider'
+import { KadoModal } from './modals/KadoModal'
 
 const LogInButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
@@ -62,6 +63,8 @@ export const AccountMenu = (): JSX.Element => {
       .then(() => snackbar.open('Logged Out', 'success'))
       .catch(() => snackbar.open('Logout Failed', 'error'))
   }
+
+  const modal = useModal()
   return (
     <>
       {status === WalletStatus.Connected &&
@@ -90,6 +93,10 @@ export const AccountMenu = (): JSX.Element => {
             </MenuItem>
             <Divider />
 
+            <MenuItem sx={{ display: { md: 'none' } }} onClick={() => modal.open(<KadoModal />)}>
+              <Paid />
+              <Typography>Buy Whale</Typography>
+            </MenuItem>
             <MenuItem disabled>
               <AccountBox />
               <Typography>Profile</Typography>

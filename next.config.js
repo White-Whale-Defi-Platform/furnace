@@ -2,10 +2,10 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: '/',
-        destination: '/apps',
-        permanent: false
+        source: "/:chainName",
+        destination: "/",
+        permanent: true,
       },
-    ]
-  }
-}
+    ];
+  },
+};

@@ -1,10 +1,9 @@
 'use client'
 import { Box, Breadcrumbs, Typography } from '@mui/material'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import type { FC, PropsWithChildren } from 'react'
 
 const BreadcrumbComponent = (): JSX.Element => {
-  const router = useRouter()
   const pathnames = usePathname().split('/').slice(1)
 
   return (
@@ -15,9 +14,9 @@ const BreadcrumbComponent = (): JSX.Element => {
 
         return last
           ? <Typography color="inherit" key={to}>
-            {index === 0 ? '/' : ''}{value}
+            {index === 0 ? '/home' : ''}{value}
           </Typography>
-          : <Typography onClick={() => router.push(to)} color="inherit" sx={{ cursor: 'pointer', textDecoration: 'underline' }}>
+          : <Typography color="inherit" >
             {value}
           </Typography>
       })}
@@ -32,7 +31,7 @@ export interface PageLayoutProps extends PropsWithChildren {
 
 export const PageLayout: FC<PageLayoutProps> = ({ title, subtitle, children }): JSX.Element => (
   <>
-    <Box pb={2}>
+    <Box>
       <BreadcrumbComponent />
       <Typography variant='h4'>{title}</Typography>
       <Typography variant='h6' color="GrayText">{subtitle}</Typography>

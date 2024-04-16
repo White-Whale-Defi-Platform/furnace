@@ -10,12 +10,13 @@ import {
   TextField,
   Typography,
   DialogContent,
-  Chip
+  Chip,
+  Link
 } from '@mui/material'
 import { Search } from '@mui/icons-material'
 
 // This is dummy data to display the assets on the search select drop down
-const getAssetInfo = {
+const assetInfo = {
   migaloo: [
     {
       from: assets
@@ -45,9 +46,10 @@ const getAssetInfo = {
     }
   ]
 }
-const FurnaceSearchBar: FC = () => {
+
+export const FurnaceSearchBar: FC = () => {
   // format the getAssetInfo into array then flatten every asset info into one arry
-  const assetOptions = Object.entries(getAssetInfo).flatMap(
+  const assetOptions = Object.entries(assetInfo).flatMap(
     ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))
   )
   const [open, setOpen] = useState(false)
@@ -68,7 +70,7 @@ const FurnaceSearchBar: FC = () => {
       })
       : assetOptions
   return (
-    <Stack sx={{ width: '40%' }}>
+    <Stack>
       <Button
         focusRipple
         sx={{
@@ -111,6 +113,7 @@ const FurnaceSearchBar: FC = () => {
 
                 return (
                   <Button
+                    component={Link}
                     href={`/${chain}/${fromSymbol.toLowerCase()}`}
                     key={`${fromSymbol}${toSymbol}`}
                     sx={{ justifyContent: 'space-between' }}
