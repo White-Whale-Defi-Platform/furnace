@@ -29,8 +29,8 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
     <>
       <AppBar component="nav" enableColorOnDark color="inherit" elevation={1}>
         <Toolbar>
-          <Grid xs={12} container direction="row" alignItems="center">
-            <Grid xs={3} direction="row" alignItems="center">
+          <Grid xs={12} container display={"flex"} alignItems="center">
+            <Grid xs={3} alignItems="center">
               <Avatar
                 src="/assets/ashdao.jpg"
                 onClick={() => router.push('/')}
@@ -43,7 +43,6 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
             <Grid
               xs={3}
               sx={{ flexGrow: 1 }}
-              direction="row"
               display="flex"
               gap={1}
               justifyContent="flex-end"

@@ -1,3 +1,4 @@
+'use client'
 import { ENDPOINTS } from '@/constants'
 import { getAssetLogo } from '@/util/asset/getAssetLogo'
 import {

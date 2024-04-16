@@ -1,7 +1,8 @@
+'use client'
 import { Unstable_Grid2 as Grid, Paper, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
-import { AssetBurnedTable } from './AssetBurnedTable'
-import { BurnPieChart } from './BurnPieChart'
+import { BurnPieChart, AssetBurnedTable } from '@/components'
+
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -42,7 +43,7 @@ export const DashboardLayout: FC = () => {
         <AssetBurnedTable/>
         </DashboardBox>
       </Grid>
-      <Grid xs={12} >
+      <Grid xs={12}>
         <BurnPieChart />
       </Grid>
     </Grid>
