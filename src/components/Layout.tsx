@@ -29,7 +29,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
     <>
       <AppBar component="nav" enableColorOnDark color="inherit" elevation={1}>
         <Toolbar>
-          <Grid xs={12} container display={"flex"} alignItems="center">
+          <Grid xs={12} container alignItems="center">
             <Grid xs={3} alignItems="center">
               <Avatar
                 src="/assets/ashdao.jpg"
