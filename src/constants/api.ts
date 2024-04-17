@@ -22,5 +22,13 @@ string,
       'chihuahua19vxp8vq8qm368dr026qxh8v82satwaf79y235lfv6wmgpwxx8dtsqwvtqa'
     ],
     chainColor: '#F0A841'
+  },
+  osmosis: {
+    rpc: ['https://osmosis-rpc.polkachu.com'],
+    rest: ['https://osmosis-api.polkachu.com'],
+    furnaces: [
+      'osmo1svj5kd8kzj7xxtrd6ftjk0856ffpyj4egz7f9pd9dge5wr4kwansmefq07'
+    ],
+    chainColor: "#b100cd",
   }
 }

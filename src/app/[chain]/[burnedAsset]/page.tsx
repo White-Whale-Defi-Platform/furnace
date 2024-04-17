@@ -35,7 +35,7 @@ const Burn = ({ params }: {
 
   return (
      <PageLayout title={`${params.burnedAsset.toUpperCase()} Furnace`} subtitle={`Burn ${params.burnedAsset} and Receive ${mintDenom}`}>
-      <Grid container direction={'column'} alignItems='center' justifyContent='center' gap={5} >
+      <Grid container alignItems='center' justifyContent='center' gap={5} >
         <Burner nativeAsset={whale} mintAsset={ash} input={input} onChange={onChange} />
         <LeaderboardLayout mintDenom={mintDenom} />
       </Grid>
