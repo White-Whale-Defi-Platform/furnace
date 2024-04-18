@@ -7,7 +7,7 @@ import { backboneLabsAtom } from './state'
 
 const Layout: FC<PropsWithChildren> = ({ children }) => {
   const setState = useSetRecoilState(backboneLabsAtom)
-  const chain = useChainContext()
+  const chain = useChainContext('migaloo')
 
   useEffect(
     () => {

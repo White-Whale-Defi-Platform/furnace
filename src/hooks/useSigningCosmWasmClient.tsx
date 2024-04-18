@@ -1,15 +1,16 @@
 'use client'
 import { useState, useEffect, useMemo } from 'react'
-import type { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 import { useChainContext } from './useChainContext'
 import type { AsyncHook } from '@/types'
+import { FurnaceQueryClient } from '@/codegen/Furnace.client'
+import { ENDPOINTS } from '@/constants'
 
 // Todo: Comment
-export type UseSigningCosmWasmClientResult = AsyncHook<SigningCosmWasmClient | null>
+export type UseSigningCosmWasmClientResult = AsyncHook<FurnaceQueryClient | null>
 
 // Todo: Comment
-export const useSigningCosmWasmClient = (): UseSigningCosmWasmClientResult => {
-  const { isWalletConnected, getSigningCosmWasmClient } = useChainContext()
+export const useSigningCosmWasmClient = (chainName: string): UseSigningCosmWasmClientResult => {
+  const { isWalletConnected, getSigningCosmWasmClient } = useChainContext(chainName)
   const [result, setResult] = useState<UseSigningCosmWasmClientResult>({ result: null, loading: false, error: null })
 
   useEffect(
@@ -17,7 +18,9 @@ export const useSigningCosmWasmClient = (): UseSigningCosmWasmClientResult => {
       if (!isWalletConnected) return
       setResult(prev => ({ ...prev, loading: true }))
       getSigningCosmWasmClient()
-        .then(client => setResult(prev => ({ ...prev, result: client, error: null })))
+        .then(client => {
+          return setResult(prev => ({ ...prev, result: new FurnaceQueryClient(client, ENDPOINTS[chainName].contractAddress), error: null }))
+        })
         .catch((error: Error) => setResult(prev => ({ ...prev, error })))
         .finally(() => setResult(prev => ({ ...prev, loading: false })))
     },

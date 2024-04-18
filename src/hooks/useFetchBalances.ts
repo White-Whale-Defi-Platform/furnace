@@ -10,9 +10,9 @@ import { useChainContext } from './useChainContext'
 export type UseFetchBalancesResult = AsyncHook<Coin[]>
 
 // Todo: Comment
-export const useFetchBalances = (): UseFetchBalancesResult => {
+export const useFetchBalances = (chainName: string): UseFetchBalancesResult => {
   const [result, setResult] = useState<UseFetchBalancesResult>({ result: [], loading: false, error: null })
-  const { address } = useChainContext()
+  const { address } = useChainContext(chainName)
 
   useEffect(() => {
     const fetchAndSet = (): void => {
