@@ -1,13 +1,13 @@
-"use client";
-import { ENDPOINTS } from "@/constants";
+'use client'
+import { ENDPOINTS } from '@/constants'
 import {
   Unstable_Grid2 as Grid,
   Paper,
   styled,
-  Typography,
-} from "@mui/material";
-import { assets, chains } from "chain-registry";
-import React, { type FC } from "react";
+  Typography
+} from '@mui/material'
+import { assets, chains } from 'chain-registry'
+import React, { type FC } from 'react'
 import {
   Pie,
   PieChart,
@@ -19,63 +19,63 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Bar,
-} from "recharts";
+  Bar
+} from 'recharts'
 
 // This is dummy data just to build ui for now
 const assetInfo = {
-  migaloo: [
-    {
-      asset: assets
-        .find(({ chain_name: chainName }) => chainName === "migaloo")
-        ?.assets.find(({ symbol }) => symbol === "WHALE")!,
-      totalBurned: 50_102_828_978,
-      uniques: 23_123,
-      tokenPrice: 0.03,
-      fill: "#31c259",
-    },
-    {
-      asset: assets
-        .find(({ chain_name: chainName }) => chainName === "migaloo")
-        ?.assets.find(({ symbol }) => symbol === "GUPPY")!,
-      totalBurned: 400_201_768_000,
-      uniques: 20_000,
-      tokenPrice: 0.002,
-      fill: "#054499",
-    },
-  ],
-  chihuahua: [
-    {
-      asset: assets
-        .find(({ chain_name: chainName }) => chainName === "chihuahua")
-        ?.assets.find(({ symbol }) => symbol === "HUAHUA")!,
-      totalBurned: 1_250_700_234_789,
-      uniques: 30_123,
-      tokenPrice: 0.0003,
-      fill: "#F0A841",
-    },
-  ],
+  // migaloo: [
+  //   {
+  //     asset: assets
+  //       .find(({ chain_name: chainName }) => chainName === "migaloo")
+  //       ?.assets.find(({ symbol }) => symbol === "WHALE")!,
+  //     totalBurned: 50_102_828_978,
+  //     uniques: 23_123,
+  //     tokenPrice: 0.03,
+  //     fill: "#31c259",
+  //   },
+  //   {
+  //     asset: assets
+  //       .find(({ chain_name: chainName }) => chainName === "migaloo")
+  //       ?.assets.find(({ symbol }) => symbol === "GUPPY")!,
+  //     totalBurned: 400_201_768_000,
+  //     uniques: 20_000,
+  //     tokenPrice: 0.002,
+  //     fill: "#054499",
+  //   },
+  // ],
+  // chihuahua: [
+  //   {
+  //     asset: assets
+  //       .find(({ chain_name: chainName }) => chainName === "chihuahua")
+  //       ?.assets.find(({ symbol }) => symbol === "HUAHUA")!,
+  //     totalBurned: 1_250_700_234_789,
+  //     uniques: 30_123,
+  //     tokenPrice: 0.0003,
+  //     fill: "#F0A841",
+  //   },
+  // ],
   osmosis: [
+    // {
+    //   asset: assets
+    //     .find(({ chain_name: chainName }) => chainName === 'osmosis')
+    //     ?.assets.find(({ symbol }) => symbol === 'OSMO')!,
+    //   totalBurned: 51_000_234_789,
+    //   uniques: 30_123,
+    //   tokenPrice: 0.03,
+    //   fill: '#b100cd'
+    // },
     {
       asset: assets
-        .find(({ chain_name: chainName }) => chainName === "osmosis")
-        ?.assets.find(({ symbol }) => symbol === "OSMO")!,
-      totalBurned: 51_000_234_789,
-      uniques: 30_123,
-      tokenPrice: 0.03,
-      fill: "#b100cd",
-    },
-    {
-      asset: assets
-        .find(({ chain_name: chainName }) => chainName === "osmosis")
-        ?.assets.find(({ symbol }) => symbol === "LAB")!,
+        .find(({ chain_name: chainName }) => chainName === 'osmosis')
+        ?.assets.find(({ symbol }) => symbol === 'LAB')!,
       totalBurned: 11_234_789,
       uniques: 30_123,
       tokenPrice: 110,
-      fill: "green",
-    },
-  ],
-};
+      fill: 'green'
+    }
+  ]
+}
 
 // returns an array of tuples that have the chain name and details about the fuel assets on that chain
 // so that we can use the data later for different visualizations
@@ -90,9 +90,9 @@ const assetTuples = Object.entries(assetInfo).map(
             Math.pow(
               10,
               Math.max(
-                ...asset.asset.denom_units.map(({ exponent }) => exponent),
-              ),
-            ));
+                ...asset.asset.denom_units.map(({ exponent }) => exponent)
+              )
+            ))
 
         return {
           ...asset,
@@ -101,24 +101,24 @@ const assetTuples = Object.entries(assetInfo).map(
           // The average dollar of fuel asset burned for each user
           avgValueBurnedPerUnique: totalValueBurned / asset.uniques,
           chain: chainName,
-          symbol: asset.asset.symbol,
-        };
-      }),
-    ] as const,
-);
+          symbol: asset.asset.symbol
+        }
+      })
+    ] as const
+)
 
 const flattenedAssetTuples = assetTuples.flatMap(
-  ([_, assetInfos]) => assetInfos,
-);
+  ([_, assetInfos]) => assetInfos
+)
 
 // Make an object where the keys are the token symbol and the values are the dollar value of that token that have been burned
 // e.g. { OSMO: 1_000_000, WHALE: 2_000_000 }
 const burnedByChainData = Object.fromEntries(
   flattenedAssetTuples.map(({ symbol, totalValueBurned }) => [
     symbol,
-    totalValueBurned,
-  ]),
-);
+    totalValueBurned
+  ])
+)
 
 // Make an array that has an element for each chain and the sum of the unique burners for all of the chain fuel assets
 // TODO: this needs more calculation on not repeating the unique address in multiple assets on one chain
@@ -127,41 +127,41 @@ const uniqueChainBurners = assetTuples.map(([chainName, assetInfos]) => ({
   chainName,
   unique: assetInfos
     .map(({ uniques }) => uniques)
-    .reduce((initial, accum) => initial + accum, 0),
-}));
+    .reduce((initial, accum) => initial + accum, 0)
+}))
 
 const uniqueBurnersPerChain = Object.fromEntries(
-  uniqueChainBurners.map(({ chainName, unique }) => [chainName, unique]),
-);
+  uniqueChainBurners.map(({ chainName, unique }) => [chainName, unique])
+)
 
 const chainBySymbol: Record<
-  string,
-  {
-    chainName: string;
-    tokens: (typeof assetInfo)[keyof typeof assetInfo];
-    tokenFill: string;
-  }
+string,
+{
+  chainName: string
+  tokens: (typeof assetInfo)[keyof typeof assetInfo]
+  tokenFill: string
+}
 > = Object.fromEntries(
   assetTuples.flatMap(([chainName, chainInfo]) =>
     chainInfo.map((asset) => [
       asset.asset.symbol,
-      { chainName, tokens: chainInfo, tokenFill: asset.fill },
-    ]),
-  ),
-);
+      { chainName, tokens: chainInfo, tokenFill: asset.fill }
+    ])
+  )
+)
 
 const numberOfFuelAssets = Object.fromEntries(
-  assetTuples.map(([chainName, assets]) => [chainName, assets.length]),
-);
+  assetTuples.map(([chainName, assets]) => [chainName, assets.length])
+)
 
 const ChartLabel = styled(Typography)({
-  textAlign: "center",
+  textAlign: 'center',
   fontSize: 20,
-  fontWeight: "bold",
-  pb: 5,
-});
+  fontWeight: 'bold',
+  pb: 5
+})
 
-export const BurnPieChart: FC = () => {  
+export const BurnPieChart: FC = () => {
   return (
     <Grid container spacing={3}>
       {/* Avg Value Burned Per User */}
@@ -174,8 +174,8 @@ export const BurnPieChart: FC = () => {
               <Tooltip
                 formatter={(value) =>
                   `${new Intl.NumberFormat(undefined, {
-                    style: "currency",
-                    currency: "USD",
+                    style: 'currency',
+                    currency: 'USD'
                   }).format(Number(value))}/user`
                 }
               />
@@ -205,7 +205,7 @@ export const BurnPieChart: FC = () => {
               data={[numberOfFuelAssets]}
               margin={{
                 top: 20,
-                bottom: 5,
+                bottom: 5
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
@@ -216,8 +216,8 @@ export const BurnPieChart: FC = () => {
                 }
               />
               <Tooltip
-                cursor={{ fill: "transparent" }}
-                labelStyle={{ color: "ActiveBorder" }}
+                cursor={{ fill: 'transparent' }}
+                labelStyle={{ color: 'ActiveBorder' }}
               />
               <Legend
                 formatter={(v) =>
@@ -246,7 +246,7 @@ export const BurnPieChart: FC = () => {
               data={[uniqueBurnersPerChain]}
               margin={{
                 top: 20,
-                bottom: 5,
+                bottom: 5
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
@@ -257,7 +257,7 @@ export const BurnPieChart: FC = () => {
                 }
               />
               <Tooltip
-                cursor={{ fill: "transparent" }}
+                cursor={{ fill: 'transparent' }}
                 formatter={(value) =>
                   `${new Intl.NumberFormat().format(Number(value))} burners`
                 }
@@ -275,7 +275,7 @@ export const BurnPieChart: FC = () => {
                     dataKey={chainName}
                     fill={ENDPOINTS[chainName].chainColor}
                   />
-                ),
+                )
               )}
             </BarChart>
           </ResponsiveContainer>
@@ -291,7 +291,7 @@ export const BurnPieChart: FC = () => {
               data={[burnedByChainData]}
               margin={{
                 top: 20,
-                bottom: 5,
+                bottom: 5
               }}
             >
               <CartesianGrid strokeDasharray="3 3" />
@@ -302,11 +302,11 @@ export const BurnPieChart: FC = () => {
                 }
               />
               <Tooltip
-                cursor={{ fill: "transparent" }}
+                cursor={{ fill: 'transparent' }}
                 formatter={(value) =>
                   new Intl.NumberFormat(undefined, {
-                    style: "currency",
-                    currency: "USD",
+                    style: 'currency',
+                    currency: 'USD'
                   }).format(Number(value))
                 }
               />
@@ -315,8 +315,8 @@ export const BurnPieChart: FC = () => {
                 <Bar
                   key={`${symbol}${amount}`}
                   dataKey={symbol}
-                  stackId={chainBySymbol[symbol]?.chainName}
-                  fill={chainBySymbol[symbol]?.tokenFill}
+                  stackId={chainBySymbol[symbol].chainName}
+                  fill={chainBySymbol[symbol].tokenFill}
                 />
               ))}
             </BarChart>
@@ -324,5 +324,5 @@ export const BurnPieChart: FC = () => {
         </Paper>
       </Grid>
     </Grid>
-  );
-};
+  )
+}

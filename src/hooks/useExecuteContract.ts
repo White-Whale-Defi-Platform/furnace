@@ -15,7 +15,7 @@ export interface UseExecuteContractResult {
 }
 // Todo: Comment
 export const useExecuteContract = <T>(contract: string, message: ExecuteMsg<T>, coins: Coin[]): UseExecuteContractResult => {
-  const { isWalletConnected, address } = useChainContext()
+  const { isWalletConnected, address } = useChainContext('migaloo')
   const signTransaction = useSignTransaction()
   const broadcastTransaction = useBroadcastTransaction()
   const simulateTransaction = useSimulateTransaction()

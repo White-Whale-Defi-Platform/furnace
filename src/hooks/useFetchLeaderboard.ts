@@ -1,7 +1,6 @@
 import type { FurnaceQueryClient } from '@/codegen/Furnace.client'
 import { useSigningCosmWasmClient } from './useSigningCosmWasmClient'
 import { type UseQueryResult, useQuery } from '@tanstack/react-query'
-
 export interface LeaderboardResults {
   uniqueBurners: number
   totalBurnedAssets: number
@@ -9,21 +8,29 @@ export interface LeaderboardResults {
   leaderboard: Array<[userAddress: string, tokensBurned: number]>
 }
 
-// this is to grab the fuel infos like total burned asset and unique burners
+// this is to query the fuel infos like total burned asset and unique burners
 const fetchLeaderboard = async (
   client: FurnaceQueryClient,
   fuelDenom: string,
   limit: number,
   startAfter?: string
-): Promise<Array<[userAddress: string, tokensBurned: number]>> =>
+): Promise<LeaderboardResults> =>
   await client.leaderboard({ fuelDenom, limit, startAfter })
+  // paginate the leaderboard data with recursion
     .then(async ({ leaderboard }) => leaderboard.length < limit
       ? leaderboard
       : [
           ...leaderboard,
-          ...(await fetchLeaderboard(client, fuelDenom, limit, leaderboard.at(-1)?.[0]))
+          ...(await fetchLeaderboard(client, fuelDenom, limit, leaderboard.at(-1)?.[0])).leaderboard
         ])
     .then(leaderboard => leaderboard.map(([address, burnAmount]): [string, number] => [address, Number(burnAmount)]))
+    .then((leaderboard) => {
+      const uniqueBurners = leaderboard.length
+      const totalBurnedAssets = leaderboard
+        .reduce((totalBurned, [_, burned]) => totalBurned + burned, 0)
+      const avgTokensBurnedPerUniques = totalBurnedAssets / uniqueBurners
+      return { leaderboard, uniqueBurners, totalBurnedAssets, avgTokensBurnedPerUniques }
+    })
 
 export const useFetchLeaderboard = (chainName: string, fuelDenom: string): UseQueryResult<LeaderboardResults> => {
   const { result: client } = useSigningCosmWasmClient(chainName)
@@ -31,15 +38,7 @@ export const useFetchLeaderboard = (chainName: string, fuelDenom: string): UseQu
   return useQuery({
     queryKey: ['leaderboard', chainName, fuelDenom],
     queryFn: async () => (client != null)
-      ? await fetchLeaderboard(client, fuelDenom, 30)
-        .then((leaderboard) => {
-          const uniqueBurners = leaderboard.length
-          const totalBurnedAssets = leaderboard
-            .reduce((totalBurned, [_, burned]) => totalBurned + burned, 0)
-          const avgTokensBurnedPerUnique = totalBurnedAssets / uniqueBurners
-
-          return ({ leaderboard, uniqueBurners, totalBurnedAssets, avgTokensBurnedPerUnique })
-        })
+      ? await fetchLeaderboard(client, fuelDenom, 100)
       : undefined,
     enabled: client != null
   })

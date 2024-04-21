@@ -1,7 +1,7 @@
 export interface Asset {
   id: string
   name: string
-  logo: string | undefined
+  logo: string
   amount: number
   decimals: number
   description: {

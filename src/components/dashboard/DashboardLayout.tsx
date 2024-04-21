@@ -1,13 +1,8 @@
 'use client'
 import { Unstable_Grid2 as Grid, Paper, styled, Typography } from '@mui/material'
-import React, { useEffect, type FC, useState } from 'react'
+import React, { type FC } from 'react'
 import { BurnPieChart, AssetBurnedTable } from '@/components'
-import { assets } from 'chain-registry'
-import { useSigningCosmWasmClient } from '../../../src/hooks/useSigningCosmWasmClient'
-import { Leaderboard } from '@mui/icons-material'
-import type { LeaderboardResponse } from '@/codegen/Furnace.types'
-import type { FurnaceQueryClient } from '@/codegen/Furnace.client'
-import { useFetchLeaderboard } from '@/hooks/useFetchLeaderboard'
+import { useFetchChainAssets, useFetchTableData } from '@/hooks'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -19,22 +14,21 @@ const DashboardBox = styled(Paper)({
 })
 
 export const DashboardLayout: FC = () => {
-  // const { result: client } = useSigningCosmWasmClient('osmosis')
+  const fetchChainAsset = useFetchChainAssets('osmosis')
+  const fetchDashboardData = useFetchTableData('osmosis')
 
-  // // this is for the chain asset info
-  // useEffect(() => {
-  //   if (client != null) {
-  //     // Grab the entire assetlist from the chain registry specific to THIS chain that we're looking for assets on
-  //     const chainAssets = assets.find(({ chain_name: assetlistChainName }) => assetlistChainName === 'osmosis')?.assets ?? []
-  //     client.config()
-  //       .then((resp) => console.log(resp, 'config'))
-  //       .catch((e) => console.error(e))
-  //     void client.fuels({})
-  //       .then((resp) => console.log(resp.fuels.map(({ denom }) => chainAssets.find(({ base }) => base === denom)), 'fuels'))
-  //   }
-  // }, [client])
+  const assetInfo = {
+    osmosis: (fetchChainAsset.data != null && fetchDashboardData != null)
+      ? fetchChainAsset.data.map((asset) => ({
+        asset,
+        burned: (fetchDashboardData.totalBurnedAssets) / Math.pow(10, asset.decimals),
+        uniques: fetchDashboardData.uniqueBurners
+      }))
+      : []
+  }
+  const assetData = Object.entries(assetInfo).flatMap(([chain, chainInfo]) =>
+    chainInfo.map((asset) => ({ chain, ...asset })))
 
-  console.log(useFetchLeaderboard('osmosis', 'factory/osmo17fel472lgzs87ekt9dvk0zqyh5gl80sqp4sk4n/LAB'))
   return (
     <Grid gap={3} container justifyContent="space-between">
       <DashboardBox>
@@ -49,7 +43,7 @@ export const DashboardLayout: FC = () => {
         </Typography>
         <Typography
           sx={{ fontSize: 20, fontWeight: 'bold' }}
-        >1</Typography>
+        >{Object.keys(assetInfo).length}</Typography>
       </DashboardBox>
       <DashboardBox>
         <Typography color='GrayText'>
@@ -57,7 +51,8 @@ export const DashboardLayout: FC = () => {
         </Typography>
         <Typography
           sx={{ fontSize: 20, fontWeight: 'bold' }}
-        >2</Typography>
+        >{assetData.length}
+          </Typography>
       </DashboardBox>
       <Grid xs={12}>
         <DashboardBox>
