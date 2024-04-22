@@ -19,6 +19,7 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/lab": "^5.0.0-alpha.153",
     "@mui/material": "^5.14.18",
+    "@tanstack/react-query": "^5.31.0",
     "bech32": "^2.0.0",
     "chain-registry": "^1.33.21",
     "next": "^14.0.1",
@@ -31,6 +32,7 @@
   },
   "devDependencies": {
     "@cosmwasm/ts-codegen": "^1.8.1",
+    "@tanstack/eslint-plugin-query": "^5.28.11",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

@@ -42,7 +42,7 @@ const AccountDropDownMenu = styled(Menu)(({ theme }) => ({
 }))
 
 export const AccountMenu = (): JSX.Element => {
-  const { status, connect, disconnect } = useChainContext()
+  const { status, connect, disconnect } = useChainContext('migaloo')
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)

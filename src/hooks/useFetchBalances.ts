@@ -10,15 +10,15 @@ import { useChainContext } from './useChainContext'
 export type UseFetchBalancesResult = AsyncHook<Coin[]>
 
 // Todo: Comment
-export const useFetchBalances = (): UseFetchBalancesResult => {
+export const useFetchBalances = (chainName: string): UseFetchBalancesResult => {
   const [result, setResult] = useState<UseFetchBalancesResult>({ result: [], loading: false, error: null })
-  const { address } = useChainContext()
+  const { address } = useChainContext(chainName)
 
   useEffect(() => {
     const fetchAndSet = (): void => {
       if (address === undefined) return
       setResult(prev => ({ ...prev, loading: true }))
-      fetchBalances(ENDPOINTS.migaloo.rest[0], address)
+      fetchBalances(ENDPOINTS.osmosis.rest[0], address)
         .then(response => setResult(prev => ({ ...prev, result: response.balances, error: null })))
         .catch((error: Error) => setResult(prev => ({ ...prev, error })))
         .finally(() => setResult(prev => ({ ...prev, loading: false })))
