@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "npx eslint ./ --fix",
-    "unimported": "npx unimported"
+    "unimported": "npx unimported",
+    "codegen:wasm": "npx cosmwasm-ts-codegen generate --plugin client --schema ./furnace-schema --out ./src/codegen --name Furnace --no-bundle"
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.7.6",
@@ -29,6 +30,7 @@
     "unimported": "^1.30.0"
   },
   "devDependencies": {
+    "@cosmwasm/ts-codegen": "^1.8.1",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
