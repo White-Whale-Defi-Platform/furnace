@@ -18,7 +18,7 @@ export const useFetchBalances = (chainName: string): UseFetchBalancesResult => {
     const fetchAndSet = (): void => {
       if (address === undefined) return
       setResult(prev => ({ ...prev, loading: true }))
-      fetchBalances(ENDPOINTS.osmosis.rest[0], address)
+      fetchBalances(ENDPOINTS[chainName].rest[0], address)
         .then(response => setResult(prev => ({ ...prev, result: response.balances, error: null })))
         .catch((error: Error) => setResult(prev => ({ ...prev, error })))
         .finally(() => setResult(prev => ({ ...prev, loading: false })))

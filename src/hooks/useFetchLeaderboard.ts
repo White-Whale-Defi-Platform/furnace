@@ -16,7 +16,12 @@ export interface LeaderboardResults {
   leaderboard: Array<[userAddress: string, tokensBurned: number]>
 }
 
-type LeaderboardsByChain = Record<string, Array<[fuelDenom: string, leaderboardResults: LeaderboardResults]>>
+type LeaderboardInfo = [
+  fuelDenom: string,
+  leaderboardResults: LeaderboardResults
+]
+
+type LeaderboardsByChain = Record<string, LeaderboardInfo[]>
 
 /**
  * Fetches all of the leaderboard and pre-calculates some of the fuel infos in a specific fuel_denom.
@@ -119,10 +124,7 @@ export const useFetchAllLeaderboard = (): {
                   leaderboard
                 ): [
                     chainName: string,
-                    leaderboardResultTuple: [
-                      fuelDenom: string,
-                      leaderboardResults: LeaderboardResults
-                    ]
+                    leaderboardInfo: LeaderboardInfo
                 ] => [chainName, [fuelDenom, leaderboard]]
               )
               : undefined

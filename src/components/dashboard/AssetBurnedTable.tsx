@@ -17,41 +17,11 @@ import {
 } from '@mui/material'
 import { useState, type FC } from 'react'
 
-// This is dummy data just to build ui for now
-// const assetInfo = {
-//   migaloo: [
-//     {
-//       asset: assets
-//         .find(({ chain_name: chainName }) => chainName === 'migaloo')
-//         ?.assets.find(({ symbol }) => symbol === 'WHALE'),
-//       burned: 3_428_978,
-//       uniques: 5_428
-//     },
-//     {
-//       asset: assets
-//         .find(({ chain_name: chainName }) => chainName === 'migaloo')
-//         ?.assets.find(({ symbol }) => symbol === 'GUPPY'),
-//       burned: 43_768_000,
-//       uniques: 428
-//     }
-//   ],
-//   chihuahua: [
-//     {
-//       asset: assets
-//         .find(({ chain_name: chainName }) => chainName === 'chihuahua')
-//         ?.assets.find(({ symbol }) => symbol === 'HUAHUA'),
-//       burned: 234_789,
-//       uniques: 128
-//     }
-//   ]
-// }
-
 export const AssetBurnedTable: FC = () => {
   const fetchTableData = useFetchTableData('osmosis')
   const assetData = Object.entries(fetchTableData).flatMap(([chain, chainInfo]) =>
     chainInfo.map((asset) => ({ chain, ...asset }))
   )
-
   const [filterChain, setFilterChain] = useState<string>()
 
   // Filtered Assets by chain name. Default to be all chains
@@ -103,7 +73,7 @@ export const AssetBurnedTable: FC = () => {
             const { chainColor } = ENDPOINTS[chain]
             return (
                 <TableRow
-                  key={`${id}`}
+                  key={id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
