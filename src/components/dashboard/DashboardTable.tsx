@@ -1,7 +1,6 @@
 'use client'
 import { ENDPOINTS } from '@/constants'
-import { useFetchChainAssets, useFetchTableData } from '@/hooks'
-import type { Asset } from '@/types'
+import type { TotalFurnaceData } from '@/hooks'
 import {
   TableContainer,
   Table,
@@ -17,17 +16,15 @@ import {
 } from '@mui/material'
 import { useState, type FC } from 'react'
 
-export const AssetBurnedTable: FC = () => {
-  const fetchTableData = useFetchTableData('osmosis')
-  const assetData = Object.entries(fetchTableData).flatMap(([chain, chainInfo]) =>
-    chainInfo.map((asset) => ({ chain, ...asset }))
-  )
+interface Props {
+  furnaceData: TotalFurnaceData[]
+}
+export const DashboardTable: FC<Props> = ({ furnaceData }) => {
   const [filterChain, setFilterChain] = useState<string>()
-
   // Filtered Assets by chain name. Default to be all chains
   const filteredAssets = filterChain === undefined
-    ? assetData
-    : assetData.filter(({ chain }) => chain === filterChain)
+    ? furnaceData
+    : furnaceData.filter(([chainName]) => chainName)
 
   return (
     <Grid>
@@ -37,16 +34,14 @@ export const AssetBurnedTable: FC = () => {
                color={filterChain === undefined ? 'primary' : 'default'}
                onClick={() => setFilterChain(undefined)}/>
        {
-         Object
-           .keys(fetchTableData)
-           .map((chainName) => (
+         furnaceData.map(([chainName]) => (
              <Chip
                key={chainName}
                variant="outlined"
                label={chainName}
                color={filterChain === chainName ? 'primary' : 'default'}
                onClick={() => setFilterChain(chainName)} />
-           ))
+         ))
        }
      </Stack>
       }
@@ -69,21 +64,21 @@ export const AssetBurnedTable: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredAssets.map(({ chain, asset: { id, name, logo }, burned, uniques }) => {
-            const { chainColor } = ENDPOINTS[chain]
+          {(filteredAssets).map(([chainName, { fuelDenom, asset, leaderboard }]) => {
+            const { chainColor } = ENDPOINTS[chainName]
             return (
                 <TableRow
-                  key={id}
+                  key={fuelDenom}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     <Stack direction="row" gap={1}>
                       <Avatar
-                        alt={`${name} Logo`}
+                        alt={`${asset?.name} Logo`}
                         sx={{ width: 24, height: 24 }}
-                        src={logo}
+                        src={asset?.logo}
                       />
-                      <Typography>{name}</Typography>
+                      <Typography>{asset?.name}</Typography>
                       <Chip
                         sx={{
                           borderColor: chainColor,
@@ -91,19 +86,19 @@ export const AssetBurnedTable: FC = () => {
                         }}
                         variant="outlined"
                         size="small"
-                        label={chain}
+                        label={chainName}
                       />
                     </Stack>
                   </TableCell>
                   <TableCell align="center">
                     <Typography fontSize="medium">
-                      {new Intl.NumberFormat().format(burned)}
+                      {new Intl.NumberFormat().format(leaderboard.totalBurnedAssets)}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">-</TableCell>
                   <TableCell align="center">
                     <Typography fontSize="medium">
-                      {new Intl.NumberFormat().format(uniques)}
+                      {new Intl.NumberFormat().format(leaderboard.uniqueBurners)}
                     </Typography>
                   </TableCell>
                 </TableRow>

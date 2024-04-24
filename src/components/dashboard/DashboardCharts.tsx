@@ -130,7 +130,7 @@ const ChartLabel = styled(Typography)({
   pb: 5
 })
 
-export const BurnPieChart: FC = () => {
+export const DashboardCharts: FC = () => {
   return (
     <Grid container spacing={3}>
       {/* Avg Value Burned Per User */}
