@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "npx eslint ./ --fix",
     "unimported": "npx unimported",
-    "codegen:wasm": "npx cosmwasm-ts-codegen generate --plugin client --schema ./furnace-schema --out ./src/codegen --name Furnace --no-bundle"
+    "codegen:wasm": "npx cosmwasm-ts-codegen generate --plugin client --schema ./schemas --out ./src/codegen --name Furnace --no-bundle"
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.7.6",
