@@ -5,32 +5,41 @@ import type { FuelConfig } from '@/codegen/Furnace.types'
 
 const LOGO_PLACEHOLDER = '/assets/ashdao.jpg'
 
-// converting the asset from the chain registry to the internal asset types
-export const crAssetConvert = (chainRegistryAssets: CRAsset): Asset => {
+/**
+ * Converts the asset from the chain registry to the internal app asset type
+ * @param asset The asset from the chain registry
+ * @returns Standard asset type that we use on the frontend
+ */
+export const crAssetConvert = (asset: CRAsset): Asset => {
   return {
-    id: chainRegistryAssets.base,
-    name: chainRegistryAssets.name,
-    decimals: Math.max(...chainRegistryAssets.denom_units.map(({ exponent }) => exponent)),
-    logo: getAssetLogo(chainRegistryAssets) ?? LOGO_PLACEHOLDER,
+    id: asset.base,
+    name: asset.name,
+    decimals: Math.max(...asset.denom_units.map(({ exponent }) => exponent)),
+    logo: getAssetLogo(asset) ?? LOGO_PLACEHOLDER,
     amount: 0,
     description: {
-      short: chainRegistryAssets.description ?? '',
-      long: chainRegistryAssets.description ?? ''
+      short: asset.description ?? '',
+      long: asset.description ?? ''
     }
   }
 }
 
-// converting the asset from the fuel config to the internal asset types
-export const fcAssetConvert = (fuelConfigAssets: FuelConfig): Asset => {
+/**
+ * Converts the fuel config (from the furnace contract) to the internal app asset type.
+ * NOTE: Fills a number of fields with placeholder values.
+ * @param fuelConfigAsset The single asset we get from the fuel response from the contract
+ * @returns Asset that we can use it on the frontend
+ */
+export const fcAssetConvert = ({ denom, subdenom }: FuelConfig): Asset => {
   return {
-    id: fuelConfigAssets.denom,
-    name: fuelConfigAssets.subdenom,
+    id: denom,
+    name: subdenom,
     decimals: 6,
     logo: LOGO_PLACEHOLDER,
     amount: 0,
     description: {
-      short: fuelConfigAssets.subdenom,
-      long: fuelConfigAssets.subdenom
+      short: subdenom,
+      long: subdenom
     }
   }
 }

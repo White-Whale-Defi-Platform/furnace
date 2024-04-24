@@ -1,6 +1,7 @@
 'use client'
 import { ENDPOINTS } from '@/constants'
-import { getAssetLogo } from '@/util/asset/getAssetLogo'
+import { useFetchChainAssets, useFetchTableData } from '@/hooks'
+import type { Asset } from '@/types'
 import {
   TableContainer,
   Table,
@@ -14,42 +15,43 @@ import {
   Typography,
   Grid
 } from '@mui/material'
-import { assets } from 'chain-registry'
 import { useState, type FC } from 'react'
 
 // This is dummy data just to build ui for now
-const assetInfo = {
-  migaloo: [
-    {
-      asset: assets
-        .find(({ chain_name: chainName }) => chainName === 'migaloo')
-        ?.assets.find(({ symbol }) => symbol === 'WHALE'),
-      burned: 3_428_978,
-      uniques: 5_428
-    },
-    {
-      asset: assets
-        .find(({ chain_name: chainName }) => chainName === 'migaloo')
-        ?.assets.find(({ symbol }) => symbol === 'GUPPY'),
-      burned: 43_768_000,
-      uniques: 428
-    }
-  ],
-  chihuahua: [
-    {
-      asset: assets
-        .find(({ chain_name: chainName }) => chainName === 'chihuahua')
-        ?.assets.find(({ symbol }) => symbol === 'HUAHUA'),
-      burned: 234_789,
-      uniques: 128
-    }
-  ]
-}
+// const assetInfo = {
+//   migaloo: [
+//     {
+//       asset: assets
+//         .find(({ chain_name: chainName }) => chainName === 'migaloo')
+//         ?.assets.find(({ symbol }) => symbol === 'WHALE'),
+//       burned: 3_428_978,
+//       uniques: 5_428
+//     },
+//     {
+//       asset: assets
+//         .find(({ chain_name: chainName }) => chainName === 'migaloo')
+//         ?.assets.find(({ symbol }) => symbol === 'GUPPY'),
+//       burned: 43_768_000,
+//       uniques: 428
+//     }
+//   ],
+//   chihuahua: [
+//     {
+//       asset: assets
+//         .find(({ chain_name: chainName }) => chainName === 'chihuahua')
+//         ?.assets.find(({ symbol }) => symbol === 'HUAHUA'),
+//       burned: 234_789,
+//       uniques: 128
+//     }
+//   ]
+// }
 
 export const AssetBurnedTable: FC = () => {
-  const assetData = Object.entries(assetInfo).flatMap(([chain, chainInfo]) =>
+  const fetchTableData = useFetchTableData('osmosis')
+  const assetData = Object.entries(fetchTableData).flatMap(([chain, chainInfo]) =>
     chainInfo.map((asset) => ({ chain, ...asset }))
   )
+
   const [filterChain, setFilterChain] = useState<string>()
 
   // Filtered Assets by chain name. Default to be all chains
@@ -66,7 +68,7 @@ export const AssetBurnedTable: FC = () => {
                onClick={() => setFilterChain(undefined)}/>
        {
          Object
-           .keys(assetInfo)
+           .keys(fetchTableData)
            .map((chainName) => (
              <Chip
                key={chainName}
@@ -97,23 +99,21 @@ export const AssetBurnedTable: FC = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredAssets.map(({ chain, asset, burned, uniques }) => {
-            const { chainColor } = ENDPOINTS[chain.toLowerCase()]
-
+          {filteredAssets.map(({ chain, asset: { id, name, logo }, burned, uniques }) => {
+            const { chainColor } = ENDPOINTS[chain]
             return (
-              asset != null && (
                 <TableRow
-                  key={`${asset.base}`}
+                  key={`${id}`}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     <Stack direction="row" gap={1}>
                       <Avatar
-                        alt={`${asset.symbol} Logo`}
+                        alt={`${name} Logo`}
                         sx={{ width: 24, height: 24 }}
-                        src={getAssetLogo(asset)}
+                        src={logo}
                       />
-                      <Typography>{asset.symbol}</Typography>
+                      <Typography>{name}</Typography>
                       <Chip
                         sx={{
                           borderColor: chainColor,
@@ -137,7 +137,6 @@ export const AssetBurnedTable: FC = () => {
                     </Typography>
                   </TableCell>
                 </TableRow>
-              )
             )
           })}
         </TableBody>

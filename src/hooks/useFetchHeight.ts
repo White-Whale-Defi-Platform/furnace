@@ -14,7 +14,7 @@ export const useFetchHeight = (): UseFetchHeightResult => {
   useEffect(() => {
     const fetchAndSet = (): void => {
       setResult(prev => ({ ...prev, loading: true }))
-      fetchHeight(ENDPOINTS.migaloo.rest[0])
+      fetchHeight(ENDPOINTS.osmosis.rest[0])
         .then(height => setResult(prev => ({ ...prev, result: Number(height.block.header.height), error: null })))
         .catch(error => setResult(prev => ({ ...prev, error: error as Error })))
         .finally(() => setResult(prev => ({ ...prev, loading: false })))
