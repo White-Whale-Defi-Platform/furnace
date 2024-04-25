@@ -8,7 +8,7 @@ import { selectAssetById } from '@/util'
 // Todo: Comment
 export const UserProvider: FC<PropsWithChildren> = ({ children }): JSX.Element => {
   const setUser = useSetRecoilState(userAtom)
-  const balances = useFetchBalances()
+  const balances = useFetchBalances('osmosis')
 
   useEffect(() => {
     setUser(prev => ({
