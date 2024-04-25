@@ -29,7 +29,7 @@ export const useFetchFurnaceData = (): TotalFurnaceData[] => {
   const allLeaderboard = useFetchAllLeaderboard()
 
   // Put the assets in an object keyed by their base denom- this will make it easy for us to find the correct asset definition later
-  const assetsById = Object.fromEntries(
+  const assetsByDenom = Object.fromEntries(
     allChainAssets
       .flatMap(({ data }) => (data != null ? [data] : []))
       .flatMap(([_, assetInfos]) =>
@@ -45,7 +45,7 @@ export const useFetchFurnaceData = (): TotalFurnaceData[] => {
           chainName,
           {
             fuelDenom,
-            asset: assetsById[fuelDenom],
+            asset: assetsByDenom[fuelDenom],
             leaderboard
           }
         ]

@@ -53,7 +53,7 @@ export const DashboardLayout: FC = () => {
         </DashboardBox>
       </Grid>
       <Grid xs={12}>
-        <DashboardCharts />
+        <DashboardCharts furnaceData={furnaceData} />
       </Grid>
     </Grid>
   )
