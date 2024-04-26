@@ -32,13 +32,6 @@ export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
     )
   return (
     <Grid container spacing={3}>
-      {/* Avg Value Burned Per User */}
-      <Grid md={12} lg={6}>
-        <Paper sx={{ p: 2 }}>
-          <AvgValueBurned />
-        </Paper>
-      </Grid>
-
       {/* Number of Fuel Assets Per Chain */}
       <Grid md={12} lg={6}>
         <Paper sx={{ p: 2 }}>
@@ -50,6 +43,13 @@ export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
       <Grid md={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <NumberOfUniqueBurners uniqueBurnersData={formattedChartData}/>
+        </Paper>
+      </Grid>
+
+      {/* Avg Value Burned Per User */}
+      <Grid md={12} lg={6}>
+        <Paper sx={{ p: 2 }}>
+          <AvgValueBurned fuelAssetData={formattedChartData} />
         </Paper>
       </Grid>
 

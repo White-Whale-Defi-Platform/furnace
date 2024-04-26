@@ -1,6 +1,7 @@
-import { Typography, styled } from '@mui/material'
-import React from 'react'
+import { Typography, styled, Box } from '@mui/material'
+import React, { type FC } from 'react'
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts'
+import type { FurnaceDataByChain } from '../DashboardCharts'
 
 const ChartLabel = styled(Typography)({
   textAlign: 'center',
@@ -8,13 +9,22 @@ const ChartLabel = styled(Typography)({
   fontWeight: 'bold',
   pb: 5
 })
+interface Props {
+  fuelAssetData: FurnaceDataByChain
+}
 
-export const AvgValueBurned = () => {
+export const AvgValueBurned: FC<Props> = ({ fuelAssetData }) => {
+  const fuelChains = Object.entries(fuelAssetData)
+  // keyed by chain name and value being number of fuel assets
+  const numberOfFuelAssetsData = Object.fromEntries(
+    fuelChains.map(([chainName, assetInfos]) => [chainName, assetInfos.length])
+  )
   return (
     <>
-       <ChartLabel>Average Value Burned Per User Coming Soon</ChartLabel>
-          {/* <ResponsiveContainer height={400}>
-            <PieChart>
+       <ChartLabel>Average Value Burned Per User</ChartLabel>
+          <ResponsiveContainer height={400}>
+            <Typography> Coming Soon</Typography>
+            {/* <PieChart>
               <Legend verticalAlign="bottom" height={50} />
               <Tooltip
                 formatter={(value) =>
@@ -27,17 +37,17 @@ export const AvgValueBurned = () => {
               <Pie
                 dataKey="avgValueBurnedPerUnique"
                 nameKey="symbol"
-                data={flattenedAssetTuples}
+                data={[numberOfFuelAssetsData]}
                 labelLine={false}
                 innerRadius={40}
                 outerRadius={130}
               >
-                {flattenedAssetTuples.map((entry, index) => (
+                {fuelChains.map((entry, index) => (
                   <Cell key={`cell-${index}`} color={entry.fill} />
                 ))}
               </Pie>
-            </PieChart>
-          </ResponsiveContainer> */}
+            </PieChart> */}
+          </ResponsiveContainer>
     </>
   )
 }

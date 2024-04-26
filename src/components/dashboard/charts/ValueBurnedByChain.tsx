@@ -20,22 +20,22 @@ export const ValueBurnedByChain: FC<Props> = ({ valueBurnedData }) => {
 
   // An object where the keys are the token symbol and the values are the dollar value of that token that have been burned
   // e.g. { LAB: 100, OSMO: 200 }
-  //   const burnedByChainData = fuelChains.map(([chainName, fuelInfos]) => {
-  //     const burnedValueByDenom = fuelInfos.reduce((allFuelInfo, currentFuelInfo) => {
-  //       const { asset, leaderboard } = currentFuelInfo
-  //       if (currentFuelInfo != null) {
-  //         return {
-  //           ...allFuelInfo,
-  //           name: chainName,
-  //           [asset?.name]: leaderboard.totalBurnedAssets
-  //         }
-  //       } else {
-  //         return allFuelInfo
-  //       }
-  //     }, {})
-  //     return burnedValueByDenom
-  //   }
-  //   )
+  const burnedByChainData = fuelChains.map(([chainName, fuelInfos]) => {
+    const burnedValueByDenom = fuelInfos.reduce((allFuelInfo, currentFuelInfo) => {
+      const { asset, leaderboard } = currentFuelInfo
+      if (currentFuelInfo != null) {
+        return {
+          ...allFuelInfo,
+          name: chainName,
+          [asset?.name]: leaderboard.totalBurnedAssets
+        }
+      } else {
+        return allFuelInfo
+      }
+    }, {})
+    return burnedValueByDenom
+  }
+  )
 
   // const chainBySymbol: Record<
   // string,
@@ -55,9 +55,10 @@ export const ValueBurnedByChain: FC<Props> = ({ valueBurnedData }) => {
 
   return (
     <>
-       <ChartLabel>Value Burned Per Chain Coming Soon</ChartLabel>
-          {/* <ResponsiveContainer height={400}>
-            <BarChart
+       <ChartLabel>Value Burned Per Chain</ChartLabel>
+          <ResponsiveContainer height={400}>
+          <Typography> Coming Soon</Typography>
+            {/* <BarChart
               data={[burnedByChainData]}
               margin={{
                 top: 20,
@@ -89,8 +90,8 @@ export const ValueBurnedByChain: FC<Props> = ({ valueBurnedData }) => {
                           stackId={chainName} />
                 )
               })}
-            </BarChart>
-          </ResponsiveContainer> */}
+            </BarChart> */}
+          </ResponsiveContainer>
     </>
   )
 }
