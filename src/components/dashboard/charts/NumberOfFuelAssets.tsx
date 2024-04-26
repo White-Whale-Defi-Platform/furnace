@@ -24,17 +24,18 @@ interface Props {
 }
 
 export const NumberOfFuelAssets: FC<Props> = ({ fuelAssetData }) => {
-  const fuelChains = Object.entries(fuelAssetData)
   // keyed by chain name and value being number of fuel assets
-  const numberOfFuelAssetsData = Object.fromEntries(
-    fuelChains.map(([chainName, assetInfos]) => [chainName, assetInfos.length])
+  const fuelAssets = Object.fromEntries(
+    Object.entries(fuelAssetData)
+      .map(([chainName, assetInfos]) => [chainName, assetInfos.length])
   )
+
   return (
     <>
       <ChartLabel>Number of Fuel Assets Per Chain</ChartLabel>
       <ResponsiveContainer height={400}>
         <BarChart
-          data={[numberOfFuelAssetsData]}
+          data={[fuelAssets]}
           margin={{
             top: 20,
             bottom: 5
@@ -53,7 +54,7 @@ export const NumberOfFuelAssets: FC<Props> = ({ fuelAssetData }) => {
             labelStyle={{ color: 'ActiveBorder' }}
           />
           <Legend />
-          {fuelChains.map(([chainName]) => (
+          {Object.keys(ENDPOINTS).map((chainName) => (
             <Bar
               key={chainName}
               dataKey={chainName}

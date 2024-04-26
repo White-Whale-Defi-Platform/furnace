@@ -19,9 +19,10 @@ import { useState, type FC } from 'react'
 interface Props {
   furnaceData: TotalFurnaceData[]
 }
+
 export const DashboardTable: FC<Props> = ({ furnaceData }) => {
   const [filterChain, setFilterChain] = useState<string>()
-  // Filtered Assets by chain name. Default to be all chains
+  // Filtered assets by chain name. Default to be all chains
   const filteredAssets = filterChain === undefined
     ? furnaceData
     : furnaceData.filter(([chainName]) => chainName)
@@ -64,21 +65,21 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(filteredAssets).map(([chainName, { fuelDenom, asset, leaderboard }]) => {
+          {filteredAssets.map(([chainName, { asset, leaderboard: { totalBurnedAssets, uniqueBurners } }]) => {
             const { chainColor } = ENDPOINTS[chainName]
-            return (
-                <TableRow
-                  key={fuelDenom}
+            return (asset != null
+              ? <TableRow
+                  key={asset.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     <Stack direction="row" gap={1}>
                       <Avatar
-                        alt={`${asset?.name} Logo`}
+                        alt={`${asset.name} Logo`}
                         sx={{ width: 24, height: 24 }}
-                        src={asset?.logo}
+                        src={asset.logo}
                       />
-                      <Typography>{asset?.name}</Typography>
+                      <Typography>{asset.name}</Typography>
                       <Chip
                         sx={{
                           borderColor: chainColor,
@@ -92,16 +93,17 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                   </TableCell>
                   <TableCell align="center">
                     <Typography fontSize="medium">
-                      {new Intl.NumberFormat().format(leaderboard.totalBurnedAssets / Math.pow(10, asset?.decimals))}
+                      {new Intl.NumberFormat().format(totalBurnedAssets / Math.pow(10, asset.decimals))}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">-</TableCell>
                   <TableCell align="center">
                     <Typography fontSize="medium">
-                      {new Intl.NumberFormat().format(leaderboard.uniqueBurners)}
+                      {new Intl.NumberFormat().format(uniqueBurners)}
                     </Typography>
                   </TableCell>
                 </TableRow>
+              : <></>
             )
           })}
         </TableBody>

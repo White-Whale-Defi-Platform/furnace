@@ -23,21 +23,20 @@ interface Props {
   uniqueBurnersData: FurnaceDataByChain
 }
 export const NumberOfUniqueBurners: FC<Props> = ({ uniqueBurnersData }) => {
-  const fuelChains = Object.entries(uniqueBurnersData)
-  // Reduce down each chain and its fuel assets' leaderboard to calcultate the unique number of burners
+  // Reduce down each chain and its fuel assets' leaderboard to calculate the unique number of burners
   // e.g. a address who burned Whale and Guppy in Migaloo should be 1 unique address not 2
   // Keyed by chain name and value being number of unique burners
   const numberOfUniqueBurners = Object.fromEntries(
-    fuelChains.map(([chainName, asset]) => {
-      // new Set() checks the each unique address in the leaderboard
+    Object.entries(uniqueBurnersData).map(([chainName, asset]) => {
+      // The Set checks the each unique address in the leaderboard
       const leaderboards = new Set(asset
-        .map(({ leaderboard }) =>
-          leaderboard.leaderboard.flatMap(([address, _]) => address)
-        )
-        .flatMap((unique) => unique)).size
+        .flatMap(({ leaderboard: { leaderboard } }) =>
+          leaderboard.map(([address, _]) => address)
+        )).size
       return [chainName, leaderboards]
     })
   )
+
   return (
     <>
       <ChartLabel>Number of Unique Burners by Chains</ChartLabel>
@@ -62,7 +61,7 @@ export const NumberOfUniqueBurners: FC<Props> = ({ uniqueBurnersData }) => {
             }
           />
           <Legend />
-         {fuelChains.map(([chainName]) => (
+         {Object.keys(ENDPOINTS).map((chainName) => (
             <Bar
               key={`${chainName}`}
               dataKey={chainName}

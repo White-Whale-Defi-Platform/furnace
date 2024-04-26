@@ -23,14 +23,11 @@ export const ValueBurnedByChain: FC<Props> = ({ valueBurnedData }) => {
   const burnedByChainData = fuelChains.map(([chainName, fuelInfos]) => {
     const burnedValueByDenom = fuelInfos.reduce((allFuelInfo, currentFuelInfo) => {
       const { asset, leaderboard } = currentFuelInfo
-      if (currentFuelInfo != null) {
-        return {
-          ...allFuelInfo,
-          name: chainName,
-          [asset?.name]: leaderboard.totalBurnedAssets
-        }
-      } else {
-        return allFuelInfo
+
+      return {
+        ...allFuelInfo,
+        name: chainName,
+        [asset?.name]: leaderboard.totalBurnedAssets
       }
     }, {})
     return burnedValueByDenom

@@ -15,45 +15,41 @@ export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
   const formattedChartData: FurnaceDataByChain =
     furnaceData.reduce<FurnaceDataByChain>(
       (allFurnaceData, currentFurnaceData): FurnaceDataByChain => {
-        if (currentFurnaceData != null) {
-          const [chainName, fuelInfo] = currentFurnaceData
-          return {
-            ...allFurnaceData,
-            [chainName]:
+        const [chainName, fuelInfo] = currentFurnaceData
+        return {
+          ...allFurnaceData,
+          [chainName]:
               chainName in allFurnaceData
                 ? [...allFurnaceData[chainName], fuelInfo]
                 : [fuelInfo]
-          }
-        } else {
-          return allFurnaceData
         }
       },
       {}
     )
   return (
     <Grid container spacing={3}>
-      {/* Number of Fuel Assets Per Chain */}
+      {/* Number of fuel assets per chain */}
       <Grid md={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <NumberOfFuelAssets fuelAssetData={formattedChartData} />{' '}
         </Paper>
       </Grid>
 
-      {/* Number of unique burnes per chains */}
+      {/* Number of unique burners per chains */}
       <Grid md={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <NumberOfUniqueBurners uniqueBurnersData={formattedChartData}/>
         </Paper>
       </Grid>
 
-      {/* Avg Value Burned Per User */}
+      {/* Avg value burned per user */}
       <Grid md={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <AvgValueBurned fuelAssetData={formattedChartData} />
         </Paper>
       </Grid>
 
-      {/* Add value burned by chain  */}
+      {/* Value burned by chain  */}
       <Grid md={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <ValueBurnedByChain valueBurnedData={formattedChartData} />
