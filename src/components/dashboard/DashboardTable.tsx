@@ -92,7 +92,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                   </TableCell>
                   <TableCell align="center">
                     <Typography fontSize="medium">
-                      {new Intl.NumberFormat().format(leaderboard.totalBurnedAssets)}
+                      {new Intl.NumberFormat().format(leaderboard.totalBurnedAssets / Math.pow(10, asset?.decimals))}
                     </Typography>
                   </TableCell>
                   <TableCell align="center">-</TableCell>
