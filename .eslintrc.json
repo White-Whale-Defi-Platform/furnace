@@ -21,9 +21,11 @@
     "next.config.js"
   ],
   "plugins": [
-    "react", "@tanstack/query"
+    "react", "react-hooks", "@tanstack/query"
   ],
   "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
     "@tanstack/query/exhaustive-deps": "warn",
     "@tanstack/query/stable-query-client": "error",
     "@typescript-eslint/adjacent-overload-signatures": "error",
