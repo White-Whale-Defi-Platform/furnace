@@ -7,8 +7,8 @@ import type { EncodeObject } from '@cosmjs/proto-signing'
 export type UseSignTransactionResult = (address: string, messages: EncodeObject[], fee: StdFee, memo?: string) => Promise<TxRaw>
 
 // Todo: Comment
-export const useSignTransaction = (): UseSignTransactionResult => {
-  const { result: client } = useSigningCosmWasmClient()
+export const useSignTransaction = (chainName: string): UseSignTransactionResult => {
+  const { result: client } = useSigningCosmWasmClient(chainName)
   const sign = async (address: string, messages: EncodeObject[], fee: StdFee, memo?: string): Promise<TxRaw> => {
     if (client === null) return await Promise.reject(new Error('Client not found'))
     return await client.sign(address, messages, fee, memo ?? 'Migaloo Command')

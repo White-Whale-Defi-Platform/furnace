@@ -13,13 +13,13 @@ const LOGO_PLACEHOLDER = '/assets/ashdao.jpg'
 export const crAssetConvert = (asset: CRAsset): Asset => {
   return {
     id: asset.base,
-    name: asset.name,
+    name: asset.symbol,
     decimals: Math.max(...asset.denom_units.map(({ exponent }) => exponent)),
     logo: getAssetLogo(asset) ?? LOGO_PLACEHOLDER,
     amount: 0,
     description: {
-      short: asset.description ?? '',
-      long: asset.description ?? ''
+      short: asset.name,
+      long: asset.description ?? asset.name
     }
   }
 }

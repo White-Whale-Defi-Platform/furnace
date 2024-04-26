@@ -6,6 +6,7 @@ import { useChainContext } from './useChainContext'
 import { useSignTransaction } from './useSignTransaction'
 import type { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import { useSimulateTransaction } from './useSimulateTransaction'
+import { ENDPOINTS } from '@/constants'
 
 // Todo: Comment
 export interface UseExecuteContractResult {
@@ -14,11 +15,12 @@ export interface UseExecuteContractResult {
   simulate: () => Promise<number | undefined>
 }
 // Todo: Comment
-export const useExecuteContract = <T>(contract: string, message: ExecuteMsg<T>, coins: Coin[]): UseExecuteContractResult => {
-  const { isWalletConnected, address } = useChainContext()
-  const signTransaction = useSignTransaction()
-  const broadcastTransaction = useBroadcastTransaction()
-  const simulateTransaction = useSimulateTransaction()
+export const useExecuteContract = <T>(chainName: string, message: ExecuteMsg<T>, coins: Coin[]): UseExecuteContractResult => {
+  const { isWalletConnected, address } = useChainContext(chainName)
+  const contract = ENDPOINTS[chainName].contractAddress
+  const signTransaction = useSignTransaction(chainName)
+  const broadcastTransaction = useBroadcastTransaction(chainName)
+  const simulateTransaction = useSimulateTransaction(chainName)
 
   const memo = 'Migaloo Command'
 

@@ -11,10 +11,11 @@ interface Props {
   mintAsset: Asset
   input: string
   onChange: () => void
+  chainName: string
 }
 
-export const Burner: FC <Props> = ({ nativeAsset, mintAsset, onChange, input }) => {
-  const executeBurn = useExecuteBurn(Number(input) * Math.pow(10, nativeAsset.decimals))
+export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange, input }) => {
+  const executeBurn = useExecuteBurn(chainName, Number(input) * Math.pow(10, nativeAsset.decimals), nativeAsset.id)
   const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, nativeAsset.decimals)) <= nativeAsset.amount
   const action = input === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
 
@@ -60,6 +61,7 @@ export const Burner: FC <Props> = ({ nativeAsset, mintAsset, onChange, input }) 
               />
               <CardActions>
                 <ExecuteButton
+                  chainName={chainName}
                   action={action}
                   disabled={!canExecute}
                   {...executeBurn}
