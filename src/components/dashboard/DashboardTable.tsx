@@ -56,9 +56,9 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
             <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
               Burned Tokens
             </TableCell>
-            <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
+            {/* <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
               Burned Value
-            </TableCell>
+            </TableCell> */}
             <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
               Unique Burners
             </TableCell>
@@ -96,7 +96,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                       {new Intl.NumberFormat().format(totalBurnedAssets / Math.pow(10, asset.decimals))}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">-</TableCell>
+                  {/* <TableCell align="center">-</TableCell> */}
                   <TableCell align="center">
                     <Typography fontSize="medium">
                       {new Intl.NumberFormat().format(uniqueBurners)}
