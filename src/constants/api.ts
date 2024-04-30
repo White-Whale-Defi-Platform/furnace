@@ -1,9 +1,8 @@
 export const FETCH_INTERVAL = 6_000
 
-export const ENDPOINTS: Record<
-string,
-{ rpc: string[], rest: string[], furnaces: string[], chainColor: string, contractAddress: string }
-> = {
+// export type ChainName = string
+
+export const ENDPOINTS = {
   // migaloo: {
   //   rpc: ['https://migaloo-rpc.polkachu.com'],
   //   rest: ['https://migaloo-api.polkachu.com'],
@@ -16,15 +15,15 @@ string,
   //   ],
   //   chainColor: '#31c259'
   // },
-  // chihuahua: {
-  //   rpc: ['https://chihuahua-rpc.polkachu.com'],
-  //   rest: ['https://chihuahua-api.polkachu.com'],
-  //   contractAddress: '',
-  //   furnaces: [
-  //     'chihuahua19vxp8vq8qm368dr026qxh8v82satwaf79y235lfv6wmgpwxx8dtsqwvtqa'
-  //   ],
-  //   chainColor: '#F0A841'
-  // },
+  chihuahua: {
+    rpc: ['https://chihuahua-rpc.polkachu.com'],
+    rest: ['https://chihuahua-api.polkachu.com'],
+    contractAddress: 'chihuahua1hplyuj2hzxd75q8686g9vm3uzrrny9ggvt8aza2csupgdp98vg2sp0e3h0',
+    furnaces: [
+      'chihuahua1hplyuj2hzxd75q8686g9vm3uzrrny9ggvt8aza2csupgdp98vg2sp0e3h0'
+    ],
+    chainColor: '#F0A841'
+  },
   osmosis: {
     rpc: ['https://osmosis-rpc.polkachu.com'],
     rest: ['https://osmosis-api.polkachu.com'],
