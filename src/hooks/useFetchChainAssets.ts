@@ -1,5 +1,5 @@
 import {
-  useAllChainCosmWasmClients,
+  useAllChainCosmWasmClientsReactquery,
   useSigningCosmWasmClient
 } from './useSigningCosmWasmClient'
 import type { FurnaceQueryClient, FuelConfig } from '@/codegen'
@@ -41,13 +41,57 @@ export const fetchFuelConfigs = async (
     )
 
 /**
+ * Fetches all of the fuel configs and converts them into internal app assets that contains mint assets
+ * @param chainName The name of the chain that the assets should have definitions on
+ * @param client The client for interacting with a furnace contract
+ * @param limit The max number of fuel configs to fetch in each set of paginated data
+ * @returns All of the `Asset`s (inlcuding mint assets) that exist as fuels on the chain's furnace
+ */
+export const fetchChainAssetsWithMintDenom = async (
+  chainName: string,
+  client: FurnaceQueryClient,
+  limit: number
+): Promise<Array<{ burnAsset: ChainAsset, mintAsset: ChainAsset }>> => {
+  // Grab the entire assetlist from the chain registry specific to THIS chain that we're looking for assets on
+  const crAssets =
+    assets.find(
+      ({ chain_name: ChainAssetName }) => ChainAssetName === chainName
+    )?.assets ?? []
+
+  return await fetchFuelConfigs(client, limit)
+    .then(
+      (fuels): Array<CRAsset | FuelConfig> =>
+        fuels.map(
+          (fuel): CRAsset | FuelConfig =>
+            crAssets.find(({ base }) => base === fuel.denom) ?? fuel
+        )
+    )
+    .then((chainAssetList) =>
+      chainAssetList.map((asset) =>
+        'subdenom' in asset
+          ? { ...fcAssetConvert(asset), inChainRegistry: false }
+          : { ...crAssetConvert(asset), inChainRegistry: true }
+      ).map((burnAsset) => {
+        const expectedMintDenom = `factory/${ENDPOINTS[chainName].contractAddress}/${burnAsset.name.toLowerCase()}.ash`
+        const mintRegistryAsset = crAssets.find(({ base }) => base === expectedMintDenom)
+        return ({
+          burnAsset,
+          mintAsset: (mintRegistryAsset != null)
+            ? crAssetConvert(mintRegistryAsset)
+            : fcAssetConvert({ denom: expectedMintDenom, subdenom: `ash${burnAsset.name}` })
+        })
+      })
+    )
+}
+
+/**
  * Fetches all of the fuel configs and converts them into internal app assets
  * @param chainName The name of the chain that the assets should have definitions on
  * @param client The client for interacting with a furnace contract
  * @param limit The max number of fuel configs to fetch in each set of paginated data
  * @returns All of the `Asset`s that exist as fuels on the chain's furnace
  */
-const fetchChainAssets = async (
+export const fetchChainAssets = async (
   chainName: string,
   client: FurnaceQueryClient,
   limit: number
@@ -87,7 +131,7 @@ export const useFetchChainAssets = (
   const { result: client } = useSigningCosmWasmClient(chainName)
 
   return useQuery({
-    queryKey: ['chainAssets', chainName],
+    queryKey: ['chainAssets', chainName, client],
     queryFn: async () =>
       client != null
         ? await fetchChainAssets(chainName, client, 30)
@@ -104,11 +148,11 @@ export const useFetchAllChainAssets = (): Array<
 UseQueryResult<[chainName: string, assets: ChainAsset[]]>
 > => {
   const chainNames = Object.keys(ENDPOINTS)
-  const { data: clients } = useAllChainCosmWasmClients()
+  const { data: clients } = useAllChainCosmWasmClientsReactquery()
 
   return useQueries({
     queries: chainNames.map((chainName) => ({
-      queryKey: ['chainAssets', chainName],
+      queryKey: ['chainAssets', chainName, clients[chainName]],
       queryFn: async () => {
         const client = clients[chainName]
         return typeof client !== 'undefined'

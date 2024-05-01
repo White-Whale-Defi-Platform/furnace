@@ -2,14 +2,54 @@
 import { useState, useEffect, useMemo } from 'react'
 import { useChainContext } from './useChainContext'
 import type { AsyncHook } from '@/types'
-import { ENDPOINTS } from '@/constants'
+import { type ChainName, ENDPOINTS } from '@/constants'
 import { FurnaceQueryClient } from '@/codegen'
 import { useChains } from '@cosmos-kit/react'
 import { useQueries } from '@tanstack/react-query'
+import { useRecoilStateLoadable } from 'recoil'
+import type { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
+import { clientsAtom } from '../state/atoms/clientsAtom'
 
 // Todo: Comment
 export type UseSigningCosmWasmClientResult =
   AsyncHook<FurnaceQueryClient | null>
+
+export const getClient = async (
+  chainName: ChainName,
+  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>): Promise<FurnaceQueryClient> => {
+  const cwClient = await getSigningCosmWasmClient()
+
+  return new FurnaceQueryClient(
+    cwClient,
+    ENDPOINTS[chainName].contractAddress
+  )
+}
+
+/**
+ * Fetches all the furnace clients for each of the chains in the ENDPOINTS object
+ * and stores them in the clients atom/recoil
+ */
+export const useAllSigningCosmWasmClient = (): void => {
+  const [_, setClients] = useRecoilStateLoadable(clientsAtom)
+
+  const chainNames: ChainName[] = Object.keys(ENDPOINTS)
+  // multiple chains connected at one time
+  const chainContexts = useChains(chainNames)
+
+  useEffect(
+    () => {
+      void Promise.all(chainNames.map(async (chainName: string) => {
+        const client = await chainContexts[chainName].getCosmWasmClient()
+        return [chainName, new FurnaceQueryClient(
+          client,
+          ENDPOINTS[chainName].contractAddress
+        )]
+      }))
+        .then(Object.fromEntries).then(setClients)
+    },
+    []
+  )
+}
 
 /**
  * Gets the Cosmwasm client for the furnace on a given chain.
@@ -27,19 +67,15 @@ export const useSigningCosmWasmClient = (
     loading: false,
     error: null
   })
-
   useEffect(
     () => {
       if (!isWalletConnected) return
       setResult((prev) => ({ ...prev, loading: true }))
-      getSigningCosmWasmClient()
+      getClient(chainName, getSigningCosmWasmClient)
         .then((client) => {
           return setResult((prev) => ({
             ...prev,
-            result: new FurnaceQueryClient(
-              client,
-              ENDPOINTS[chainName].contractAddress
-            ),
+            result: client,
             error: null
           }))
         })
@@ -58,7 +94,7 @@ export const useSigningCosmWasmClient = (
  * Gets every chain's Cosmwasm client for interacting with the furnace.
  * @returns All of the clients in an object, keyed by the chain name.
  */
-export const useAllChainCosmWasmClients = (): {
+export const useAllChainCosmWasmClientsReactquery = (): {
   data: Partial<Record<string, FurnaceQueryClient>>
   isLoading: boolean
   isError: boolean
