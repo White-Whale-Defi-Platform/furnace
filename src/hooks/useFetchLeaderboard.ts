@@ -21,7 +21,7 @@ type LeaderboardInfo = [
   leaderboardResults: LeaderboardResults
 ]
 
-type LeaderboardsByChain = Record<string, LeaderboardInfo[]>
+export type LeaderboardsByChain = Record<string, LeaderboardInfo[]>
 
 /**
  * Fetches all of the leaderboard and pre-calculates some of the fuel infos in a specific fuel_denom.

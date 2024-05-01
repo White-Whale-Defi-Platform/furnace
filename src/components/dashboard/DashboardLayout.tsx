@@ -6,8 +6,8 @@ import {
   Typography
 } from '@mui/material'
 import React, { type FC } from 'react'
-import { BurnPieChart, AssetBurnedTable } from '@/components'
-import { useFetchAllChainAssets, useFetchAllLeaderboard } from '@/hooks'
+import { DashboardCharts, DashboardTable } from '@/components'
+import { useFetchAllChainAssets, useFetchFurnaceData } from '@/hooks'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -20,15 +20,14 @@ const DashboardBox = styled(Paper)({
 
 export const DashboardLayout: FC = () => {
   const allChains = useFetchAllChainAssets()
-  const allLeaderboard = useFetchAllLeaderboard()
+  const furnaceData = useFetchFurnaceData()
 
-  console.log(allLeaderboard, 'all leaderboard reutrn')
   return (
     <Grid gap={3} container justifyContent="space-between">
-      <DashboardBox>
+      {/* <DashboardBox>
         <Typography color="GrayText">Total Value Burned</Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>-</Typography>
-      </DashboardBox>
+      </DashboardBox> */}
       <DashboardBox>
         <Typography color="GrayText">Chains Supported</Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -50,11 +49,11 @@ export const DashboardLayout: FC = () => {
       </DashboardBox>
       <Grid xs={12}>
         <DashboardBox>
-          <AssetBurnedTable />
+          <DashboardTable furnaceData={furnaceData} />
         </DashboardBox>
       </Grid>
       <Grid xs={12}>
-        <BurnPieChart />
+        <DashboardCharts furnaceData={furnaceData} />
       </Grid>
     </Grid>
   )
