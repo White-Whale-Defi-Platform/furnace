@@ -1,6 +1,6 @@
 export const FETCH_INTERVAL = 6_000
 
-// export type ChainName = string
+export type ChainName = string
 
 export const ENDPOINTS = {
   // migaloo: {

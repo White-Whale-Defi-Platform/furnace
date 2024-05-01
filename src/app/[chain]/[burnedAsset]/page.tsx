@@ -1,13 +1,12 @@
 'use client'
-import React, { useEffect, useState } from 'react'
-import { Grid } from '@mui/material'
+import React, { useState } from 'react'
+import { Grid, Typography } from '@mui/material'
 import { isValidTokenInput } from '@/util'
-import { useRecoilValue } from 'recoil'
-import { selectUserAsset } from '@/state'
-import { ENDPOINTS } from '@/constants'
+import { useRecoilValue, useRecoilValueLoadable, waitForAll } from 'recoil'
+import { assetPairSelector, chainAssetsSelector, furnaceSelector } from '@/state'
 import { useRouter } from 'next/navigation'
 import { Burner, PageLayout, LeaderboardLayout } from '@/components'
-import { useExecuteBurn } from '@/hooks'
+import { useExecuteBurn, useFetchBalances } from '@/hooks'
 
 const Burn = ({ params }: {
   params: {
@@ -15,29 +14,28 @@ const Burn = ({ params }: {
     burnedAsset: string
   }
 }): JSX.Element => {
-  const { chain, burnedAsset } = params
+  const { chain, burnedAsset: urlAssetName } = params
   const router = useRouter()
 
   const [input, setInput] = useState('')
-  const whale = useRecoilValue(selectUserAsset('Whale'))
-  const ash = useRecoilValue(selectUserAsset('Ash'))
+
+  const fuels = useRecoilValueLoadable(assetPairSelector({ chainName: chain, burnDenomName: urlAssetName }))
+  const { result } = useFetchBalances(chain)
+
   const onChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => { isValidTokenInput(value) && setInput(value) }
-  const executeBurn = useExecuteBurn(Number(input) * Math.pow(10, whale.decimals))
-  const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, whale.decimals)) <= whale.amount
+  const executeBurn = useExecuteBurn(chain, Number(input) * Math.pow(10, fuels.valueMaybe()?.burnAsset.decimals ?? 0))
+  const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, fuels.valueMaybe()?.burnAsset.decimals ?? 0)) <= (fuels.valueMaybe()?.burnAsset.amount ?? 0)
   const action = input === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
 
-  useEffect(() => {
-    if (!ENDPOINTS[chain] || !['whale', 'guppy', 'huahua'].includes(burnedAsset)) { router.push('/') }
-  }, [chain, burnedAsset, router])
+  if (fuels.state !== 'hasValue') { return <Typography>Loading...</Typography> } else if (fuels.contents == null) return <Typography>No valid assets found</Typography>
 
-  // TODO : Remove this ternary once denom is dynamic
-  const mintDenom = (burnedAsset === 'whale' ? 'Ash' : burnedAsset === 'guppy' ? 'gASh' : burnedAsset === 'huahua' ? 'puppy' : '')
+  const { mintAsset, burnAsset } = fuels.contents
 
   return (
-     <PageLayout title={`${params.burnedAsset.toUpperCase()} Furnace`} subtitle={`Burn ${params.burnedAsset} and Receive ${mintDenom}`}>
+     <PageLayout title={`${params.burnedAsset.toUpperCase()} Furnace`} subtitle={`Burn ${burnAsset.name} and Receive ${mintAsset.name}`}>
       <Grid container alignItems='center' justifyContent='center' gap={5} >
-        <Burner nativeAsset={whale} mintAsset={ash} input={input} onChange={onChange} />
-        <LeaderboardLayout mintDenom={mintDenom} />
+        <Burner chainName={chain} nativeAsset={burnAsset} mintAsset={mintAsset} input={input} onChange={onChange} />
+        <LeaderboardLayout chainName={chain} burnDenom={burnAsset} />
       </Grid>
     </PageLayout>
   )

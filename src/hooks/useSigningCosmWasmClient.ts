@@ -6,7 +6,7 @@ import { type ChainName, ENDPOINTS } from '@/constants'
 import { FurnaceQueryClient } from '@/codegen'
 import { useChains } from '@cosmos-kit/react'
 import { useQueries } from '@tanstack/react-query'
-import { useRecoilState, useSetRecoilState } from 'recoil'
+import { RecoilLoadable, useRecoilState, useRecoilStateLoadable, useSetRecoilState } from 'recoil'
 import { walletClientState } from '@/state/atoms/fuelsState'
 import type { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 import { clientsAtom } from '../state/atoms/clientsAtom'
@@ -31,7 +31,7 @@ export const getClient = async (
  * and stores them in the clients atom/recoil
  */
 export const useAllSigningCosmWasmClient = (): void => {
-  const [_, setClients] = useRecoilState(clientsAtom)
+  const [_, setClients] = useRecoilStateLoadable(clientsAtom)
 
   const chainNames: ChainName[] = Object.keys(ENDPOINTS)
   // multiple chains connected at one time
@@ -39,16 +39,15 @@ export const useAllSigningCosmWasmClient = (): void => {
 
   useEffect(
     () => {
-      void Promise.all(chainNames.map(async (chainName) => {
+      void Promise.all(chainNames.map(async (chainName: string) => {
         const client = await chainContexts[chainName].getCosmWasmClient()
         return [chainName, new FurnaceQueryClient(
           client,
           ENDPOINTS[chainName].contractAddress
         )]
-      })).then(Object.fromEntries).then(setClients)
+      }))
+        .then(Object.fromEntries).then(setClients)
     },
-    // Hack: Cosmos Kit is broken; dependency changes frequently.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 }

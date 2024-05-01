@@ -1,13 +1,13 @@
 import type { FurnaceQueryClient } from '@/codegen'
 import type { ChainName } from '@/constants'
-import { atom } from 'recoil'
+import { atom, RecoilLoadable } from 'recoil'
 
 /**
  * Intends to store clients for each of the chains in the ENDPOINTS constant
  */
-export const clientsAtom = atom<Record<ChainName, FurnaceQueryClient> | null>(
+export const clientsAtom = atom<Record<ChainName, FurnaceQueryClient>>(
   {
     key: 'clientsAtom',
-    default: null
+    default: RecoilLoadable.loading()
   }
 )

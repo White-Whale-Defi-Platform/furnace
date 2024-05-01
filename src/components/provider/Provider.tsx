@@ -9,10 +9,11 @@ import { darkTheme, ENDPOINTS } from '@/constants'
 import CssBaseline from '@mui/material/CssBaseline'
 import { SnackbarProvider } from './SnackbarProvider'
 import { ModalProvider } from './ModalProvider'
-import { AppProvider } from './AppProvider'
+// import { AppProvider } from './AppProvider'
 import { UserProvider } from './UserProvider'
 import { ThemeProvider } from '@mui/material'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { AppProvider } from './AppProvider'
 
 const queryClient = new QueryClient()
 // Todo: Comment
