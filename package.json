@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "npx eslint ./ --fix",
-    "unimported": "npx unimported"
+    "unimported": "npx unimported",
+    "codegen:wasm": "npx cosmwasm-ts-codegen generate --plugin client --schema ./schemas --out ./src/codegen --name Furnace --no-bundle"
   },
   "dependencies": {
     "@cosmos-kit/core": "^2.7.6",
@@ -18,6 +19,7 @@
     "@mui/icons-material": "^5.15.14",
     "@mui/lab": "^5.0.0-alpha.153",
     "@mui/material": "^5.14.18",
+    "@tanstack/react-query": "^5.31.0",
     "bech32": "^2.0.0",
     "chain-registry": "^1.33.21",
     "next": "^14.0.1",
@@ -29,6 +31,8 @@
     "unimported": "^1.30.0"
   },
   "devDependencies": {
+    "@cosmwasm/ts-codegen": "^1.8.1",
+    "@tanstack/eslint-plugin-query": "^5.28.11",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -41,6 +45,6 @@
     "eslint-plugin-n": "^16.3.1",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.33.2",
-    "typescript": "^5.2.2"
+    "typescript": "^5.4.5"
   }
 }

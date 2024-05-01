@@ -12,10 +12,13 @@ import { ModalProvider } from './ModalProvider'
 import { AppProvider } from './AppProvider'
 import { UserProvider } from './UserProvider'
 import { ThemeProvider } from '@mui/material'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
+const queryClient = new QueryClient()
 // Todo: Comment
 export const Provider: FC<PropsWithChildren> = ({ children }) => {
   return (
+    <QueryClientProvider client={queryClient}>
     <RecoilRoot>
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
@@ -41,6 +44,7 @@ export const Provider: FC<PropsWithChildren> = ({ children }) => {
           </SnackbarProvider>
         </ModalProvider>
       </ThemeProvider>
-    </RecoilRoot >
+    </RecoilRoot>
+    </QueryClientProvider>
   )
 }
