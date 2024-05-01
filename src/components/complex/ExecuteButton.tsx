@@ -6,16 +6,18 @@ import { TransactionModal } from '@/components/modals'
 import { useModal } from '../provider/ModalProvider'
 import { useSnackbar } from '../provider/SnackbarProvider'
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
+import type { ChainName } from '@/constants'
 
 export interface ExecuteButtonProps extends UseExecuteContractResult {
   action: string
   disabled?: boolean
+  chainName: ChainName
 }
 
-export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simulate, sign, broadcast }): JSX.Element => {
+export const ExecuteButton: FC<ExecuteButtonProps> = ({ chainName, action, disabled, simulate, sign, broadcast }): JSX.Element => {
   const [loading, setLoading] = useState(false)
 
-  const { isWalletConnected } = useChainContext()
+  const { isWalletConnected } = useChainContext(chainName)
   const modal = useModal()
   const snackbar = useSnackbar()
 

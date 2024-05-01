@@ -5,16 +5,18 @@ import { AssetInput, ExecuteButton } from '../complex'
 import { formatAmount } from '@/util'
 import type { Asset } from '@/types'
 import { useExecuteBurn } from '@/app/apps/community/furnace/useExecuteBurn'
+import type { ChainName } from '@/constants'
 
 interface Props {
   nativeAsset: Asset
   mintAsset: Asset
   input: string
   onChange: () => void
+  chainName: ChainName
 }
 
-export const Burner: FC <Props> = ({ nativeAsset, mintAsset, onChange, input }) => {
-  const executeBurn = useExecuteBurn(Number(input) * Math.pow(10, nativeAsset.decimals))
+export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange, input }) => {
+  const executeBurn = useExecuteBurn(chainName, Number(input) * Math.pow(10, nativeAsset.decimals))
   const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, nativeAsset.decimals)) <= nativeAsset.amount
   const action = input === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
 
@@ -60,6 +62,7 @@ export const Burner: FC <Props> = ({ nativeAsset, mintAsset, onChange, input }) 
               />
               <CardActions>
                 <ExecuteButton
+                chainName={chainName}
                   action={action}
                   disabled={!canExecute}
                   {...executeBurn}

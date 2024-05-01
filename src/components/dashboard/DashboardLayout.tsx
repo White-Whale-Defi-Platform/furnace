@@ -1,8 +1,10 @@
 'use client'
 import { Unstable_Grid2 as Grid, Paper, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
-import { BurnPieChart, AssetBurnedTable } from '@/components'
-
+import { DashboardCharts, DashboardTable } from '@/components'
+import { useFetchAllChainAssets, useFetchFurnaceData } from '@/hooks'
+import { allChainAssetsSelector } from '@/state'
+import { useRecoilValue } from 'recoil'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -14,11 +16,20 @@ const DashboardBox = styled(Paper)({
 })
 
 export const DashboardLayout: FC = () => {
+  const allChains = useFetchAllChainAssets()
+  const furnaceData = useFetchFurnaceData()
+
+  // const allFuelsByChain = useRecoilValue(allChainAssetsSelector)
+
+  // TODO: Update the dashboard, DashboardTable, and DashboardCharts data with the recoil value
+  // const furnace = useRecoilValue(furnaceSelector)
+
   return (
     <Grid gap={3} container justifyContent="space-between">
       <DashboardBox>
-        <Typography color='GrayText'>
-          Total Value Burned
+        <Typography color="GrayText">Chains Supported</Typography>
+        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
+          {/* {(allFuelsByChain != null) && Object.entries(allFuelsByChain).length} */}
         </Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>1,000,000</Typography>
       </DashboardBox>
