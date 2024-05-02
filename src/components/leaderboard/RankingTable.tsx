@@ -1,5 +1,5 @@
 'use client'
-import { formatTokenAmount } from '@/util'
+import { formatAmountWithExponent, formatTokenAmount } from '@/util'
 import { truncateAddress } from '@/util/format/truncateAddress'
 import {
   Table,
@@ -65,7 +65,7 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
                 {truncateAddress(value.id)}
               </TableCell>
               <TableCell align='right'>
-                {formatTokenAmount(value.totalBurn / Math.pow(10, decimals))}
+                {formatAmountWithExponent(value.totalBurn, decimals)}
               </TableCell>
             </TableRow>
           ))}

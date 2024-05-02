@@ -3,19 +3,21 @@ import { BASE } from './constants'
 import type { Coin } from '@cosmjs/stargate'
 
 /**
-* General token formatter that formats the token based on the region
+* Returns the formatted token amount
+* `formatTokenAmount(3000) -> "3,000.00"`
 */
 export const formatTokenAmount = (data: number): string =>
   new Intl.NumberFormat().format(data)
 
 /**
- * Formats the token and divided by the asset decimals
+ * Takes an amount of token and formats it with the given exponenet
+ * `formatTokenAmount(300000, 2) -> "3,000.00"`
  */
-export const formatAssetAmount = (asset: Asset): string => formatTokenAmount(asset.amount / Math.pow(BASE, asset.decimals))
+export const formatAmountWithExponent = (amount: number, exponent: number): string =>
+  formatTokenAmount(amount / Math.pow(10, exponent))
 
-/**
- * Take the asset and overwrite the amount
- */
+export const formatAssetAmount = (asset: Asset): string => formatAmountWithExponent(asset.amount, asset.decimals)
+
 export const updateAssetAmount = (asset: Asset, { amount }: Coin): Asset => ({
   ...asset,
   amount: Number(amount)

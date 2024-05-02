@@ -4,7 +4,7 @@ import React, { type FC } from 'react'
 import { leaderboardSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'
 import type { Asset } from '@/types'
-import { formatAssetAmount, formatTokenAmount } from '@/util'
+import { formatAmountWithExponent, formatAssetAmount, formatTokenAmount } from '@/util'
 import { useChain } from '@cosmos-kit/react'
 import RankingTable from './RankingTable'
 
@@ -17,7 +17,7 @@ interface Props {
 export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decimals }, mintDenom }) => {
   const { address: userAddress } = useChain(chainName)
   const fetchLeaderboard = useRecoilValueLoadable(leaderboardSelector({ chainName, denom: id }))
-  if (fetchLeaderboard.state != 'hasValue') return <Typography>Loading...</Typography>
+  if (fetchLeaderboard.state !== 'hasValue') return <Typography>Loading...</Typography>
 
   const { leaderboard, totalBurnedAssets, uniqueBurners } = fetchLeaderboard.contents
   const formattedLeaderboard = leaderboard.map(([burner, totalBurn]) => ({
@@ -38,7 +38,7 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography color="GrayText">Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {formatTokenAmount(totalBurnedAssets / Math.pow(10, decimals))}
+            {formatAmountWithExponent(totalBurnedAssets, decimals)}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
