@@ -14,64 +14,43 @@ import {
   Link
 } from '@mui/material'
 import { Search } from '@mui/icons-material'
-
-// This is dummy data to display the assets on the search select drop down
-const assetInfo = {
-  migaloo: [
-    {
-      from: assets
-        .find(({ chain_name: chainName }) => chainName === 'migaloo')
-        ?.assets.find(({ symbol }) => symbol === 'WHALE'),
-      to: assets
-        .find(({ chain_name: chainName }) => chainName === 'migaloo')
-        ?.assets.find(({ symbol }) => symbol === 'ASH')
-    },
-    {
-      from: assets
-        .find(({ chain_name: chainName }) => chainName === 'migaloo')
-        ?.assets.find(({ symbol }) => symbol === 'GUPPY'),
-      to: assets
-        .find(({ chain_name: chainName }) => chainName === 'migaloo')
-        ?.assets.find(({ symbol }) => symbol === 'GASH')
-    }
-  ],
-  chihuahua: [
-    {
-      from: assets
-        .find(({ chain_name: chainName }) => chainName === 'chihuahua')
-        ?.assets.find(({ symbol }) => symbol === 'HUAHUA'),
-      to: assets
-        .find(({ chain_name: chainName }) => chainName === 'chihuahua')
-        ?.assets.find(({ symbol }) => symbol === 'PUPPY')
-    }
-  ]
-}
+import { useRecoilValueLoadable } from 'recoil'
+import { allChainAssetsSelector } from '@/state'
 
 export const FurnaceSearchBar: FC = () => {
-  // format the getAssetInfo into array then flatten every asset info into one arry
-  const assetOptions = Object.entries(assetInfo).flatMap(
-    ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))
-  )
   const [open, setOpen] = useState(false)
   const [searchString, setSearchString] = useState('')
 
-  // if searchString is set then do the filtering otherwise just use all assets
+  const pair = useRecoilValueLoadable(
+    allChainAssetsSelector
+  )
+
+  // format the getAssetInfo into array then flatten every asset info into one arry
+  const assetOptions = Object.entries(pair.contents).flatMap(
+    ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))
+  )
+
   const filteredAssetOptions =
+  // if searchString is set then do the filtering otherwise just use all assets
     searchString.length > 0
-      ? assetOptions.filter(({ from, to, chain }) => {
+      ? assetOptions.filter(({ burnAsset, mintAsset, chain }) => {
         return (
           // check if search string matches with from asset symbol
-          Boolean(from?.symbol.toLowerCase().includes(searchString)) ||
+          Boolean(burnAsset?.name.toLowerCase().includes(searchString)) ||
           // check if search string matches with to asset symbol
-          Boolean(to?.symbol.toLowerCase().includes(searchString)) ||
+          Boolean(mintAsset?.name.toLowerCase().includes(searchString)) ||
           // check if search string matches with chain name
           chain.toLowerCase().includes(searchString)
         )
       })
       : assetOptions
+
+  const mintTokenSymbol = (symbol: string): string => symbol.startsWith('ASH') ? symbol.slice(0, 3).toLowerCase() + symbol.slice(3) : symbol
+  console.log(mintTokenSymbol('ASHLAB'))
   return (
     <Stack>
       <Button
+        disabled={pair.state !== 'hasValue'}
         focusRipple
         sx={{
           border: 'unset',
@@ -104,24 +83,25 @@ export const FurnaceSearchBar: FC = () => {
               }}
               onChange={(e) => setSearchString(e.target.value.toLowerCase())}
             />
+            <Stack>
             {filteredAssetOptions.length > 0
-              ? filteredAssetOptions.map(({ chain, from, to }) => {
-                const fromSymbol = from?.symbol ?? ''
-                const toSymbol = to?.symbol ?? ''
-                const fromLogo = from?.logo_URIs?.png ?? from?.logo_URIs?.svg
-                const toLogo = to?.logo_URIs?.png ?? to?.logo_URIs?.svg
-
+              ? filteredAssetOptions.map(({ chain, burnAsset, mintAsset }) => {
+                const fromSymbol = burnAsset.name
+                const toSymbol = mintAsset.name
+                const fromLogo = burnAsset.logo
+                const toLogo = mintAsset.logo
+                console.log(toSymbol, 'toSymbol')
                 return (
                   <Button
                     component={Link}
                     href={`/${chain}/${fromSymbol.toLowerCase()}`}
                     key={`${fromSymbol}${toSymbol}`}
-                    sx={{ justifyContent: 'space-between' }}
+                    sx={{ justifyContent: 'space-between', textTransform: 'none' }}
                   >
                     <Stack direction="row">
                       <Box
                         display={'flex'}
-                        key={`${fromSymbol}${toSymbol}`}
+
                       >
                         <Stack direction="row">
                           <Avatar
@@ -141,6 +121,7 @@ export const FurnaceSearchBar: FC = () => {
                             src={toLogo} />
                         </Stack>
                         <Typography color="white">{`${fromSymbol} / ${toSymbol}`}</Typography>
+                        {/* <Typography>hi i am jenna</Typography> */}
                       </Box>
                     </Stack>
                     <Chip
@@ -150,7 +131,7 @@ export const FurnaceSearchBar: FC = () => {
                   </Button>
                 )
               })
-              : 'No Furnace Found'}
+              : 'No Furnace Found'}</Stack>
           </Stack>
         </DialogContent>
       </Dialog>
