@@ -8,8 +8,6 @@ import {
 import React, { type FC } from 'react'
 import { DashboardCharts, DashboardTable } from '@/components'
 import { useFetchAllChainAssets, useFetchFurnaceData } from '@/hooks'
-import { useRecoilValue } from 'recoil'
-import { chainLeaderboardSelector, clientsAtom } from '@/state'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -64,8 +62,4 @@ export const DashboardLayout: FC = () => {
       </Grid>
     </Grid>
   )
-}
-export default DashboardLayout
-function fuelsSelector (arg0: string): import('recoil').RecoilValue<unknown> {
-  throw new Error('Function not implemented.')
 }

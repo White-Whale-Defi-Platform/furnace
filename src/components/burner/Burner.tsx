@@ -2,7 +2,7 @@
 import { Card, CardActions, CardContent, CardHeader, Grid, Stack } from '@mui/material'
 import React, { type FC } from 'react'
 import { AssetInput, ExecuteButton } from '../complex'
-import { formatAmount } from '@/util'
+import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
 import { useExecuteBurn } from '@/app/apps/community/furnace/useExecuteBurn'
 import type { ChainName } from '@/constants'
@@ -51,14 +51,14 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange
                 value={input}
                 label="Input"
                 onChange={onChange}
-                helperText={`Available: ${formatAmount(nativeAsset)}`}
+                helperText={`Available: ${formatAssetAmount(nativeAsset)}`}
               />
               <AssetInput
                 asset={mintAsset}
                 value={input}
                 label="Output"
                 disabled={true}
-                helperText={`Available: ${formatAmount(mintAsset)}`}
+                helperText={`Available: ${formatAssetAmount(mintAsset)}`}
               />
               <CardActions>
                 <ExecuteButton
