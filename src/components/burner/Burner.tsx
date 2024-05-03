@@ -6,6 +6,7 @@ import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
 import { useExecuteBurn } from '@/app/apps/community/furnace/useExecuteBurn'
 import type { ChainName } from '@/constants'
+import { useChainContext } from '@/hooks'
 
 interface Props {
   nativeAsset: Asset
@@ -19,7 +20,7 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange
   const executeBurn = useExecuteBurn(chainName, Number(input) * Math.pow(10, nativeAsset.decimals))
   const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, nativeAsset.decimals)) <= nativeAsset.amount
   const action = input === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
-
+  const { isWalletConnected } = useChainContext(chainName)
   return (
     <Grid
     container
@@ -52,6 +53,7 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange
                 label="Input"
                 onChange={onChange}
                 helperText={`Available: ${formatAssetAmount(nativeAsset)}`}
+                disabled={!isWalletConnected}
               />
               <AssetInput
                 asset={mintAsset}
@@ -62,9 +64,10 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange
               />
               <CardActions>
                 <ExecuteButton
+                isWalletConnected={isWalletConnected}
                 chainName={chainName}
                   action={action}
-                  disabled={!canExecute}
+                  disabled={!canExecute && !isWalletConnected}
                   {...executeBurn}
                 />
               </CardActions>

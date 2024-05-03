@@ -1,5 +1,5 @@
 'use client'
-import { useChainContext, type UseExecuteContractResult } from '@/hooks'
+import type { UseExecuteContractResult } from '@/hooks'
 import { Button, CircularProgress } from '@mui/material'
 import { type FC, useState } from 'react'
 import { TransactionModal } from '@/components/modals'
@@ -12,12 +12,12 @@ export interface ExecuteButtonProps extends UseExecuteContractResult {
   action: string
   disabled?: boolean
   chainName: ChainName
+  isWalletConnected: boolean
 }
 
-export const ExecuteButton: FC<ExecuteButtonProps> = ({ chainName, action, disabled, simulate, sign, broadcast }): JSX.Element => {
+export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simulate, sign, broadcast, isWalletConnected }): JSX.Element => {
   const [loading, setLoading] = useState(false)
 
-  const { isWalletConnected } = useChainContext(chainName)
   const modal = useModal()
   const snackbar = useSnackbar()
 
@@ -49,7 +49,7 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({ chainName, action, disab
     <Button
       variant="contained"
       onClick={execute}
-      disabled={disabled ?? !isWalletConnected}
+      disabled={disabled}
       size="large"
       sx={{ width: 256 }}
     >
