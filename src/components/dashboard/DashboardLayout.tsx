@@ -7,7 +7,8 @@ import {
 } from '@mui/material'
 import React, { type FC } from 'react'
 import { DashboardCharts, DashboardTable } from '@/components'
-import { useFetchAllChainAssets, useFetchFurnaceData } from '@/hooks'
+import { furnaceSelector } from '@/state'
+import { useRecoilValueLoadable } from 'recoil'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -19,13 +20,8 @@ const DashboardBox = styled(Paper)({
 })
 
 export const DashboardLayout: FC = () => {
-  const allChains = useFetchAllChainAssets()
-  const furnaceData = useFetchFurnaceData()
-
-  // const allFuelsByChain = useRecoilValue(allChainAssetsSelector)
-
-  // TODO: Update the dashboard, DashboardTable, and DashboardCharts data with the recoil value
-  // const furnace = useRecoilValue(furnaceSelector)
+  const fetchFurnace = useRecoilValueLoadable(furnaceSelector)
+  const furnaceData = Object.entries(fetchFurnace.valueMaybe() ?? {})
 
   return (
     <Grid gap={3} container justifyContent="space-between">
@@ -36,20 +32,14 @@ export const DashboardLayout: FC = () => {
       <DashboardBox>
         <Typography color="GrayText">Chains Supported</Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {/* {(allFuelsByChain != null) && Object.entries(allFuelsByChain).length} */}
+          {furnaceData.length}
         </Typography>
       </DashboardBox>
       <DashboardBox>
         <Typography color="GrayText">Assets Supported</Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {allChains.some(
-            ({ isLoading, isError, isPending }) =>
-              isLoading || isError || isPending
-          )
-            ? '-'
-            : allChains
-              .map(({ data: chainInfo }) => chainInfo?.[1].length ?? 0)
-              .reduce((x, y) => x + y, 0)}
+          {furnaceData.map(([_, chainInfo]) => chainInfo.length)
+            .reduce((x, y) => x + y, 0)}
         </Typography>
       </DashboardBox>
       <Grid xs={12}>
