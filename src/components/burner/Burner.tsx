@@ -1,12 +1,11 @@
 'use client'
 import { Card, CardActions, CardContent, CardHeader, Grid, Stack } from '@mui/material'
-import React, { type FC } from 'react'
+import React, { useState, type FC } from 'react'
 import { AssetInput, ExecuteButton } from '../complex'
 import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
-import { useExecuteBurn } from '@/app/apps/community/furnace/useExecuteBurn'
 import type { ChainName } from '@/constants'
-import { useChainContext } from '@/hooks'
+import { useChainContext, useExecuteBurn } from '@/hooks'
 
 interface Props {
   nativeAsset: Asset
@@ -17,10 +16,15 @@ interface Props {
 }
 
 export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange, input }) => {
-  const executeBurn = useExecuteBurn(chainName, Number(input) * Math.pow(10, nativeAsset.decimals))
-  const canExecute = Number(input) !== 0 && (Number(input) * Math.pow(10, nativeAsset.decimals)) <= nativeAsset.amount
-  const action = input === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
+  const [burnDisplayAmount, setBurnDisplayAmount] = useState('')
+  const executeBurn = useExecuteBurn(chainName,
+    Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals),
+    nativeAsset.id)
+  const canExecute = Number(burnDisplayAmount) !== 0 &&
+     (Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals)) <= nativeAsset.amount
+  const action = burnDisplayAmount === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
   const { isWalletConnected } = useChainContext(chainName)
+
   return (
     <Grid
     container
@@ -48,26 +52,29 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange
               spacing={2}
             >
               <AssetInput
+                invalidAmount={!canExecute}
                 asset={nativeAsset}
-                value={input}
-                label="Input"
-                onChange={onChange}
+                prefillClick={() => setBurnDisplayAmount(formatAssetAmount(nativeAsset))}
+                value={burnDisplayAmount}
+                label="You Burn"
+                onChange={(e) => setBurnDisplayAmount(e.target.value)}
+                // onChange={onChange}
                 helperText={`Available: ${formatAssetAmount(nativeAsset)}`}
-                disabled={!isWalletConnected}
+                disabled={!isWalletConnected }
               />
               <AssetInput
                 asset={mintAsset}
-                value={input}
-                label="Output"
+                value={burnDisplayAmount}
+                label="You Get"
                 disabled={true}
                 helperText={`Available: ${formatAssetAmount(mintAsset)}`}
               />
               <CardActions>
                 <ExecuteButton
-                isWalletConnected={isWalletConnected}
-                chainName={chainName}
+                  isWalletConnected={isWalletConnected}
+                  chainName={chainName}
                   action={action}
-                  disabled={!canExecute && !isWalletConnected}
+                  disabled={!canExecute || !isWalletConnected}
                   {...executeBurn}
                 />
               </CardActions>

@@ -50,7 +50,7 @@ export const useExecuteContract = <T>(chainName: ChainName, message: ExecuteMsg<
         address,
         [createMsgExecuteContract<T>(
           address,
-          contract,
+          ENDPOINTS[chainName].contractAddress,
           message,
           coins
         )],

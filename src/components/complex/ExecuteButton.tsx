@@ -3,10 +3,9 @@ import type { UseExecuteContractResult } from '@/hooks'
 import { Button, CircularProgress } from '@mui/material'
 import { type FC, useState } from 'react'
 import { TransactionModal } from '@/components/modals'
-import { useModal } from '../provider/ModalProvider'
-import { useSnackbar } from '../provider/SnackbarProvider'
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import type { ChainName } from '@/constants'
+import { useModal, useSnackbar } from '../provider'
 
 export interface ExecuteButtonProps extends UseExecuteContractResult {
   action: string
@@ -15,9 +14,8 @@ export interface ExecuteButtonProps extends UseExecuteContractResult {
   isWalletConnected: boolean
 }
 
-export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simulate, sign, broadcast, isWalletConnected }): JSX.Element => {
+export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simulate, sign, broadcast, chainName, isWalletConnected }): JSX.Element => {
   const [loading, setLoading] = useState(false)
-
   const modal = useModal()
   const snackbar = useSnackbar()
 
@@ -31,16 +29,17 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simula
           .then(tx => {
             snackbar.open('Broadcasting...', 'info')
             broadcast(TxRaw.encode(tx).finish())
-              .then(response => modal.open(<TransactionModal {...response} />))
+              .then(response => modal.open(<TransactionModal {...response} deliveryTxResp={response} chainName={chainName} />))
               .catch(() => snackbar.open('Broadcast Failed', 'error'))
               .finally(() => setLoading(false))
           })
-          .catch(() => {
+          .catch((e) => {
             setLoading(false)
             snackbar.open('Request Rejected', 'error')
           })
-      }).catch(() => {
+      }).catch((e) => {
       setLoading(false)
+      console.error('Simulation Failure', e)
       snackbar.open('Simulation Failed', 'error')
     })
   }
@@ -48,7 +47,7 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simula
   return (
     <Button
       variant="contained"
-      onClick={execute}
+      onClick={() => execute()}
       disabled={disabled}
       size="large"
       sx={{ width: 256 }}

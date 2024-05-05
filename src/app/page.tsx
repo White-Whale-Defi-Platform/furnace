@@ -1,12 +1,12 @@
 'use client'
 import { useRouter } from 'next/navigation'
 import { useModal, PageLayout, DashboardLayout } from '@/components'
-import { useAllSigningCosmWasmClient } from '@/hooks'
+import { useAllCosmWasmClients } from '@/hooks'
 
 const Page = (): JSX.Element => {
   const router = useRouter()
   const modal = useModal()
-  useAllSigningCosmWasmClient()
+  useAllCosmWasmClients()
 
   return (
     <PageLayout title="Furnace" >

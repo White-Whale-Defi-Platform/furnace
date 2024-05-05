@@ -11,12 +11,10 @@ export interface BurnExecuteMsg {
 
 export const createBurnExecuteMsg = (): ExecuteMsg<BurnExecuteMsg> => createExecuteMsg<BurnExecuteMsg>({ burn: {} })
 
-export const useExecuteBurn = (chainName: ChainName, amount: number): UseExecuteContractResult => {
-  const whale = selectAssetByName('Whale')
-
+export const useExecuteBurn = (chainName: ChainName, amount: number, denom: string): UseExecuteContractResult => {
   return useExecuteContract(
     chainName,
     createBurnExecuteMsg(),
-    [{ denom: whale.id, amount: amount.toString() }]
+    [{ denom, amount: amount.toString() }]
   )
 }

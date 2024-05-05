@@ -1,10 +1,10 @@
 'use client'
 import type { FC, PropsWithChildren } from 'react'
-import { useAllSigningCosmWasmClient } from '@/hooks'
+import { useAllCosmWasmClients } from '@/hooks'
 
 // Todo: Comment
 export const AppProvider: FC<PropsWithChildren> = ({ children }): JSX.Element => {
-  useAllSigningCosmWasmClient()
+  useAllCosmWasmClients()
   // const setApp = useSetRecoilState(appAtom)
   // const heightFetch = useFetchHeight()
 
