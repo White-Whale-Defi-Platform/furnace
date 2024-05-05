@@ -29,11 +29,11 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simula
           .then(tx => {
             snackbar.open('Broadcasting...', 'info')
             broadcast(TxRaw.encode(tx).finish())
-              .then(response => modal.open(<TransactionModal {...response} deliveryTxResp={response} chainName={chainName} />))
+              .then(response => modal.open(<TransactionModal deliveryTxResp={response} chainName={chainName} />))
               .catch(() => snackbar.open('Broadcast Failed', 'error'))
               .finally(() => setLoading(false))
           })
-          .catch((e) => {
+          .catch(() => {
             setLoading(false)
             snackbar.open('Request Rejected', 'error')
           })

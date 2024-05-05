@@ -6,6 +6,7 @@ import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
 import type { ChainName } from '@/constants'
 import { useChainContext, useExecuteBurn } from '@/hooks'
+import { useChain } from '@cosmos-kit/react'
 
 interface Props {
   nativeAsset: Asset
@@ -22,8 +23,8 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange
     nativeAsset.id)
   const canExecute = Number(burnDisplayAmount) !== 0 &&
      (Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals)) <= nativeAsset.amount
-  const action = burnDisplayAmount === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
-  const { isWalletConnected } = useChainContext(chainName)
+  const { isWalletConnected } = useChain(chainName)
+  const action = !isWalletConnected ? 'Connect Wallet' : burnDisplayAmount === '' ? 'Enter Input' : canExecute ? 'Burn' : 'Invalid Input'
 
   return (
     <Grid
@@ -58,7 +59,6 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange
                 value={burnDisplayAmount}
                 label="You Burn"
                 onChange={(e) => setBurnDisplayAmount(e.target.value)}
-                // onChange={onChange}
                 helperText={`Available: ${formatAssetAmount(nativeAsset)}`}
                 disabled={!isWalletConnected }
               />
