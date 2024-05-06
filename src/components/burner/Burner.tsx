@@ -5,7 +5,7 @@ import { AssetInput, ExecuteButton } from '../complex'
 import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
 import type { ChainName } from '@/constants'
-import { useChainContext, useExecuteBurn } from '@/hooks'
+import { useExecuteBurn } from '@/hooks'
 import { useChain } from '@cosmos-kit/react'
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
   chainName: ChainName
 }
 
-export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange, input }) => 
+export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange, input }) => {
   const [burnDisplayAmount, setBurnDisplayAmount] = useState('')
   const executeBurn = useExecuteBurn(chainName,
     Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals),
