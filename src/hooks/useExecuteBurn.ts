@@ -1,7 +1,8 @@
 import type { ExecuteMsg } from '@/types'
 import { createExecuteMsg, selectAssetByName } from '@/util'
 import { useExecuteContract, type UseExecuteContractResult } from '@/hooks'
-import { Contracts } from '../app/apps/community/furnace/constants'
+
+import type { ChainName } from '@/constants'
 
 // Burn
 export interface BurnExecuteMsg {
@@ -10,11 +11,11 @@ export interface BurnExecuteMsg {
 
 export const createBurnExecuteMsg = (): ExecuteMsg<BurnExecuteMsg> => createExecuteMsg<BurnExecuteMsg>({ burn: {} })
 
-export const useExecuteBurn = (amount: number): UseExecuteContractResult => {
+export const useExecuteBurn = (chainName: ChainName, amount: number): UseExecuteContractResult => {
   const whale = selectAssetByName('Whale')
 
   return useExecuteContract(
-    Contracts.Migaloo.WhaleFurnace,
+    chainName,
     createBurnExecuteMsg(),
     [{ denom: whale.id, amount: amount.toString() }]
   )

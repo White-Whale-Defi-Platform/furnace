@@ -39,7 +39,7 @@ export const DashboardLayout: FC = () => {
       <DashboardBox>
         <Typography color="GrayText">Chains Supported</Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {allChains.length}
+          {/* {(allFuelsByChain != null) && Object.entries(allFuelsByChain).length} */}
         </Typography>
       </DashboardBox>
       <DashboardBox>
