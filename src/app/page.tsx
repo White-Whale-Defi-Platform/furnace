@@ -6,6 +6,7 @@ import { useAllSigningCosmWasmClient } from '@/hooks'
 const Page = (): JSX.Element => {
   const router = useRouter()
   const modal = useModal()
+  useAllSigningCosmWasmClient()
 
   return (
     <PageLayout title="Furnace" >

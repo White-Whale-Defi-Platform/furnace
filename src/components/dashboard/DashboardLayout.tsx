@@ -8,6 +8,8 @@ import {
 import React, { type FC } from 'react'
 import { DashboardCharts, DashboardTable } from '@/components'
 import { useFetchAllChainAssets, useFetchFurnaceData } from '@/hooks'
+import { useRecoilValue } from 'recoil'
+import { chainLeaderboardSelector, clientsAtom } from '@/state'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
@@ -22,10 +24,11 @@ export const DashboardLayout: FC = () => {
   const allChains = useFetchAllChainAssets()
   const furnaceData = useFetchFurnaceData()
 
-  // const allFuelsByChain = useRecoilValue(allChainAssetsSelector)
+  const clients = useRecoilValue(clientsAtom)
+  const fuels = useRecoilValue(fuelsSelector('osmosis'))
+  const leaderboard = useRecoilValue(chainLeaderboardSelector('osmosis'))
 
-  // TODO: Update the dashboard, DashboardTable, and DashboardCharts data with the recoil value
-  // const furnace = useRecoilValue(furnaceSelector)
+  console.log({ leaderboard, client: clients, fuels }, 'recoil client is fetched')
 
   return (
     <Grid gap={3} container justifyContent="space-between">
@@ -64,3 +67,6 @@ export const DashboardLayout: FC = () => {
   )
 }
 export default DashboardLayout
+function fuelsSelector (arg0: string): import('recoil').RecoilValue<unknown> {
+  throw new Error('Function not implemented.')
+}
