@@ -8,7 +8,7 @@ import { useChains } from '@cosmos-kit/react'
 import { useQueries } from '@tanstack/react-query'
 import { useRecoilStateLoadable } from 'recoil'
 import type { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
-import { clientsAtom } from '../state/atoms/clientsAtom'
+import { clientsAtom } from '@/state'
 
 // Todo: Comment
 export type UseSigningCosmWasmClientResult =

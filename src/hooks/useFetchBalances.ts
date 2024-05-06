@@ -27,7 +27,7 @@ export const useFetchBalances = (chainName: string): UseFetchBalancesResult => {
     const timeout = setInterval(fetchAndSet, FETCH_INTERVAL)
     return () => clearInterval(timeout)
   },
-  [address, setResult]
+  [address, chainName, setResult]
   )
 
   return useMemo(() => result, [result])

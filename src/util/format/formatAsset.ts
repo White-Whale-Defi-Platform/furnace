@@ -1,5 +1,24 @@
 import type { Asset } from '@/types'
-import { BALANCE_FORMAT_DECIMALS, BASE } from './constants'
+import { BASE } from './constants'
+import type { Coin } from '@cosmjs/stargate'
 
-// Todo: Comment
-export const formatAmount = (asset: Asset): string => (asset.amount / Math.pow(BASE, asset.decimals)).toFixed(BALANCE_FORMAT_DECIMALS)
+/**
+* Returns the formatted token amount
+* `formatTokenAmount(3000) -> "3,000.00"`
+*/
+export const formatTokenAmount = (data: number): string =>
+  new Intl.NumberFormat().format(data)
+
+/**
+ * Takes an amount of token and formats it with the given exponenet
+ * `formatTokenAmount(300000, 2) -> "3,000.00"`
+ */
+export const formatAmountWithExponent = (amount: number, exponent: number): string =>
+  formatTokenAmount(amount / Math.pow(10, exponent))
+
+export const formatAssetAmount = (asset: Asset): string => formatAmountWithExponent(asset.amount, asset.decimals)
+
+export const updateAssetAmount = (asset: Asset, { amount }: Coin): Asset => ({
+  ...asset,
+  amount: Number(amount)
+})

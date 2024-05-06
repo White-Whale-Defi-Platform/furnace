@@ -1,4 +1,5 @@
 'use client'
+import { formatAmountWithExponent, formatTokenAmount } from '@/util'
 import { truncateAddress } from '@/util/format/truncateAddress'
 import {
   Table,
@@ -14,11 +15,12 @@ import React, { type FC, useCallback, useState } from 'react'
 interface Props {
   data: Array<{
     id: string
-    totalBurn: string
+    totalBurn: number
   }>
+  decimals: number
 }
 
-export const RankingTable: FC<Props> = ({ data }) => {
+export const RankingTable: FC<Props> = ({ data, decimals }) => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
 
@@ -40,7 +42,6 @@ export const RankingTable: FC<Props> = ({ data }) => {
     setRowsPerPage(parseInt(event.target.value, 10))
     setPage(0)
   }, [])
-
   return (
     <TableContainer
       sx={{ background: '#18181b', paddingX: 3, paddingTop: 1.5 }}
@@ -64,7 +65,7 @@ export const RankingTable: FC<Props> = ({ data }) => {
                 {truncateAddress(value.id)}
               </TableCell>
               <TableCell align='right'>
-                {new Intl.NumberFormat().format(Number(value.totalBurn))}
+                {formatAmountWithExponent(value.totalBurn, decimals)}
               </TableCell>
             </TableRow>
           ))}
