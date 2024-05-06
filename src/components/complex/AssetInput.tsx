@@ -15,21 +15,29 @@ export interface AssetInputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
   disabled?: boolean
   onAssetChange?: (asset: Asset) => void
+  invalidAmount?: boolean
+  prefillClick?: () => void
 }
 
-export const AssetInput: FC<AssetInputProps> = ({ asset, value, label, disabled, onChange, helperText, assets = Array<Asset>(), onAssetChange = () => undefined }) => {
+export const AssetInput: FC<AssetInputProps> = ({ asset, prefillClick, value, label, disabled, onChange, helperText, invalidAmount, assets = Array<Asset>(), onAssetChange = () => undefined }) => {
   const modal = useModal()
 
   const isMultiAsset = assets.length > 1
 
   return (
     <TextField
+    sx={{ cursor: 'pointer' }}
+      color={(invalidAmount ?? false) ? 'error' : 'primary'}
       fullWidth
       disabled={disabled}
       label={label}
       value={value}
       onChange={onChange}
       helperText={helperText}
+      FormHelperTextProps={
+        {
+          onClick: prefillClick
+        }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

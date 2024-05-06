@@ -1,3 +1,5 @@
 // Todo: Comment
 
-export const EXPLORER_URL = 'https://ping.pub/whitewhale'
+import { ENDPOINTS, type ChainName } from '@/constants'
+
+export const EXPLORER_URL = (chainName: ChainName): string => ENDPOINTS[chainName].explorerUrl

@@ -3,24 +3,42 @@ import { useState, useEffect, useMemo } from 'react'
 import { useChainContext } from './useChainContext'
 import type { AsyncHook } from '@/types'
 import { type ChainName, ENDPOINTS } from '@/constants'
-import { FurnaceQueryClient } from '@/codegen'
+import { FurnaceClient, FurnaceQueryClient } from '@/codegen'
 import { useChains } from '@cosmos-kit/react'
 import { useQueries } from '@tanstack/react-query'
 import { useRecoilStateLoadable } from 'recoil'
-import type { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
+import type { CosmWasmClient, SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 import { clientsAtom } from '@/state'
 
 // Todo: Comment
-export type UseSigningCosmWasmClientResult =
+export type UseSigningClientResult =
+  AsyncHook<FurnaceClient | null>
+
+// Todo: Comment
+export type UseClientResult =
   AsyncHook<FurnaceQueryClient | null>
 
 export const getClient = async (
   chainName: ChainName,
-  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>): Promise<FurnaceQueryClient> => {
-  const cwClient = await getSigningCosmWasmClient()
+  getCosmWasmClient: () => Promise<CosmWasmClient>
+): Promise<FurnaceQueryClient> => {
+  const cwClient = await getCosmWasmClient()
 
   return new FurnaceQueryClient(
     cwClient,
+    ENDPOINTS[chainName].contractAddress
+  )
+}
+
+export const getSigningClient = async (
+  chainName: ChainName,
+  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>,
+  userAddress: string
+): Promise<FurnaceClient> => {
+  const cwClient = await getSigningCosmWasmClient()
+
+  return new FurnaceClient(
+    cwClient, userAddress,
     ENDPOINTS[chainName].contractAddress
   )
 }
@@ -29,7 +47,7 @@ export const getClient = async (
  * Fetches all the furnace clients for each of the chains in the ENDPOINTS object
  * and stores them in the clients atom/recoil
  */
-export const useAllSigningCosmWasmClient = (): void => {
+export const useAllCosmWasmClients = (): void => {
   const [_, setClients] = useRecoilStateLoadable(clientsAtom)
 
   const chainNames: ChainName[] = Object.keys(ENDPOINTS)
@@ -38,14 +56,10 @@ export const useAllSigningCosmWasmClient = (): void => {
 
   useEffect(
     () => {
-      void Promise.all(chainNames.map(async (chainName: string) => {
-        const client = await chainContexts[chainName].getCosmWasmClient()
-        return [chainName, new FurnaceQueryClient(
-          client,
-          ENDPOINTS[chainName].contractAddress
-        )]
-      }))
-        .then(Object.fromEntries).then(setClients)
+      void Promise.all(chainNames.map(async (chainName) =>
+        [chainName, await getClient(chainName, chainContexts[chainName].getCosmWasmClient)]))
+        .then(Object.fromEntries)
+        .then(setClients)
     },
     []
   )
@@ -57,21 +71,21 @@ export const useAllSigningCosmWasmClient = (): void => {
  * @param chainName The name of the chain for the client that you want.
  * @returns The client that can be used to interact with the furnace.
  */
-export const useSigningCosmWasmClient = (
+export const useSigningClient = (
   chainName: string
-): UseSigningCosmWasmClientResult => {
-  const { isWalletConnected, getSigningCosmWasmClient } =
+): UseSigningClientResult => {
+  const { isWalletConnected, getSigningCosmWasmClient, address } =
     useChainContext(chainName)
-  const [result, setResult] = useState<UseSigningCosmWasmClientResult>({
+  const [result, setResult] = useState<UseSigningClientResult>({
     result: null,
     loading: false,
     error: null
   })
   useEffect(
     () => {
-      if (!isWalletConnected) return
+      if (!isWalletConnected || (address == null)) return
       setResult((prev) => ({ ...prev, loading: true }))
-      getClient(chainName, getSigningCosmWasmClient)
+      getSigningClient(chainName, getSigningCosmWasmClient, address)
         .then((client) => {
           return setResult((prev) => ({
             ...prev,

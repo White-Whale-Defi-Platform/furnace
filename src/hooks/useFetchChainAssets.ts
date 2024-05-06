@@ -1,6 +1,6 @@
 import {
   useAllChainCosmWasmClientsReactquery,
-  useSigningCosmWasmClient
+  useSigningClient
 } from './useSigningCosmWasmClient'
 import type { FurnaceQueryClient, FuelConfig } from '@/codegen'
 import { assets } from 'chain-registry'
@@ -128,7 +128,7 @@ export const useFetchChainAssets = (
   chainName: string
 ): UseQueryResult<ChainAsset[]> => {
   // requesting the client to interact with blockchain in future
-  const { result: client } = useSigningCosmWasmClient(chainName)
+  const { result: client } = useSigningClient(chainName)
 
   return useQuery({
     queryKey: ['chainAssets', chainName, client],

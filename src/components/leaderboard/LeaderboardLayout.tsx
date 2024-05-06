@@ -38,7 +38,7 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography color="GrayText">Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {formatAmountWithExponent(totalBurnedAssets, decimals)}
+            {formatTokenAmount(Number(formatAmountWithExponent(totalBurnedAssets, decimals)))}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
