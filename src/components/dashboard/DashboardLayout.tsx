@@ -8,6 +8,8 @@ import {
 import React, { type FC } from 'react'
 import { DashboardCharts, DashboardTable } from '@/components'
 import { useFetchAllChainAssets, useFetchFurnaceData } from '@/hooks'
+import { useRecoilValue } from 'recoil'
+import { chainLeaderboardSelector, clientsAtom } from '@/state'
 
 const DashboardBox = styled(Paper)({
   display: 'flex',
