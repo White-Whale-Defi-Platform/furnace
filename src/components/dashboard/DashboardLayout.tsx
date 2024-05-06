@@ -23,6 +23,11 @@ export const DashboardLayout: FC = () => {
   const fetchFurnace = useRecoilValueLoadable(furnaceSelector)
   const furnaceData = Object.entries(fetchFurnace.valueMaybe() ?? {})
 
+  // const allFuelsByChain = useRecoilValue(allChainAssetsSelector)
+
+  // TODO: Update the dashboard, DashboardTable, and DashboardCharts data with the recoil value
+  // const furnace = useRecoilValue(furnaceSelector)
+
   return (
     <Grid gap={3} container justifyContent="space-between">
       {/* <DashboardBox>
