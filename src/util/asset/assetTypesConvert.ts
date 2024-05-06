@@ -13,7 +13,7 @@ const LOGO_PLACEHOLDER = '/assets/ashdao.jpg'
 export const crAssetConvert = (asset: CRAsset): Asset => {
   return {
     id: asset.base,
-    name: asset.name,
+    name: asset.symbol,
     decimals: Math.max(...asset.denom_units.map(({ exponent }) => exponent)),
     logo: getAssetLogo(asset) ?? LOGO_PLACEHOLDER,
     amount: 0,
@@ -30,7 +30,7 @@ export const crAssetConvert = (asset: CRAsset): Asset => {
  * @param fuelConfigAsset The single asset we get from the fuel response from the contract
  * @returns Asset that we can use it on the frontend
  */
-export const fcAssetConvert = ({ denom, subdenom }: FuelConfig): Asset => {
+export const fcAssetConvert = ({ denom, subdenom }: Pick<FuelConfig, 'denom' | 'subdenom'>): Asset => {
   return {
     id: denom,
     name: subdenom,
