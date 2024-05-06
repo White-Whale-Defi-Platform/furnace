@@ -27,16 +27,15 @@ export const NumberOfUniqueBurners: FC<Props> = ({ uniqueBurnersData }) => {
   // e.g. a address who burned Whale and Guppy in Migaloo should be 1 unique address not 2
   // Keyed by chain name and value being number of unique burners
   const numberOfUniqueBurners = Object.fromEntries(
-    Object.entries(uniqueBurnersData).map(([chainName, asset]) => {
+    Object.entries(uniqueBurnersData).map(([chainName, assets]) => {
       // The Set checks the each unique address in the leaderboard
-      const leaderboards = new Set(asset
+      const leaderboards = new Set(assets
         .flatMap(({ leaderboard: { leaderboard } }) =>
           leaderboard.map(([address, _]) => address)
         )).size
       return [chainName, leaderboards]
     })
   )
-
   return (
     <>
       <ChartLabel>Number of Unique Burners by Chains</ChartLabel>

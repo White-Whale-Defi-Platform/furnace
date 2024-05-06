@@ -15,7 +15,7 @@ export type TotalFurnaceData = [
   chainName: string,
   assetInfo: {
     fuelDenom: string
-    asset: ChainAsset | undefined
+    asset: { burnAsset: ChainAsset, mintAsset: ChainAsset } | undefined
     leaderboard: LeaderboardResults
   }
 ]

@@ -6,10 +6,11 @@ import {
 } from '@mui/material'
 import React, { type FC } from 'react'
 import { NumberOfFuelAssets, NumberOfUniqueBurners, ValueBurnedByChain, AvgValueBurned } from './charts'
+import type { ChainName } from '@/constants'
 
 export type FurnaceDataByChain = Record<string, Array<TotalFurnaceData[1]>>
 interface Props {
-  furnaceData: TotalFurnaceData[]
+  furnaceData: Array<[ChainName, Array<TotalFurnaceData[1]>]>
 }
 export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
   const formattedChartData: FurnaceDataByChain =
@@ -20,8 +21,8 @@ export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
           ...allFurnaceData,
           [chainName]:
               chainName in allFurnaceData
-                ? [...allFurnaceData[chainName], fuelInfo]
-                : [fuelInfo]
+                ? [...allFurnaceData[chainName], ...fuelInfo]
+                : fuelInfo
         }
       },
       {}

@@ -1,6 +1,7 @@
 'use client'
-import { ENDPOINTS } from '@/constants'
+import { type ChainName, ENDPOINTS } from '@/constants'
 import type { TotalFurnaceData } from '@/hooks'
+import { formatPrettyName } from '@/util'
 import {
   TableContainer,
   Table,
@@ -17,15 +18,18 @@ import {
 import { useState, type FC } from 'react'
 
 interface Props {
-  furnaceData: TotalFurnaceData[]
+  furnaceData: Array<[ChainName, Array<TotalFurnaceData[1]>]>
 }
 
 export const DashboardTable: FC<Props> = ({ furnaceData }) => {
   const [filterChain, setFilterChain] = useState<string>()
+
+  const flattenedFurnaceData = furnaceData.flatMap(([chainName, assets]) => assets.map((asset) => [chainName, asset] as const))
+
   // Filtered assets by chain name. Default to be all chains
   const filteredAssets = filterChain === undefined
-    ? furnaceData
-    : furnaceData.filter(([chainName]) => chainName)
+    ? flattenedFurnaceData
+    : flattenedFurnaceData.filter(([chainName]) => chainName === filterChain)
 
   return (
     <Grid>
@@ -35,12 +39,11 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                color={filterChain === undefined ? 'primary' : 'default'}
                onClick={() => setFilterChain(undefined)}/>
        {
-         furnaceData.map(([chainName]) => (
+         flattenedFurnaceData.map(([chainName]) => (
              <Chip
                key={chainName}
                variant="outlined"
-               label={chainName}
-               color={filterChain === chainName ? 'primary' : 'default'}
+               label={formatPrettyName(chainName)}color={filterChain === chainName ? 'primary' : 'default'}
                onClick={() => setFilterChain(chainName)} />
          ))
        }
@@ -69,17 +72,17 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
             const { chainColor } = ENDPOINTS[chainName]
             return (asset != null
               ? <TableRow
-                  key={asset.id}
+                  key={asset.burnAsset.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
                     <Stack direction="row" gap={1}>
                       <Avatar
-                        alt={`${asset.name} Logo`}
+                        alt={`${asset.burnAsset.name} Logo`}
                         sx={{ width: 24, height: 24 }}
-                        src={asset.logo}
+                        src={asset.burnAsset.logo}
                       />
-                      <Typography>{asset.name}</Typography>
+                      <Typography>{asset.burnAsset.name}</Typography>
                       <Chip
                         sx={{
                           borderColor: chainColor,
@@ -87,13 +90,13 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                         }}
                         variant="outlined"
                         size="small"
-                        label={chainName}
+                        label={formatPrettyName(chainName)}
                       />
                     </Stack>
                   </TableCell>
                   <TableCell align="center">
                     <Typography fontSize="medium">
-                      {new Intl.NumberFormat().format(totalBurnedAssets / Math.pow(10, asset.decimals))}
+                      {new Intl.NumberFormat().format(totalBurnedAssets / Math.pow(10, asset.burnAsset.decimals))}
                     </Typography>
                   </TableCell>
                   {/* <TableCell align="center">-</TableCell> */}
