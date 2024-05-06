@@ -27,7 +27,6 @@ string,
     ],
     chainColor: '#F0A841',
     explorerUrl: 'https://ping.pub/chihuahua'
-
   },
   osmosis: {
     rpc: ['https://osmosis-rpc.polkachu.com'],

@@ -5,6 +5,7 @@ import { useAllCosmWasmClients } from '@/hooks'
 // Todo: Comment
 export const AppProvider: FC<PropsWithChildren> = ({ children }): JSX.Element => {
   useAllCosmWasmClients()
+
   // const setApp = useSetRecoilState(appAtom)
   // const heightFetch = useFetchHeight()
 

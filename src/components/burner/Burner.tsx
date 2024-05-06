@@ -16,7 +16,7 @@ interface Props {
   chainName: ChainName
 }
 
-export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange, input }) => {
+export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset, onChange, input }) => 
   const [burnDisplayAmount, setBurnDisplayAmount] = useState('')
   const executeBurn = useExecuteBurn(chainName,
     Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals),
