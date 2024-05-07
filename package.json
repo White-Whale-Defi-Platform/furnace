@@ -11,6 +11,7 @@
     "codegen:wasm": "npx cosmwasm-ts-codegen generate --plugin client --schema ./schemas --out ./src/codegen --name Furnace --no-bundle"
   },
   "dependencies": {
+    "@chain-registry/client": "^1.31.12",
     "@cosmjs/stargate": "^0.32.3",
     "@cosmos-kit/core": "^2.7.6",
     "@cosmos-kit/keplr": "^2.4.10",
