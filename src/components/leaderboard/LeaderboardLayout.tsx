@@ -7,6 +7,7 @@ import type { Asset } from '@/types'
 import { formatAmountWithExponent, formatAssetAmount, formatTokenAmount } from '@/util'
 import { useChain } from '@cosmos-kit/react'
 import RankingTable from './RankingTable'
+import { useChainContext } from '@/hooks'
 
 interface Props {
   burnDenom: Asset
@@ -15,7 +16,7 @@ interface Props {
 }
 
 export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decimals }, mintDenom }) => {
-  const { address: userAddress } = useChain(chainName)
+  const { address: userAddress  } = useChainContext(chainName)
   const fetchLeaderboard = useRecoilValueLoadable(leaderboardSelector({ chainName, denom: id }))
   if (fetchLeaderboard.state !== 'hasValue') return <Typography>Loading...</Typography>
 
