@@ -50,7 +50,6 @@ export const AssetInput: FC<AssetInputProps> = ({ asset, prefillClick, value, la
             >
               <Typography
                 sx={{
-                  width: 64,
                   textTransform: 'none'
                 }}
               >

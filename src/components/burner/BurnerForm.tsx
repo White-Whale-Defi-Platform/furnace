@@ -60,7 +60,7 @@ export const BurnerForm: FC<Props> = ({
       minHeight="65vh"
       direction="column"
       spacing={2}
-      width={542}
+      width={560}
     >
       {ENDPOINTS[chainName].subTitle && ENDPOINTS[chainName].title && (
         <>
