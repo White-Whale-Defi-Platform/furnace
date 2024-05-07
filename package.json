@@ -22,7 +22,7 @@
     "@mui/material": "^5.14.18",
     "@tanstack/react-query": "^5.31.0",
     "bech32": "^2.0.0",
-    "chain-registry": "^1.46.3",
+    "chain-registry": "^1.46.8",
     "next": "^14.0.1",
     "react": "^18",
     "react-countup": "^6.5.0",

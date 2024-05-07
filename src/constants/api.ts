@@ -4,7 +4,7 @@ export type ChainName = string
 
 export const ENDPOINTS: Record<
 string,
-{ rpc: string[], rest: string[], furnaces: string[], chainColor: string, explorerUrl: string, contractAddress: string }
+{ rpc: string[], rest: string[], furnaces: string[], chainColor: string, explorerUrl: string, contractAddress: string, subTitle?: string, title?: string }
 > = {
   // migaloo: {
   //   rpc: ['https://migaloo-rpc.polkachu.com'],
@@ -36,6 +36,8 @@ string,
       'osmo1svj5kd8kzj7xxtrd6ftjk0856ffpyj4egz7f9pd9dge5wr4kwansmefq07'
     ],
     explorerUrl: 'https://ping.pub/osmosis',
-    chainColor: '#b100cd'
+    chainColor: '#b100cd',
+    subTitle: 'BURN THE LAB DOWN',
+    title: 'Mad Scientists'
   }
 }
