@@ -5,9 +5,9 @@ import type { PropsWithChildren, FC } from 'react'
 
 export const metadata: Metadata = {
   title: 'Furnace',
-  description: 'Your one stop shop for everything in the Migaloo ecosystem.',
-  applicationName: 'Migaloo Command',
-  authors: [{ name: 'Migaloo Foundation' }]
+  description: 'The Furnace is a dApp which allows coins to be burnt and a new burn derivative to be minted in its place.',
+  applicationName: 'Furnace',
+  authors: [{ name: 'Furnace' }]
 }
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (

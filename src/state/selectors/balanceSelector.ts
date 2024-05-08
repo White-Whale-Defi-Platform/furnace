@@ -1,7 +1,7 @@
 import { selectorFamily } from 'recoil'
 import type { ChainName } from '@/constants'
 import type { Coin } from '@cosmjs/stargate'
-import { clientsAtom } from '../app'
+import { clientsAtom } from '@/state'
 
 /**
  * Returns the users denom balance
