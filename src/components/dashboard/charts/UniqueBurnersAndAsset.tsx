@@ -27,7 +27,7 @@ interface Props {
   uniqueBurnerAndAssets: FurnaceDataByChain
 }
 
-export const UiqueBurnersAndAsset: FC<Props> = ({ uniqueBurnerAndAssets }) => {
+export const UniqueBurnersAndAsset: FC<Props> = ({ uniqueBurnerAndAssets }) => {
   const scatterData = Object.entries(uniqueBurnerAndAssets).map(
     ([chainName, assetInfos]) => {
       const leaderboards = new Set(

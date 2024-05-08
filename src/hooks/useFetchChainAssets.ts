@@ -11,8 +11,9 @@ import {
   useQueries
 } from '@tanstack/react-query'
 import type { Asset } from '@/types/app'
-import { crAssetConvert, fcAssetConvert } from '@/util/asset'
+import { crAssetConvert, fcAssetConvert, fetchChainRegistryAsset } from '@/util/asset'
 import { ENDPOINTS } from '@/constants'
+import { ChainRegistryClient } from '@chain-registry/client'
 
 export type ChainAsset = Asset & { inChainRegistry: boolean }
 
@@ -53,35 +54,31 @@ export const fetchChainAssetsWithMintDenom = async (
   limit: number
 ): Promise<Array<{ burnAsset: ChainAsset, mintAsset: ChainAsset }>> => {
   // Grab the entire assetlist from the chain registry specific to THIS chain that we're looking for assets on
-  const crAssets =
-    assets.find(
-      ({ chain_name: ChainAssetName }) => ChainAssetName === chainName
-    )?.assets ?? []
+  const crAssets = fetchChainRegistryAsset(chainName) ?? []
 
   return await fetchFuelConfigs(client, limit)
     .then(
       (fuels) =>
         fuels.map(
-          (fuel) =>
-            {
-              const asset = (crAssets.find(({ base }) => base === fuel.denom) ?? fuel)
+          (fuel) => {
+            const asset = (crAssets.find(({ base }) => base === fuel.denom) ?? fuel)
 
-              // get the chain asset for the burn asset to use throughout the application
-              const burnAsset: ChainAsset =  'subdenom' in asset
-                ? { ...fcAssetConvert(asset), inChainRegistry: false }
-                : { ...crAssetConvert(asset), inChainRegistry: true }
-            
-              // since we have the fuel subdenom we can know the mint denom's name
-              const expectedMintDenom = `factory/${ENDPOINTS[chainName].contractAddress}/${fuel.subdenom}.ash`
-              // lastly look for the mint denom in the registry and convert it to a chain asset just like we did with the burn asset
-              const mintRegistryAsset = crAssets.find(({ base }) => base === expectedMintDenom)
-              return ({
-                burnAsset,
-                mintAsset: (mintRegistryAsset != null)
-                  ? crAssetConvert(mintRegistryAsset)
-                  : fcAssetConvert({ denom: expectedMintDenom, subdenom: `ash${burnAsset.name}` })
-              })
-      })
+            // get the chain asset for the burn asset to use throughout the application
+            const burnAsset: ChainAsset = 'subdenom' in asset
+              ? { ...fcAssetConvert(asset), inChainRegistry: false }
+              : { ...crAssetConvert(asset), inChainRegistry: true }
+
+            // since we have the fuel subdenom we can know the mint denom's name
+            const expectedMintDenom = `factory/${ENDPOINTS[chainName].contractAddress}/${fuel.subdenom}.ash`
+            // lastly look for the mint denom in the registry and convert it to a chain asset just like we did with the burn asset
+            const mintRegistryAsset = crAssets.find(({ base }) => base === expectedMintDenom)
+            return ({
+              burnAsset,
+              mintAsset: (mintRegistryAsset != null)
+                ? crAssetConvert(mintRegistryAsset)
+                : fcAssetConvert({ denom: expectedMintDenom, subdenom: `ash${burnAsset.name}` })
+            })
+          })
     )
 }
 

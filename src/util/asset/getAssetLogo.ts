@@ -1,4 +1,3 @@
-import type { ChainAsset } from '@/hooks'
 import type { Asset as RegistryAsset } from '@chain-registry/types'
 import { assets } from 'chain-registry'
 import { crAssetConvert } from './assetTypesConvert'
@@ -21,7 +20,7 @@ export const fetchChainRegistryAsset = (chainName: string): RegistryAsset[] | un
 /**
  * Utility function to fetch specific chain asset data by its symbol from the chain registry
  */
-export const findRegistryAssetBySymbol = (chainName: string, assetName: string): Asset | undefined => {
-  const asset = fetchChainRegistryAsset(chainName)?.find(({ symbol }) => symbol.toLowerCase() === assetName.toLowerCase())
+export const findRegistryAssetBySymbol = (chainName: string, assetName: string, assetList = fetchChainRegistryAsset(chainName)): Asset | undefined => {
+  const asset = assetList?.find(({ symbol }) => symbol.toLowerCase() === assetName.toLowerCase())
   return asset != null ? crAssetConvert(asset) : undefined
 }
