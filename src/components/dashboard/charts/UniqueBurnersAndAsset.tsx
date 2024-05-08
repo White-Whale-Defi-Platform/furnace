@@ -1,3 +1,4 @@
+'use client'
 import { Box, Typography, styled } from '@mui/material'
 import React, { type FC } from 'react'
 import {
@@ -12,9 +13,9 @@ import {
   Legend,
   ZAxis
 } from 'recharts'
-import type { FurnaceDataByChain } from '../DashboardCharts'
 import { ENDPOINTS } from '@/constants'
 import { formatPrettyName } from '@/util'
+import type { FurnaceDataByChain } from '@/components'
 
 const ChartLabel = styled(Typography)({
   textAlign: 'center',

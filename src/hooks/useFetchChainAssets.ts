@@ -13,7 +13,6 @@ import {
 import type { Asset } from '@/types/app'
 import { crAssetConvert, fcAssetConvert, fetchChainRegistryAsset } from '@/util/asset'
 import { ENDPOINTS } from '@/constants'
-import { ChainRegistryClient } from '@chain-registry/client'
 
 export type ChainAsset = Asset & { inChainRegistry: boolean }
 

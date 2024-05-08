@@ -13,7 +13,7 @@ import {
   Avatar,
   Stack,
   Typography,
-  Grid
+  Unstable_Grid2 as Grid
 } from '@mui/material'
 import { useState, type FC } from 'react'
 

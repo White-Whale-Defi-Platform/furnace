@@ -1,6 +1,5 @@
 'use client'
-import { formatAmountWithExponent } from '@/util'
-import { truncateAddress } from '@/util/format/truncateAddress'
+import { formatAmountWithExponent, truncateAddress } from '@/util'
 import {
   Table,
   TableBody,

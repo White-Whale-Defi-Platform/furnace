@@ -15,7 +15,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useModal } from './provider'
 import { KadoModal } from './modals/KadoModal'
 import { Language, X } from '@mui/icons-material'
-import { Discord } from './icons/Discord'
+import { Discord } from '../../public/assets/Discord'
 import FurnaceSearchBar from './furnaceSearchBar/FurnaceSearchBar'
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {

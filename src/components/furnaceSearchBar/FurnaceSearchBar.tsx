@@ -1,5 +1,4 @@
 import React, { type FC, useState } from 'react'
-import { assets } from 'chain-registry'
 import {
   Avatar,
   Button,
@@ -45,8 +44,7 @@ export const FurnaceSearchBar: FC = () => {
       })
       : assetOptions
 
-  const mintTokenSymbol = (symbol: string): string => symbol.startsWith('ASH') ? symbol.slice(0, 3).toLowerCase() + symbol.slice(3) : symbol
-   return (
+  return (
     <Stack>
       <Button
         disabled={pair.state !== 'hasValue'}
