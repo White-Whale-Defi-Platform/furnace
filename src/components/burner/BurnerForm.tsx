@@ -7,8 +7,7 @@ import {
   CardHeader,
   CircularProgress,
   Unstable_Grid2 as Grid,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material'
 import React, { type FC } from 'react'
 import { AssetInput, ExecuteButton } from '../complex'
@@ -16,7 +15,6 @@ import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
 import type { UseExecuteContractResult } from '@/hooks'
 import { useChain } from '@cosmos-kit/react'
-import { ENDPOINTS } from '@/constants'
 
 interface Props {
   nativeAsset: Asset
