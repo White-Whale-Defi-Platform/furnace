@@ -7,8 +7,7 @@ import {
   CardHeader,
   CircularProgress,
   Unstable_Grid2 as Grid,
-  Stack,
-  Typography
+  Stack
 } from '@mui/material'
 import React, { type FC } from 'react'
 import { AssetInput, ExecuteButton } from '../complex'
@@ -16,7 +15,6 @@ import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
 import type { UseExecuteContractResult } from '@/hooks'
 import { useChain } from '@cosmos-kit/react'
-import { ENDPOINTS } from '@/constants'
 
 interface Props {
   nativeAsset: Asset
@@ -62,20 +60,6 @@ export const BurnerForm: FC<Props> = ({
       spacing={2}
       width={560}
     >
-      {ENDPOINTS[chainName].subTitle && ENDPOINTS[chainName].title && (
-        <>
-          <Typography
-            sx={{ textAlign: 'center', fontSize: 20, fontWeight: 500, color: '#3CCD64' }}
-          >
-            {ENDPOINTS[chainName].subTitle}
-          </Typography>
-          <Typography
-            sx={{ textAlign: 'center', fontSize: 72, fontWeight: 900 }}
-          >
-            {ENDPOINTS[chainName].title}
-          </Typography>
-        </>
-      )}
       <Grid xs={12}>
         <Card>
           <CardHeader title="Burn" />
