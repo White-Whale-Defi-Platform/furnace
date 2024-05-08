@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import {
   Button,
   Card,
@@ -8,24 +8,24 @@ import {
   CircularProgress,
   Unstable_Grid2 as Grid,
   Stack,
-  Typography,
-} from "@mui/material";
-import React, { type FC } from "react";
-import { AssetInput, ExecuteButton } from "../complex";
-import { formatAssetAmount } from "@/util";
-import type { Asset } from "@/types";
-import type { UseExecuteContractResult } from "@/hooks";
-import { useChain } from "@cosmos-kit/react";
-import { ENDPOINTS } from "@/constants";
+  Typography
+} from '@mui/material'
+import React, { type FC } from 'react'
+import { AssetInput, ExecuteButton } from '../complex'
+import { formatAssetAmount } from '@/util'
+import type { Asset } from '@/types'
+import type { UseExecuteContractResult } from '@/hooks'
+import { useChain } from '@cosmos-kit/react'
+import { ENDPOINTS } from '@/constants'
 
 interface Props {
-  nativeAsset: Asset;
-  mintAsset: Asset;
-  onChange: (displayAmount: string) => void;
-  burnDisplayAmount: string;
-  disabled: boolean;
-  chainName: string;
-  executeBurn?: UseExecuteContractResult;
+  nativeAsset: Asset
+  mintAsset: Asset
+  onChange: (displayAmount: string) => void
+  burnDisplayAmount: string
+  disabled: boolean
+  chainName: string
+  executeBurn?: UseExecuteContractResult
 }
 
 export const BurnerForm: FC<Props> = ({
@@ -35,22 +35,22 @@ export const BurnerForm: FC<Props> = ({
   onChange,
   disabled,
   chainName,
-  executeBurn,
+  executeBurn
 }) => {
-  const { isWalletConnected } = useChain(chainName);
+  const { isWalletConnected } = useChain(chainName)
 
   const canExecute =
     Number(burnDisplayAmount) > 0 &&
     Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals) <=
-      nativeAsset.amount;
+      nativeAsset.amount
 
   const action = !isWalletConnected
-    ? "Connect Wallet"
-    : burnDisplayAmount === ""
-    ? "Enter Input"
-    : canExecute
-    ? "Burn"
-    : "Invalid Input";
+    ? 'Connect Wallet'
+    : burnDisplayAmount === ''
+      ? 'Enter Input'
+      : canExecute
+        ? 'Burn'
+        : 'Invalid Input'
 
   return (
     <Grid
@@ -62,20 +62,6 @@ export const BurnerForm: FC<Props> = ({
       spacing={2}
       width={560}
     >
-      {ENDPOINTS[chainName].subTitle && ENDPOINTS[chainName].title && (
-        <>
-          <Typography
-            sx={{ textAlign: "center", fontSize: 20, fontWeight: 500, color: '#3CCD64' }}
-          >
-            {ENDPOINTS[chainName].subTitle}
-          </Typography>
-          <Typography
-            sx={{ textAlign: "center", fontSize: 72, fontWeight: 900}}
-          >
-            {ENDPOINTS[chainName].title}
-          </Typography>
-        </>
-      )}
       <Grid xs={12}>
         <Card>
           <CardHeader title="Burn" />
@@ -99,7 +85,8 @@ export const BurnerForm: FC<Props> = ({
                 helperText={`Available: ${formatAssetAmount(mintAsset)}`}
               />
               <CardActions>
-                {executeBurn != null ? (
+                {executeBurn != null
+                  ? (
                   <ExecuteButton
                     isWalletConnected={isWalletConnected}
                     chainName={chainName}
@@ -107,7 +94,8 @@ export const BurnerForm: FC<Props> = ({
                     disabled={disabled || !isWalletConnected}
                     {...executeBurn}
                   />
-                ) : (
+                    )
+                  : (
                   <Button
                     variant="contained"
                     disabled
@@ -116,14 +104,14 @@ export const BurnerForm: FC<Props> = ({
                   >
                     <CircularProgress color="inherit" size={26} />
                   </Button>
-                )}
+                    )}
               </CardActions>
             </Stack>
           </CardContent>
         </Card>
       </Grid>
     </Grid>
-  );
-};
+  )
+}
 
-export default BurnerForm;
+export default BurnerForm
