@@ -6,10 +6,8 @@ import { useEffect, useMemo, useState } from 'react'
 import type { AsyncHook } from '@/types'
 import { useChainContext } from './useChainContext'
 
-// Todo: Comment
 export type UseFetchBalancesResult = AsyncHook<Coin[]>
 
-// Todo: Comment
 export const useFetchBalances = (chainName: string): UseFetchBalancesResult => {
   const [result, setResult] = useState<UseFetchBalancesResult>({ result: [], loading: false, error: null })
   const { address } = useChainContext(chainName)

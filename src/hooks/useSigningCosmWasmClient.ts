@@ -10,11 +10,9 @@ import { useRecoilStateLoadable } from 'recoil'
 import type { CosmWasmClient, SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
 import { clientsAtom } from '@/state'
 
-// Todo: Comment
 export type UseSigningClientResult =
   AsyncHook<FurnaceClient | null>
 
-// Todo: Comment
 export type UseClientResult =
   AsyncHook<FurnaceQueryClient | null>
 

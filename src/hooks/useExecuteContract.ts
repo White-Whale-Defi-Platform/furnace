@@ -7,13 +7,12 @@ import { useSignTransaction } from './useSignTransaction'
 import type { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import { useSimulateTransaction } from './useSimulateTransaction'
 import { ENDPOINTS, type ChainName } from '@/constants'
-// Todo: Comment
 export interface UseExecuteContractResult {
   sign: (gas: number) => Promise<TxRaw>
   broadcast: UseBroadcastTransactionResult
   simulate: () => Promise<number | undefined>
 }
-// Todo: Comment
+
 export const useExecuteContract = <T>(chainName: ChainName, message: ExecuteMsg<T>, coins: Coin[]): UseExecuteContractResult => {
   const { isWalletConnected, address } = useChainContext(chainName)
   const signTransaction = useSignTransaction(chainName)
