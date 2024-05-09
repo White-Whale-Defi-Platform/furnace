@@ -5,16 +5,18 @@ import type { PropsWithChildren, FC } from 'react'
 
 export const metadata: Metadata = {
   title: 'Furnace',
-  description: 'The Furnace is a dApp which allows coins to be burnt and receives a new burn derivative in its place.'
+  description:
+    'The Furnace is a dApp that allows coins to be burned and receives a new burn derivative.'
 }
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
   <html lang="en" style={{ width: '100%', minHeight: '100vh' }}>
-    <body >
+    <head>
+      <link rel="icon" href="/assets/favicon.ico" type="image/ico" />
+    </head>
+    <body>
       <Provider>
-        <Layout>
-          {children}
-        </Layout>
+        <Layout>{children}</Layout>
       </Provider>
     </body>
   </html>
