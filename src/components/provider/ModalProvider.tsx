@@ -2,22 +2,18 @@
 import React, { createContext, useContext, useState, type PropsWithChildren, type FC } from 'react'
 import Modal from '@mui/material/Modal'
 
-// Todo: Comment
 interface ModalContextType {
   open: (content: JSX.Element) => void
   close: () => void
 }
 
-// Todo: Comment
 const ModalContext = createContext<ModalContextType>({
   open: () => undefined,
   close: () => undefined
 })
 
-// Todo: Comment
 export const useModal = (): ModalContextType => useContext(ModalContext)
 
-// Todo: Comment
 export const ModalProvider: FC<PropsWithChildren> = ({ children }): JSX.Element => {
   const [modalContent, setModalContent] = useState<JSX.Element>(<></>)
   const [isVisible, changeVisibility] = useState(false)

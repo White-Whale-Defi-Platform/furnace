@@ -8,7 +8,6 @@ interface Props {
   deliveryTxResp: DeliverTxResponse
   chainName: ChainName
 }
-// Todo: Comment
 export const TransactionModal: FC<Props> = ({ deliveryTxResp, chainName }): JSX.Element => {
   const { code, height, transactionHash } = deliveryTxResp
   return (

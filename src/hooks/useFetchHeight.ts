@@ -4,10 +4,8 @@ import { fetchHeight } from '@/lib'
 import { ENDPOINTS, FETCH_INTERVAL } from '@/constants'
 import type { AsyncHook } from '@/types'
 
-// Todo: Comment
 export type UseFetchHeightResult = AsyncHook<number>
 
-// Todo: Comment
 export const useFetchHeight = (): UseFetchHeightResult => {
   const [result, setResult] = useState<UseFetchHeightResult>({ result: 0, loading: false, error: null })
 

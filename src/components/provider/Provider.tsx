@@ -15,7 +15,6 @@ import { ThemeProvider } from '@mui/material'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 
 const queryClient = new QueryClient()
-// Todo: Comment
 export const Provider: FC<PropsWithChildren> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>

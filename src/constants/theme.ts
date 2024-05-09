@@ -1,7 +1,6 @@
 'use client'
 import { createTheme } from '@mui/material'
 
-// Todo: Comment
 export const darkTheme = createTheme({
   palette: {
     mode: 'dark',

@@ -3,12 +3,10 @@ import { TabContext, TabList, TabPanel } from '@mui/lab'
 import { Grid, Stack, Tab } from '@mui/material'
 import { type FC, useState } from 'react'
 
-// Todo: Comment
 export interface TabCardProps {
   tabs: Array<{ label: string, element: JSX.Element }>
 }
 
-// Todo: Comment
 export const TabCard: FC<TabCardProps> = ({ tabs }): JSX.Element => {
   const [tab, setTab] = useState(tabs[0].label)
 

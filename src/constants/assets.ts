@@ -28,6 +28,5 @@ export const ASSETS: Asset[] = [
   createAsset('Usdc', 'usdc.svg', 6, 'ibc/BC5C0BAFD19A5E4133FDA0F3E04AE1FBEE75A4A226554B2CBB021089FF2E1F8A'),
   // Rac
   createAsset('Rac', 'rac.png', 6, 'factory/migaloo1eqntnl6tzcj9h86psg4y4h6hh05g2h9nj8e09l/urac'),
-  // Todo: Comment
   createAsset('Unknown', 'whale.svg', 1, 'unknown')
 ]
