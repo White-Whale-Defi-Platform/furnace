@@ -4,7 +4,7 @@ import type { Metadata } from 'next'
 import type { PropsWithChildren, FC } from 'react'
 
 export const metadata: Metadata = {
-  title: 'Furnace',
+  title: 'The Furnace',
   description:
     'The Furnace is a dApp that allows coins to be burned and receives a new burn derivative.'
 }
