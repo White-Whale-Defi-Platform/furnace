@@ -1,7 +1,7 @@
 'use client'
 import { type ChainName, ENDPOINTS } from '@/constants'
 import type { TotalFurnaceData } from '@/hooks'
-import { formatPrettyName } from '@/util'
+import { formatPrettyName, formatTokenAmount } from '@/util'
 import {
   TableContainer,
   Table,
@@ -97,13 +97,13 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                   </TableCell>
                   <TableCell align="center">
                     <Typography fontSize="medium">
-                      {new Intl.NumberFormat().format(totalBurnedAssets / Math.pow(10, asset.burnAsset.decimals))}
+                      {formatTokenAmount(totalBurnedAssets / Math.pow(10, asset.burnAsset.decimals))}
                     </Typography>
                   </TableCell>
                   {/* <TableCell align="center">-</TableCell> */}
                   <TableCell align="center">
                     <Typography fontSize="medium">
-                      {new Intl.NumberFormat().format(uniqueBurners)}
+                      {formatTokenAmount(uniqueBurners)}
                     </Typography>
                   </TableCell>
                 </TableRow>
