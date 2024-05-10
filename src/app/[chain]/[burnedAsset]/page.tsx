@@ -1,13 +1,14 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Unstable_Grid2 as Grid } from '@mui/material'
-import { fcAssetConvert, isValidTokenInput, findRegistryAssetBySymbol } from '@/util'
+import { fcAssetConvert, isValidTokenInput, findRegistryAssetBySymbol, fetchChainRegistryAsset } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
-import { assetPairWithBalanceSelector } from '@/state'
-import { useRouter } from 'next/navigation'
+import { allChainAssetsSelector, assetPairWithBalanceSelector } from '@/state'
+import { redirect, usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { Burner, PageLayout, LeaderboardLayout, BurnerForm } from '@/components'
-import { useChainContext } from '@/hooks'
+import { useChainContext, useFetchAllChainAssets } from '@/hooks'
 import type { Asset } from '@/types'
+import { ENDPOINTS } from '@/constants'
 
 const Burn = ({
   params
@@ -20,6 +21,7 @@ const Burn = ({
   const { chain: chainName, burnedAsset: urlAssetName } = params
   const registryBurnAsset: Asset = findRegistryAssetBySymbol(chainName, urlAssetName) ?? fcAssetConvert({ denom: urlAssetName, subdenom: urlAssetName.toUpperCase() })
   const registryMintAsset: Asset = findRegistryAssetBySymbol(chainName, `ash${urlAssetName}`) ?? fcAssetConvert({ denom: '', subdenom: `ash${urlAssetName.toUpperCase()}` })
+  const path = usePathname()
 
   const router = useRouter()
   const [input, setInput] = useState('')
@@ -34,6 +36,18 @@ const Burn = ({
     })
   )
 
+  useEffect(() => {
+    if (!(chainName in ENDPOINTS)) {
+      redirect('/')
+    }
+  }, [chainName])
+
+  useEffect(() => {
+      const fuelsResp =  fuels.toPromise()
+      console.log('useEffect', fuelsResp)
+      if (!fuelsResp) redirect('/')
+  }, [fuels])
+
   const onChange = ({
     target: { value }
   }: React.ChangeEvent<HTMLInputElement>): void => {
@@ -43,8 +57,13 @@ const Burn = ({
   const subtitle =
     fuels.state !== 'hasValue'
       ? `Burn ${urlAssetName}`
-      : `Burn ${fuels.contents.burnAsset.name} and Receive ${fuels.contents.mintAsset.name}`
+      : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
 
+
+  if (fuels.state === "hasValue" && fuels.contents?.burnAsset == undefined) 
+    return <>Cant display token because it's not burnable
+    </>
+ 
   return (
     <PageLayout
       title={`${params.burnedAsset.toUpperCase()} Furnace`}

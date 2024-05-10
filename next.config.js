@@ -6,6 +6,12 @@ module.exports = {
         destination: "/",
         permanent: true,
       },
+
+      {
+        source: "/:chainName(^\\(osmosis|chihuahua\\))/:burnedAsset",
+        destination: "/",
+        permanent: true,
+      },
     ];
   },
 };
