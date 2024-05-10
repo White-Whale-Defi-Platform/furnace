@@ -11,14 +11,13 @@ import type { Asset } from '@/types'
 import { ENDPOINTS } from '@/constants'
 
 const Burn = ({
-  params
+  params: { chainName, urlAssetName }
 }: {
   params: {
-    chain: string
-    burnedAsset: string
+    chainName: string
+    urlAssetName: string
   }
 }): JSX.Element => {
-  const { chain: chainName, burnedAsset: urlAssetName } = params
   const registryBurnAsset: Asset = findRegistryAssetBySymbol(chainName, urlAssetName) ?? fcAssetConvert({ denom: urlAssetName, subdenom: urlAssetName.toUpperCase() })
   const registryMintAsset: Asset = findRegistryAssetBySymbol(chainName, `ash${urlAssetName}`) ?? fcAssetConvert({ denom: '', subdenom: `ash${urlAssetName.toUpperCase()}` })
   const path = usePathname()
@@ -31,7 +30,7 @@ const Burn = ({
   const fuels = useRecoilValueLoadable(
     assetPairWithBalanceSelector({
       chainName,
-      burnDenomName: urlAssetName,
+      burnAssetName: urlAssetName,
       address
     })
   )
@@ -66,7 +65,7 @@ const Burn = ({
  
   return (
     <PageLayout
-      title={`${params.burnedAsset.toUpperCase()} Furnace`}
+      title={`${urlAssetName.toUpperCase()} Furnace`}
       subtitle={subtitle}
     >
       <Grid container alignItems="center" justifyContent="center" >
