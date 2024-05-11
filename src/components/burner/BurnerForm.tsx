@@ -35,8 +35,8 @@ export const BurnerForm: FC<Props> = ({
   chainName,
   executeBurn
 }) => {
-  const { isWalletConnected } = useChain(chainName)
-
+  const { isWalletConnected, address } = useChain(chainName)
+console.log('burner form', address, `connected: ${isWalletConnected}`, chainName)
   const canExecute =
     Number(burnDisplayAmount) > 0 &&
     Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals) <=

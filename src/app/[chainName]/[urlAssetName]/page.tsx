@@ -22,7 +22,8 @@ const Burn = ({
   const registryMintAsset: Asset = findRegistryAssetBySymbol(chainName, `ash${urlAssetName}`) ?? fcAssetConvert({ denom: '', subdenom: `ash${urlAssetName.toUpperCase()}` })
   const [input, setInput] = useState('')
   const { address } = useChainContext(chainName)
-
+  console.log('page/parents', address, chainName)
+  
   const fuels = useRecoilValueLoadable(
     assetPairWithBalanceSelector({
       chainName,
