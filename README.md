@@ -39,7 +39,7 @@ Start the server
 Each chain only needs one furnace contract and can support any number of fuel assets. So if you are trying to add an additional fuel asset to a chain that already has the furnace live, view [How to add new tokens](#how-to-add-new-tokens).
 
 - Update the [chain registry](https://github.com/cosmos/chain-registry) with the fuel and mint asset definitions of the new furnace under the correct chain. 
-  - [For example](https://github.com/cosmos/chain-registry/pull/4278) when adding GUPPY/gASH we ensured that the Migaloo chain registry had an asset definition for GUPPY and gASH.
+  - [For example](https://github.com/cosmos/chain-registry/pull/4278) when adding GUPPY/gASH, we ensured that the Migaloo chain registry had an asset definition for GUPPY and gASH.
 - Update the [api.ts](./src/constants/api.ts) with information about the chain that you're adding.
     - For example: 
     ```js
