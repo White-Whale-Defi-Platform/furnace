@@ -36,7 +36,7 @@ Start the server
 
 ## How to add new furnace
 
-You can add new furnace contract in [api.ts](/furnace/src/constants/api.ts) and when you do that please update the latest version of chain-registry in [package.json](/furnace/package.json)
+You can add new furnace contract in [api.ts](/src/constants/api.ts) and when you do that please update the latest version of chain-registry in [package.json](/package.json)
 
 ## Support
 
