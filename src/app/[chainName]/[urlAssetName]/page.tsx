@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Unstable_Grid2 as Grid } from '@mui/material'
+import { Unstable_Grid2 as Grid, Typography } from '@mui/material'
 import { fcAssetConvert, isValidTokenInput, findRegistryAssetBySymbol } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
 import { assetPairWithBalanceSelector } from '@/state'
@@ -8,7 +8,6 @@ import { redirect } from 'next/navigation'
 import { Burner, PageLayout, LeaderboardLayout, BurnerForm } from '@/components'
 import { useChainContext } from '@/hooks'
 import type { Asset } from '@/types'
-import { ENDPOINTS } from '@/constants'
 
 const Burn = ({
   params: { chainName, urlAssetName }
@@ -31,15 +30,13 @@ const Burn = ({
     })
   )
 
-  // check if the furnace supports this chain and if not redirect to the homepage
-  useEffect(() => {
-    if (!(chainName in ENDPOINTS)) {
-      redirect('/')
-    }
-  }, [chainName])
+  const loadedBurnAsset = fuels.contents?.burnAsset
 
-  // check if the furnace supports this fuel asset and if not redirect to the homepage
-  if (fuels.state === 'hasValue' && fuels.contents?.burnAsset === undefined) { return redirect('/') }
+  useEffect(
+    () => {
+      // Redirect to the homepage if the fuel asset does not exist in the furnace
+      if (fuels.state === 'hasValue' && loadedBurnAsset === undefined) { redirect('/') }
+    }, [loadedBurnAsset, fuels.state])
 
   const onChange = ({
     target: { value }
@@ -68,7 +65,9 @@ const Burn = ({
             disabled
             chainName={chainName} />
             )
-          : (
+          : typeof fuels.contents === 'undefined'
+            ? <Typography>No Token Found</Typography>
+            : (
           <Grid>
            <Burner
               chainName={chainName}
@@ -84,7 +83,7 @@ const Burn = ({
               userAddress={address}
             />
           </Grid>
-            )}
+              )}
       </Grid>
     </PageLayout>
   )
