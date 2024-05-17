@@ -7,7 +7,6 @@ import { useModal, useSnackbar } from './provider'
 import { KadoModal } from './modals/KadoModal'
 import { useChains } from '@cosmos-kit/react'
 import { ENDPOINTS } from '@/constants'
-import { useChainContext } from '@/hooks'
 
 const LogInButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
@@ -44,18 +43,16 @@ const AccountDropDownMenu = styled(Menu)(({ theme }) => ({
 }))
 
 export const AccountMenu = (): JSX.Element => {
-  // const chains = useChains(Object.keys(ENDPOINTS))
-  // const { status, disconnect, connect } = chains.osmosis
-  const chainContexts = useChainContext('osmosis')
-  const { status, disconnect, connect, address, chainWallet } = chainContexts  
+  const chains = useChains(Object.keys(ENDPOINTS))
+  const { status, disconnect, connect, address } = chains.osmosis
+
+  console.log('account menu', { status, disconnect, connect, address })
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
   const openMenu = (event: React.MouseEvent<HTMLElement>): void => setAnchorEl(event.currentTarget)
   const closeMenu = (): void => setAnchorEl(null)
   const snackbar = useSnackbar()
-
-  console.log('account menu',  address, status)
 
   const onConnect = (): void => {
     snackbar.open('Logging In', 'info')
@@ -138,12 +135,13 @@ export const AccountMenu = (): JSX.Element => {
       {(status === WalletStatus.Disconnected || status === WalletStatus.Rejected) &&
         <LogInButton
           variant="contained"
-          // onClick={onConnect}
-          onClick={async () => {
-            console.log('about to enable')
-            await chainWallet?.client?.enable?.(['osmosis-1', 'chihuahua-1'])
-            await connect()
-          }}          
+          onClick={onConnect}
+          // onClick={async () => {
+          //   console.log('about to enable')
+          //   await chainWallet?.client.enable?.(['osmosis-1', 'chihuahua-1'])
+          //   // await connect()
+          //   await onConnect
+          // }}
         >
           Log In
         </LogInButton>
