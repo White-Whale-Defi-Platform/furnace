@@ -7,6 +7,7 @@ import { useModal, useSnackbar } from './provider'
 import { KadoModal } from './modals/KadoModal'
 import { useChains } from '@cosmos-kit/react'
 import { ENDPOINTS } from '@/constants'
+import { useChainContext } from '@/hooks'
 
 const LogInButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
@@ -43,8 +44,7 @@ const AccountDropDownMenu = styled(Menu)(({ theme }) => ({
 }))
 
 export const AccountMenu = (): JSX.Element => {
-  const chains = useChains(Object.keys(ENDPOINTS))
-  const { status, disconnect, connect, address } = chains.osmosis
+  const { status, disconnect, connect, address, chainWallet } = useChainContext(Object.keys(ENDPOINTS)[0])
 
   console.log('account menu', { status, disconnect, connect, address })
 
@@ -56,8 +56,15 @@ export const AccountMenu = (): JSX.Element => {
 
   const onConnect = (): void => {
     snackbar.open('Logging In', 'info')
-    void connect()
-      .then(() => ({}))
+    // void (((chainWallet?.client.enable) != null)
+    //   ? chainWallet.client.enable(
+    //     Object.keys(ENDPOINTS)
+    //       .map((furnaceChainName) =>
+    //         chains.find(({ chain_name: chainName }) => chainName === furnaceChainName)?.chain_id ?? ''))
+    //   : Promise.reject(new Error('Chain wallet not available')))
+    //   .then(async () => await connect())
+    connect()
+      // .then(() => ({}))
       .catch(() => snackbar.open('Login Failed', 'error'))
       .finally(() => snackbar.open('Logged In', 'success'))
   }
