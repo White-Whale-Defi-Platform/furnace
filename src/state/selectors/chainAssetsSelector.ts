@@ -109,8 +109,9 @@ export const assetPairSelector = selectorFamily<
 
 /**
  * All the chain assets for every chains that are available from the furnaces
+ * Keyed by chain name and set of burn and mint denom pairs
  */
-export const allChainAssetsSelector = selector<Record<ChainName, ChainAsset[]>>(
+export const allChainAssetsSelector = selector<Record<ChainName, Array<{ burnAsset: ChainAsset, mintAsset: ChainAsset }>>>(
   {
     key: 'allChainAssetsSelector',
     get: ({ get }) => {
