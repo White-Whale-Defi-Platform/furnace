@@ -1,4 +1,4 @@
 export * from './NumberOfFuelAssets'
 export * from './NumberOfUniqueBurners'
-export * from './UiqueBurnersAndAsset'
+export * from './UniqueBurnersAndAsset'
 export * from './TopFiveAssetsBurned'

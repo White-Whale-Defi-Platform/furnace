@@ -5,7 +5,7 @@ import React, { type FC } from 'react'
 import {
   NumberOfFuelAssets,
   NumberOfUniqueBurners,
-  UiqueBurnersAndAsset,
+  UniqueBurnersAndAsset,
   TopFiveAssetsBurned
 } from './charts'
 import type { ChainName } from '@/constants'
@@ -56,7 +56,7 @@ export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
       {/* # of Unique Burners vs # of Assets  */}
       <Grid md={12} lg={6}>
         <Paper sx={{ p: 2 }}>
-          <UiqueBurnersAndAsset uniqueBurnerAndAssets={formattedChartData} />
+          <UniqueBurnersAndAsset uniqueBurnerAndAssets={formattedChartData} />
         </Paper>
       </Grid>
     </Grid>

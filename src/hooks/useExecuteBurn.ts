@@ -1,5 +1,5 @@
 import type { ExecuteMsg } from '@/types'
-import { createExecuteMsg, selectAssetByName } from '@/util'
+import { createExecuteMsg } from '@/util'
 import { useExecuteContract, type UseExecuteContractResult } from '@/hooks'
 
 import type { ChainName } from '@/constants'

@@ -20,7 +20,7 @@ export const useExecuteContract = <T>(chainName: ChainName, message: ExecuteMsg<
   const broadcastTransaction = useBroadcastTransaction(chainName)
   const simulateTransaction = useSimulateTransaction(chainName)
 
-  const memo = 'Migaloo Command'
+  const memo = 'Furnace'
 
   return {
     sign: async (gas: number) => {

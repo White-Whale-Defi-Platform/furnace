@@ -16,7 +16,7 @@ const BreadcrumbComponent = (): JSX.Element => {
           ? <Typography color="inherit" key={to}>
             {index === 0 ? '/home' : ''}{value}
           </Typography>
-          : <Typography color="inherit" >
+          : <Typography color="inherit" key={to} >
             {value}
           </Typography>
       })}

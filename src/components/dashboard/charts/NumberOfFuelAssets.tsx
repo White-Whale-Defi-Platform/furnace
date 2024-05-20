@@ -1,3 +1,4 @@
+'use client'
 import type { FurnaceDataByChain } from '@/components'
 import { ENDPOINTS } from '@/constants'
 import { Box, styled, Typography } from '@mui/material'

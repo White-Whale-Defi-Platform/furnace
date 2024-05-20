@@ -7,9 +7,9 @@ import {
 } from 'recoil'
 import { ENDPOINTS, type ChainName } from '@/constants'
 import { balanceSelector, clientsAtom } from '@/state'
-import { type Coin, coin } from '@cosmjs/stargate'
-import type { Asset } from '@/types'
-import { updateAssetAmount } from '@/util'
+import { coin } from '@cosmjs/stargate'
+import { findRegistryAssetBySymbol, updateAssetAmount } from '@/util'
+import { dynamicAssetsSelector } from './dynamicAssetsSelector'
 
 /**
  * Returns all the chain assets for a single chain.
@@ -23,11 +23,33 @@ ChainName
     (chainName: string) =>
       async ({ get }) => {
         const clients = get(clientsAtom)
-        return await fetchChainAssetsWithMintDenom(
+        const assets = await fetchChainAssetsWithMintDenom(
           chainName,
           clients[chainName],
           50
         )
+        if (assets.some(({ burnAsset, mintAsset }) => !(burnAsset.inChainRegistry && mintAsset.inChainRegistry))) {
+          // get the chainRegistryAssetList selector
+          const crAssets = get(dynamicAssetsSelector).getChainAssetList(chainName).assets
+
+          // map over all the items and utilize the crAssets dynamic fetcher for any assets that were not in the registry
+          return assets.map(({ burnAsset, mintAsset }) => {
+            if (!(burnAsset.inChainRegistry && mintAsset.inChainRegistry)) {
+              const newBurnAsset = findRegistryAssetBySymbol(chainName, burnAsset.name, crAssets)
+              const newMintAsset = findRegistryAssetBySymbol(chainName, mintAsset.name, crAssets)
+              return {
+                burnAsset: (newBurnAsset != null)
+                  ? { ...newBurnAsset, inChainRegistry: true }
+                  : burnAsset,
+                mintAsset: (newMintAsset != null)
+                  ? { ...newMintAsset, inChainRegistry: true }
+                  : mintAsset
+              }
+            }
+            return assets
+          })
+        }
+        return assets
       }
 })
 

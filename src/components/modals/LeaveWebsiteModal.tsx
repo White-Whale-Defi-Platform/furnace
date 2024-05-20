@@ -15,7 +15,7 @@ export const LeaveWebsiteModal: FC<LeaveWebsiteModalProps> = ({ url }): JSX.Elem
       <CardHeader title="Be Careful" subheader="You are leaving" />
       <CardContent>
         <Typography variant='body1'>
-          By proceeding to <Typography component="span" color="GrayText">{url}</Typography>, you acknowledge that the Migaloo Foundation makes no representation regarding the quality of the external page and assumes no responsibility for its content or services.
+          By proceeding to <Typography component="span" color="GrayText">{url}</Typography>, you acknowledge that the Furnace makes no representation regarding the quality of the external page and assumes no responsibility for its content or services.
         </Typography>
       </CardContent>
       <CardActions>

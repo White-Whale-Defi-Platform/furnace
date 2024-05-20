@@ -1,5 +1,4 @@
 import React, { type FC, useState } from 'react'
-import { assets } from 'chain-registry'
 import {
   Avatar,
   Button,
@@ -45,8 +44,6 @@ export const FurnaceSearchBar: FC = () => {
       })
       : assetOptions
 
-  const mintTokenSymbol = (symbol: string): string => symbol.startsWith('ASH') ? symbol.slice(0, 3).toLowerCase() + symbol.slice(3) : symbol
-  console.log(mintTokenSymbol('ASHLAB'))
   return (
     <Stack>
       <Button
@@ -90,7 +87,6 @@ export const FurnaceSearchBar: FC = () => {
                 const toSymbol = mintAsset.name
                 const fromLogo = burnAsset.logo
                 const toLogo = mintAsset.logo
-                console.log(toSymbol, 'toSymbol')
                 return (
                   <Button
                     component={Link}
