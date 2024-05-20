@@ -28,8 +28,6 @@ export const DashboardLayout: FC = () => {
   const fuels = useRecoilValue(fuelsSelector('osmosis'))
   const leaderboard = useRecoilValue(chainLeaderboardSelector('osmosis'))
 
-  console.log({ leaderboard, client: clients, fuels }, 'recoil client is fetched')
-
   return (
     <Grid gap={3} container justifyContent="space-between">
       {/* <DashboardBox>
