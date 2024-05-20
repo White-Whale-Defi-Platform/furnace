@@ -33,7 +33,7 @@ export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
   return (
     <Grid container spacing={3}>
       {/* Number of fuel assets per chain */}
-      <Grid md={12} lg={6}>
+      <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <NumberOfFuelAssets fuelAssetData={formattedChartData} />{' '}
         </Paper>
