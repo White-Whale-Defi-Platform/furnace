@@ -30,28 +30,28 @@ export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
   return (
     <Grid container spacing={3}>
       {/* Number of fuel assets per chain */}
-      <Grid md={12} lg={6}>
+      <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <NumberOfFuelAssets fuelAssetData={formattedChartData} />{' '}
         </Paper>
       </Grid>
 
       {/* Number of unique burners per chains */}
-      <Grid md={12} lg={6}>
+      <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <NumberOfUniqueBurners uniqueBurnersData={formattedChartData}/>
         </Paper>
       </Grid>
 
       {/* Avg value burned per user */}
-      <Grid md={12} lg={6}>
+      <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <AvgValueBurned fuelAssetData={formattedChartData} />
         </Paper>
       </Grid>
 
       {/* Value burned by chain  */}
-      <Grid md={12} lg={6}>
+      <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
           <ValueBurnedByChain valueBurnedData={formattedChartData} />
         </Paper>
