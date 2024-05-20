@@ -3,11 +3,10 @@ import React, { useState } from 'react'
 import { Grid, Typography, Card } from '@mui/material'
 import { isValidTokenInput } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
-import { assetPairWithBalanceSelector } from '@/state'
+import { assetPairWithBalanceSelector, balanceSelector } from '@/state'
 import { useRouter } from 'next/navigation'
 import { Burner, PageLayout, LeaderboardLayout } from '@/components'
-import { useExecuteBurn } from '@/hooks'
-import { useChain } from '@cosmos-kit/react'
+import { useChainContext } from '@/hooks'
 
 const Burn = ({
   params
@@ -21,7 +20,8 @@ const Burn = ({
   const router = useRouter()
   const [input, setInput] = useState('')
 
-  const { address } = useChain(chain)
+  const { address } = useChainContext(chain)
+
   const fuels = useRecoilValueLoadable(
     assetPairWithBalanceSelector({
       chainName: chain,
@@ -29,15 +29,13 @@ const Burn = ({
       address
     })
   )
+
   const onChange = ({
     target: { value }
   }: React.ChangeEvent<HTMLInputElement>): void => {
     isValidTokenInput(value) && setInput(value)
   }
-  const executeBurn = useExecuteBurn(
-    chain,
-    Number(input) * Math.pow(10, fuels.valueMaybe()?.burnAsset.decimals ?? 0)
-  )
+
   const canExecute =
     Number(input) !== 0 &&
     Number(input) * Math.pow(10, fuels.valueMaybe()?.burnAsset.decimals ?? 0) <=

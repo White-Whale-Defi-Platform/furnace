@@ -2,7 +2,7 @@ import type { FurnaceQueryClient } from '@/codegen'
 import {
   useAllChainCosmWasmClientsReactquery,
   useFetchAllChainAssets,
-  useSigningCosmWasmClient
+  useSigningClient
 } from './index'
 import {
   type UseQueryResult,
@@ -87,7 +87,7 @@ export const useFetchLeaderboard = (
   fuelDenom: string
 ): UseQueryResult<LeaderboardResults> => {
   // requesting the client to interact with blockchain in future
-  const { result: client } = useSigningCosmWasmClient(chainName)
+  const { result: client } = useSigningClient(chainName)
   return useQuery({
     queryKey: ['leaderboard', chainName, fuelDenom],
     queryFn: async () =>

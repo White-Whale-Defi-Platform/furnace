@@ -29,10 +29,6 @@ export const DashboardLayout: FC = () => {
 
   return (
     <Grid gap={3} container justifyContent="space-between">
-      {/* <DashboardBox>
-        <Typography color="GrayText">Total Value Burned</Typography>
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>-</Typography>
-      </DashboardBox> */}
       <DashboardBox>
         <Typography color="GrayText">Chains Supported</Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
