@@ -2,10 +2,8 @@ import type { DeliverTxResponse } from '@cosmjs/stargate'
 import { useSigningClient } from './useSigningCosmWasmClient'
 import type { ChainName } from '@/constants'
 
-// Todo: Comment
 export type UseBroadcastTransactionResult = (tx: Uint8Array, timeoutMs?: number | undefined, pollIntervalMs?: number | undefined) => Promise<DeliverTxResponse>
 
-// Todo: Comment
 export const useBroadcastTransaction = (chainName: ChainName): UseBroadcastTransactionResult => {
   const { result: client } = useSigningClient(chainName)
   const broadcast = async (tx: Uint8Array, timeoutMs?: number | undefined, pollIntervalMs?: number | undefined): Promise<DeliverTxResponse> => {

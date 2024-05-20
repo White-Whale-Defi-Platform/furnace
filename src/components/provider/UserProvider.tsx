@@ -5,7 +5,6 @@ import { userAtom } from '@/state'
 import { useFetchBalances } from '@/hooks'
 import { selectAssetById } from '@/util'
 
-// Todo: Comment
 export const UserProvider: FC<PropsWithChildren> = ({ children }): JSX.Element => {
   const setUser = useSetRecoilState(userAtom)
   const balances = useFetchBalances('osmosis')

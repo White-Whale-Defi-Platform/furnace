@@ -3,22 +3,18 @@ import React, { createContext, type FC, type PropsWithChildren, useContext, useS
 import Snackbar from '@mui/material/Snackbar'
 import Alert, { type AlertColor } from '@mui/material/Alert'
 
-// Todo: Comment
 interface SnackbarContextType {
   open: (message: string, severity?: AlertColor) => void
   close: () => void
 }
 
-// Todo: Comment
 const SnackbarContext = createContext<SnackbarContextType>({
   open: () => undefined,
   close: () => undefined
 })
 
-// Todo: Comment
 export const useSnackbar = (): SnackbarContextType => useContext(SnackbarContext)
 
-// Todo: Comment
 export const SnackbarProvider: FC<PropsWithChildren> = ({ children }): JSX.Element => {
   const [snack, setSnack] = useState({ message: '', severity: 'info' as AlertColor })
   const [isVisible, changeVisibility] = useState(false)
