@@ -59,7 +59,7 @@ export const fetchLeaderboard = async (
       leaderboard.map(([address, burnAmount]): [string, number] => [
         address,
         Number(burnAmount)
-      ])
+      ]).sort(([__, a], [_, b]) => b - a)
     )
     .then((leaderboard) => {
       const uniqueBurners = leaderboard.length

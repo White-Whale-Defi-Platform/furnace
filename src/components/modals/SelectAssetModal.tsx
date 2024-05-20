@@ -1,7 +1,7 @@
 import { type FC, useState } from 'react'
 import { Avatar, Button, Card, CardContent, CardHeader, Stack, TextField, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
-import { formatAmount } from '@/util'
+import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
 
 export interface SelectAssetModalProps {
@@ -34,7 +34,7 @@ export const SelectAssetModal: FC<SelectAssetModalProps> = ({ assets, callback }
                   <Stack direction="row" alignItems="center" justifyContent="space-between" width='100%'>
                     <Avatar src={asset.logo} sx={{ width: 24, height: 24 }} />
                     <Typography sx={{ textTransform: 'none' }}>
-                      {formatAmount(asset)} {asset.name}
+                      {formatAssetAmount(asset)} {asset.name}
                     </Typography>
                   </Stack>
                 </Button>

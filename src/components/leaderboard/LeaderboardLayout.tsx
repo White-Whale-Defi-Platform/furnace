@@ -1,23 +1,32 @@
 'use client'
 import { Grid, Typography, Paper, Divider } from '@mui/material'
 import React, { type FC } from 'react'
-import RankingTable from './RankingTable'
 import { leaderboardSelector } from '@/state'
-import { useRecoilValue } from 'recoil'
+import { useRecoilValueLoadable } from 'recoil'
 import type { Asset } from '@/types'
+import { formatAmountWithExponent, formatAssetAmount, formatTokenAmount } from '@/util'
+import { useChain } from '@cosmos-kit/react'
+import RankingTable from './RankingTable'
 
 interface Props {
   burnDenom: Asset
+  mintDenom: Asset
   chainName: string
 }
 
-export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom }) => {
-  const formatData = (data: number): string =>
-    new Intl.NumberFormat().format(data)
+export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decimals }, mintDenom }) => {
+  const { address: userAddress } = useChain(chainName)
+  const fetchLeaderboard = useRecoilValueLoadable(leaderboardSelector({ chainName, denom: id }))
+  if (fetchLeaderboard.state !== 'hasValue') return <Typography>Loading...</Typography>
 
-  const leaderboard = useRecoilValue(leaderboardSelector({ chainName, denom: burnDenom.id }))
+  const { leaderboard, totalBurnedAssets, uniqueBurners } = fetchLeaderboard.contents
+  const formattedLeaderboard = leaderboard.map(([burner, totalBurn]) => ({
+    id: burner,
+    totalBurn
+  }))
 
-  console.log(leaderboard)
+  const userRank = formattedLeaderboard.findIndex((burner) => burner.id === userAddress) + 1
+
   return (
     <Grid
       component={Paper}
@@ -29,13 +38,13 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom }) => {
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography color="GrayText">Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {formatData(29_691_404_419)}
+            {formatAmountWithExponent(totalBurnedAssets, decimals)}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography color="GrayText">Total Burners</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {formatData(29_691_404_419)}
+          {uniqueBurners}
           </Typography>
         </Grid>
         <Grid xs={12} sx={{ paddingY: 2 }}>
@@ -44,19 +53,17 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom }) => {
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography color="GrayText">My Rank</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {formatData(404_419)}
+            {userAddress !== undefined && userRank > 0 ? userRank : '-'}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
-          <Typography color="GrayText">{`My ${burnDenom.name} Tokens`}</Typography>
+          <Typography color="GrayText">{`My ${mintDenom.name} Tokens`}</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {formatData(404_419)}
+           {typeof userAddress === 'string' ? formatAssetAmount(mintDenom) : '-'}
           </Typography>
         </Grid>
       </Grid>
-      {/* <RankingTable data={tableData} /> */}
+      <RankingTable data={formattedLeaderboard} decimals={decimals} />
     </Grid>
   )
 }
-
-export default LeaderboardLayout
