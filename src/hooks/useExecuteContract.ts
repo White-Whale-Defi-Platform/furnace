@@ -34,7 +34,7 @@ export const useExecuteContract = <T>(chainName: ChainName, message: ExecuteMsg<
         )],
         {
           amount: [{
-            denom: 'uwhale',
+            denom,
             amount: '1'
           }],
           gas: gas.toString()

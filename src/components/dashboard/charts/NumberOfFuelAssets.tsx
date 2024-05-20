@@ -13,7 +13,7 @@ import {
   Tooltip,
   YAxis
 } from 'recharts'
-import { formatPrettyName } from '@/util'
+import { formatPrettyName, formatTokenAmount } from '@/util'
 
 const ChartLabel = styled(Typography)({
   textAlign: 'center',
@@ -71,9 +71,7 @@ export const NumberOfFuelAssets: FC<Props> = ({ fuelAssetData }) => {
           <CartesianGrid />
           <YAxis
             allowDecimals={false}
-            tickFormatter={(value) =>
-              new Intl.NumberFormat().format(Number(value))
-            }
+            tickFormatter={(value) => formatTokenAmount(Number(value))}
           />
           <Tooltip
             cursor={{ fill: 'transparent' }}

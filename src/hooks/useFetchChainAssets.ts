@@ -54,7 +54,6 @@ export const fetchChainAssetsWithMintDenom = async (
 ): Promise<Array<{ burnAsset: ChainAsset, mintAsset: ChainAsset }>> => {
   // Grab the entire assetlist from the chain registry specific to THIS chain that we're looking for assets on
   const crAssets = fetchChainRegistryAsset(chainName) ?? []
-
   return await fetchFuelConfigs(client, limit)
     .then(
       (fuels) =>

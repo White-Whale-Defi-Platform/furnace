@@ -1,38 +1,42 @@
 'use client'
-import React, { useState } from 'react'
-import { Unstable_Grid2 as Grid } from '@mui/material'
+import React, { useEffect, useState } from 'react'
+import { Unstable_Grid2 as Grid, Typography } from '@mui/material'
 import { fcAssetConvert, isValidTokenInput, findRegistryAssetBySymbol } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
-import { assetPairWithBalanceSelector, balanceSelector } from '@/state'
-import { useRouter } from 'next/navigation'
+import { assetPairWithBalanceSelector } from '@/state'
+import { redirect } from 'next/navigation'
 import { Burner, PageLayout, LeaderboardLayout, BurnerForm } from '@/components'
 import { useChainContext } from '@/hooks'
 import type { Asset } from '@/types'
 
 const Burn = ({
-  params
+  params: { chainName, urlAssetName }
 }: {
   params: {
-    chain: string
-    burnedAsset: string
+    chainName: string
+    urlAssetName: string
   }
 }): JSX.Element => {
-  const { chain: chainName, burnedAsset: urlAssetName } = params
   const registryBurnAsset: Asset = findRegistryAssetBySymbol(chainName, urlAssetName) ?? fcAssetConvert({ denom: urlAssetName, subdenom: urlAssetName.toUpperCase() })
   const registryMintAsset: Asset = findRegistryAssetBySymbol(chainName, `ash${urlAssetName}`) ?? fcAssetConvert({ denom: '', subdenom: `ash${urlAssetName.toUpperCase()}` })
-
-  const router = useRouter()
   const [input, setInput] = useState('')
-
   const { address } = useChainContext(chainName)
 
   const fuels = useRecoilValueLoadable(
     assetPairWithBalanceSelector({
       chainName,
-      burnDenomName: urlAssetName,
+      burnAssetName: urlAssetName,
       address
     })
   )
+
+  const loadedBurnAsset = fuels.contents?.burnAsset
+
+  useEffect(
+    () => {
+      // Redirect to the homepage if the fuel asset does not exist in the furnace
+      if (fuels.state === 'hasValue' && loadedBurnAsset === undefined) { redirect('/') }
+    }, [loadedBurnAsset, fuels.state])
 
   const onChange = ({
     target: { value }
@@ -43,11 +47,11 @@ const Burn = ({
   const subtitle =
     fuels.state !== 'hasValue'
       ? `Burn ${urlAssetName}`
-      : `Burn ${fuels.contents.burnAsset.name} and Receive ${fuels.contents.mintAsset.name}`
+      : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
 
   return (
     <PageLayout
-      title={`${params.burnedAsset.toUpperCase()} Furnace`}
+      title={`${urlAssetName.toUpperCase()} Furnace`}
       subtitle={subtitle}
     >
       <Grid container alignItems="center" justifyContent="center" >
@@ -61,7 +65,9 @@ const Burn = ({
             disabled
             chainName={chainName} />
             )
-          : (
+          : typeof fuels.contents === 'undefined'
+            ? <Typography>No Token Found</Typography>
+            : (
           <Grid>
            <Burner
               chainName={chainName}
@@ -77,7 +83,7 @@ const Burn = ({
               userAddress={address}
             />
           </Grid>
-            )}
+              )}
       </Grid>
     </PageLayout>
   )

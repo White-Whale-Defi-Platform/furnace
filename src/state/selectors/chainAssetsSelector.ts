@@ -58,13 +58,13 @@ ChainName
  */
 export const assetPairWithBalanceSelector = selectorFamily<
 { burnAsset: ChainAsset, mintAsset: ChainAsset } | undefined,
-{ chainName: ChainName, burnDenomName: string, address: string | undefined }
+{ chainName: ChainName, burnAssetName: string, address: string | undefined }
 >({
   key: 'assetPairWithBalanceSelector',
   get:
-    ({ chainName, burnDenomName, address }) =>
+    ({ chainName, burnAssetName, address }) =>
       ({ get }) => {
-        const pair = get(assetPairSelector({ chainName, burnDenomName }))
+        const pair = get(assetPairSelector({ chainName, burnAssetName }))
         if (pair != null) {
           const { burnAsset, mintAsset } = pair
           const burnBalance = get(
@@ -94,15 +94,15 @@ export const assetPairWithBalanceSelector = selectorFamily<
  */
 export const assetPairSelector = selectorFamily<
 { burnAsset: ChainAsset, mintAsset: ChainAsset } | undefined,
-{ chainName: ChainName, burnDenomName: string }
+{ chainName: ChainName, burnAssetName: string }
 >({
   key: 'assetPairSelector',
   get:
-    ({ chainName, burnDenomName }) =>
+    ({ chainName, burnAssetName }) =>
       ({ get }) => {
         const allChainAssets = get(chainAssetsSelector(chainName))
         return allChainAssets.find(({ burnAsset: { name } }) => {
-          return name.toLowerCase() === burnDenomName.toLowerCase()
+          return name.toLowerCase() === burnAssetName.toLowerCase()
         })
       }
 })

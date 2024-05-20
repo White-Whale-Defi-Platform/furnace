@@ -4,6 +4,7 @@ import type { Asset } from '@/types'
 import type { ChainName } from '@/constants'
 import { useExecuteBurn } from '@/hooks'
 import { BurnerForm } from './BurnerForm'
+import { chains } from 'chain-registry'
 
 interface Props {
   nativeAsset: Asset
@@ -16,8 +17,8 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset }) => {
   const [burnDisplayAmount, setBurnDisplayAmount] = useState('')
   const executeBurn = useExecuteBurn(chainName,
     Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals),
-    nativeAsset.id)
-
+    chains.find(({ chain_name: chain }) => chain === chainName)?.fees?.fee_tokens[0].denom
+  )
   return (
     <BurnerForm
     disabled={false}

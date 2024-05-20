@@ -1,11 +1,12 @@
 'use client'
-import { useChainContext } from '@/hooks'
 import { WalletStatus } from '@cosmos-kit/core'
 import { AccountBox, Campaign, Feedback, Logout, Newspaper, Settings, Support, Paid } from '@mui/icons-material'
 import { Avatar, Button, Divider, Menu, MenuItem, styled, Tooltip, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useModal, useSnackbar } from './provider'
 import { KadoModal } from './modals/KadoModal'
+import { useChains } from '@cosmos-kit/react'
+import { ENDPOINTS } from '@/constants'
 
 const LogInButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
@@ -42,15 +43,13 @@ const AccountDropDownMenu = styled(Menu)(({ theme }) => ({
 }))
 
 export const AccountMenu = (): JSX.Element => {
-  const { status, connect, disconnect } = useChainContext('migaloo')
-
+  const chainContexts = useChains(Object.keys(ENDPOINTS))
+  const { status, disconnect, connect } = chainContexts.osmosis
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
   const openMenu = (event: React.MouseEvent<HTMLElement>): void => setAnchorEl(event.currentTarget)
   const closeMenu = (): void => setAnchorEl(null)
-
   const snackbar = useSnackbar()
-
   const onConnect = (): void => {
     snackbar.open('Logging In', 'info')
     void connect()

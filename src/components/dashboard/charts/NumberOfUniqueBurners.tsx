@@ -12,7 +12,7 @@ import {
   YAxis
 } from 'recharts'
 import { ENDPOINTS } from '@/constants'
-import { formatPrettyName } from '@/util'
+import { formatPrettyName, formatTokenAmount } from '@/util'
 import type { FurnaceDataByChain } from '@/components'
 
 const ChartLabel = styled(Typography)({
@@ -81,14 +81,13 @@ export const NumberOfUniqueBurners: FC<Props> = ({ uniqueBurnersData }) => {
         >
           <CartesianGrid />
           <YAxis
-            tickFormatter={(value) =>
-              new Intl.NumberFormat().format(Number(value))
+            tickFormatter={(value) => formatTokenAmount(Number(value))
             }
           />
           <Tooltip
             cursor={{ fill: 'transparent' }}
             formatter={(value) =>
-              `${new Intl.NumberFormat().format(Number(value))} burners`
+              `${formatTokenAmount(Number(value))} burners`
             }
             content={<CustomTooltip />}
           />
