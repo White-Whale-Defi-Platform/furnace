@@ -22,11 +22,6 @@ const DashboardBox = styled(Paper)({
 export const DashboardLayout: FC = () => {
   const fetchFurnace = useRecoilValueLoadable(furnaceSelector)
   const furnaceData = Object.entries(fetchFurnace.valueMaybe() ?? {})
-
-  const clients = useRecoilValue(clientsAtom)
-  const fuels = useRecoilValue(fuelsSelector('osmosis'))
-  const leaderboard = useRecoilValue(chainLeaderboardSelector('osmosis'))
-
   return (
     <Grid gap={3} container justifyContent="space-between">
       <DashboardBox>

@@ -43,7 +43,8 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
              <Chip
                key={chainName}
                variant="outlined"
-               label={formatPrettyName(chainName)}color={filterChain === chainName ? 'primary' : 'default'}
+               label={formatPrettyName(chainName)}
+               color={filterChain === chainName ? 'primary' : 'default'}
                onClick={() => setFilterChain(chainName)} />
          ))
        }
