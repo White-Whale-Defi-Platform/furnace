@@ -22,6 +22,11 @@ export const DashboardLayout: FC = () => {
   const allChains = useFetchAllChainAssets()
   const furnaceData = useFetchFurnaceData()
 
+  // const allFuelsByChain = useRecoilValue(allChainAssetsSelector)
+
+  // TODO: Update the dashboard, DashboardTable, and DashboardCharts data with the recoil value
+  // const furnace = useRecoilValue(furnaceSelector)
+
   return (
     <Grid gap={3} container justifyContent="space-between">
       {/* <DashboardBox>
@@ -31,7 +36,7 @@ export const DashboardLayout: FC = () => {
       <DashboardBox>
         <Typography color="GrayText">Chains Supported</Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {allChains.length}
+          {/* {(allFuelsByChain != null) && Object.entries(allFuelsByChain).length} */}
         </Typography>
       </DashboardBox>
       <DashboardBox>

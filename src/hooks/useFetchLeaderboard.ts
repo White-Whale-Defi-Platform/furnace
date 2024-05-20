@@ -1,6 +1,6 @@
 import type { FurnaceQueryClient } from '@/codegen'
 import {
-  useAllChainCosmWasmClients,
+  useAllChainCosmWasmClientsReactquery,
   useFetchAllChainAssets,
   useSigningCosmWasmClient
 } from './index'
@@ -16,7 +16,7 @@ export interface LeaderboardResults {
   leaderboard: Array<[userAddress: string, tokensBurned: number]>
 }
 
-type LeaderboardInfo = [
+export type LeaderboardInfo = [
   fuelDenom: string,
   leaderboardResults: LeaderboardResults
 ]
@@ -31,7 +31,7 @@ export type LeaderboardsByChain = Record<string, LeaderboardInfo[]>
  * @param startAfter The address to base the next set of paginated data off.
  * @returns List of all of the burners, how much each burned and some other data around the burning.
  */
-const fetchLeaderboard = async (
+export const fetchLeaderboard = async (
   client: FurnaceQueryClient,
   fuelDenom: string,
   limit: number,
@@ -107,7 +107,7 @@ export const useFetchAllLeaderboard = (): {
   isLoading: boolean
   isError: boolean
 } => {
-  const { data: clients } = useAllChainCosmWasmClients()
+  const { data: clients } = useAllChainCosmWasmClientsReactquery()
   const allChainAssets = useFetchAllChainAssets()
 
   const leaderboardData = useQueries({
