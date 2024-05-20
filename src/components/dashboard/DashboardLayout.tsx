@@ -23,22 +23,12 @@ export const DashboardLayout: FC = () => {
   const fetchFurnace = useRecoilValueLoadable(furnaceSelector)
   const furnaceData = Object.entries(fetchFurnace.valueMaybe() ?? {})
 
-  // const allFuelsByChain = useRecoilValue(allChainAssetsSelector)
-
-  // TODO: Update the dashboard, DashboardTable, and DashboardCharts data with the recoil value
-  // const furnace = useRecoilValue(furnaceSelector)
-
-  // const allFuelsByChain = useRecoilValue(allChainAssetsSelector)
-
-  // TODO: Update the dashboard, DashboardTable, and DashboardCharts data with the recoil value
-  // const furnace = useRecoilValue(furnaceSelector)
+  const clients = useRecoilValue(clientsAtom)
+  const fuels = useRecoilValue(fuelsSelector('osmosis'))
+  const leaderboard = useRecoilValue(chainLeaderboardSelector('osmosis'))
 
   return (
     <Grid gap={3} container justifyContent="space-between">
-      {/* <DashboardBox>
-        <Typography color="GrayText">Total Value Burned</Typography>
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>-</Typography>
-      </DashboardBox> */}
       <DashboardBox>
         <Typography color="GrayText">Chains Supported</Typography>
         <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
