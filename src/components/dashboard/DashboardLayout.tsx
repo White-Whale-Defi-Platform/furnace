@@ -20,8 +20,8 @@ const DashboardBox = styled(Paper)({
 })
 
 export const DashboardLayout: FC = () => {
-  const fetchFurnace = useRecoilValueLoadable(furnaceSelector)
-  const furnaceData = Object.entries(fetchFurnace.valueMaybe() ?? {})
+  const allFurnaceData = useRecoilValueLoadable(furnaceSelector)
+  const furnaceData = Object.entries(allFurnaceData.valueMaybe() ?? {})
   return (
     <Grid gap={3} container justifyContent="space-between">
       <DashboardBox>

@@ -14,7 +14,7 @@ export interface ExecuteButtonProps extends UseExecuteContractResult {
   isWalletConnected: boolean
 }
 
-export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simulate, sign, broadcast, chainName, isWalletConnected }): JSX.Element => {
+export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simulate, sign, broadcast, chainName, }): JSX.Element => {
   const [loading, setLoading] = useState(false)
   const modal = useModal()
   const snackbar = useSnackbar()
@@ -52,9 +52,7 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({ action, disabled, simula
       size="large"
       sx={{ width: 256 }}
     >
-      {loading
-        ? <CircularProgress color='inherit' size={26} />
-        : isWalletConnected ? action : 'Connect Wallet'}
+     {loading ? <CircularProgress color="inherit" size={26} /> : action}
     </Button>
   )
 }
