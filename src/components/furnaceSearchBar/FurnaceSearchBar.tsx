@@ -51,9 +51,9 @@ export const FurnaceSearchBar: FC = () => {
         focusRipple
         sx={{
           border: 'unset',
-          background: '#18181b',
+          background: "#10131A",
           color: 'white',
-          '&:hover': { bgcolor: 'black' }
+          '&:hover': { borderColor: '#00FF94' }
         }}
         component="label"
         variant="outlined"
@@ -62,7 +62,7 @@ export const FurnaceSearchBar: FC = () => {
       >
         Search Assets
       </Button>
-      <Dialog fullWidth open={open} onClose={() => setOpen(false)}>
+      <Dialog fullWidth open={open} onClose={() => setOpen(false)} sx={{backdropFilter: "blur(5px)"}}>
         <DialogContent>
           <Stack gap={2}>
             <TextField

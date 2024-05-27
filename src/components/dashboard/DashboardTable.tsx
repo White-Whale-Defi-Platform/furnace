@@ -83,16 +83,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                         sx={{ width: 24, height: 24 }}
                         src={asset.burnAsset.logo}
                       />
-                      <Typography>{asset.burnAsset.name}</Typography>
-                      <Chip
-                        sx={{
-                          borderColor: chainColor,
-                          color: chainColor
-                        }}
-                        variant="outlined"
-                        size="small"
-                        label={formatPrettyName(chainName)}
-                      />
+                      <Typography>{asset.burnAsset.name}</Typography>                  
                     </Stack>
                   </TableCell>
                   <TableCell align="center">

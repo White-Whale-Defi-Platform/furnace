@@ -1,5 +1,5 @@
 'use client'
-import { Grid, Typography, Paper, Divider } from '@mui/material'
+import { Unstable_Grid2 as Grid, Typography, Paper, Divider } from '@mui/material'
 import React, { type FC } from 'react'
 import { leaderboardSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'

@@ -11,12 +11,13 @@ import { furnaceSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'
 
 const DashboardBox = styled(Paper)({
+  background: '##30313D',
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,
   justifyContent: 'space-between',
   alignContent: 'center',
-  padding: 20
+  padding: 20,  
 })
 
 export const DashboardLayout: FC = () => {

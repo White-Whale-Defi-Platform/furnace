@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Unstable_Grid2 as Grid, Typography } from '@mui/material'
+import { Box, Unstable_Grid2 as Grid, Typography } from '@mui/material'
 import { fcAssetConvert, isValidTokenInput, findRegistryAssetBySymbol } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
 import { assetPairWithBalanceSelector } from '@/state'
@@ -49,9 +49,16 @@ const Burn = ({
       ? `Burn ${urlAssetName}`
       : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
   return (
+    <Box 
+    sx={{
+      backgroundImage: `url(/public/assets/chihuahua_bg.png)`,
+      backgroundRepeat: "no-repeat",
+      // height: '385px',
+      // width: '385px'
+    }}>
     <PageLayout
       title={`${urlAssetName.toUpperCase()} Furnace`}
-      subtitle={subtitle}
+      subtitle={subtitle}      
     >
       <Grid container alignItems="center" justifyContent="center" >
         {fuels.state !== 'hasValue'
@@ -84,6 +91,7 @@ const Burn = ({
               )}
       </Grid>
     </PageLayout>
+    </Box>
   )
 }
 

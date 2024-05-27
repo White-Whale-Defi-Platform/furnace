@@ -8,7 +8,8 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Grid
+  Grid,
+  createTheme
 } from '@mui/material'
 import { AccountMenu } from './AccountMenu'
 import { usePathname, useRouter } from 'next/navigation'
@@ -27,7 +28,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <AppBar component="nav" enableColorOnDark color="inherit" elevation={1}>
+      <AppBar component="nav" >
         <Toolbar>
           <Grid xs={12} container alignItems="center">
             <Grid xs={3} alignItems="center">
@@ -74,7 +75,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
       <AppBar
         component="footer"
         position="fixed"
-        sx={{ position: 'relative', bottom: 0 }}
+        sx={{ position: 'relative', bottom: 0 }}      
       >
         <Toolbar sx={{ flex: 1, direction: 'row', justifyContent: 'center' }}>
           <Stack

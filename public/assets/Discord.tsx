@@ -7,7 +7,7 @@ interface Props {
 export const Discord: React.FC<Props> = ({
   width = 24,
   height = 24,
-  color = '#3CCD64'
+  color = '#00ff94',
 }: Props) => {
   return (
     <svg width={width} height={height} viewBox="0 0 21 16" fill="none">

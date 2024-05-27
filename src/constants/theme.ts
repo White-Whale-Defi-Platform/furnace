@@ -1,30 +1,36 @@
 'use client'
 import { createTheme } from '@mui/material'
 
-export const darkTheme = createTheme({
+export const darkTheme = createTheme({  
   palette: {
     mode: 'dark',
     primary: {
-      light: '#4bd170',
-      main: '#3CCD64',
-      dark: '#31c259',
-      contrastText: '#000000'
-    },
-    success: {
-      light: '#4bd170',
-      main: '#3CCD64',
-      dark: '#31c259',
-      contrastText: '#000000'
+      main: '#00ff94',
     },
     secondary: {
-      light: '#3CCD64',
-      main: '#8f2972',
-      dark: '#194325',
-      contrastText: '#000000'
+      main: '#8A91A3',
     },
     background: {
-      default: '#18181b',
-      paper: '#18181b'
-    }
-  }
+      default: '#0a0c12',
+      paper: '#10131a',
+    },  
+},
+components: { 
+  MuiDialog: {
+  styleOverrides: {
+    paper: {
+     background: "#10131A",
+     borderRadius: "5px",
+     border: "2px solid #2E3443",
+    },
+  },
+ },
+ MuiCard: {
+  styleOverrides: {
+    root: {
+      border: "2px solid #2E3443",
+    },
+  },
+ },
+}
 })
