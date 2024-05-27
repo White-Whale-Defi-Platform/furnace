@@ -1,7 +1,17 @@
 import { type ChainName, ENDPOINTS } from '@/constants'
 import { selector } from 'recoil'
 import { chainLeaderboardSelector, chainAssetsSelector } from '@/state'
-import type { TotalFurnaceData } from '@/hooks'
+import { LeaderboardResults, type ChainAsset } from '@/hooks'
+
+
+export type TotalFurnaceData = [
+  chainName: string,
+  assetInfo: {
+    fuelDenom: string
+    asset: { burnAsset: ChainAsset, mintAsset: ChainAsset } | undefined
+    leaderboard: LeaderboardResults
+  }
+]
 
 /**
  * All of the fuel assets and its leaderboard info in a object, keyed by the chain name.

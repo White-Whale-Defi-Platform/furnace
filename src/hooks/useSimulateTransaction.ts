@@ -7,6 +7,7 @@ export type UseSimulateTransactionResult = (signer: string, messages: EncodeObje
 export const useSimulateTransaction = (chainName: ChainName): UseSimulateTransactionResult => {
   const { result: client } = useSigningClient(chainName)
   return async (signer: string, messages: EncodeObject[], memo: string) => {
+    console.log(messages, "messages")
     return await client?.client.simulate(signer, messages, memo)
   }
 }

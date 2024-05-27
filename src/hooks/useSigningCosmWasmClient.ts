@@ -1,14 +1,11 @@
 'use client'
 import { useState, useEffect, useMemo } from 'react'
 import type { AsyncHook } from '@/types'
-import { type ChainName, ENDPOINTS, chainIds } from '@/constants'
+import { ENDPOINTS, chainIds } from '@/constants'
 import { FurnaceClient, FurnaceQueryClient } from '@/codegen'
 import { useRecoilStateLoadable } from 'recoil'
-import type {
-  SigningCosmWasmClient
-} from '@cosmjs/cosmwasm-stargate'
 import { clientsAtom } from '@/state'
-import { useAccount, useCosmWasmClient, useCosmWasmSigningClient } from 'graz'
+import { useCosmWasmClient, useCosmWasmSigningClient } from 'graz'
 import { chainIdConvert, useChainContext } from '@/hooks'
 
 export type UseSigningClientResult = AsyncHook<FurnaceClient | null>
