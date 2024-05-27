@@ -13,8 +13,7 @@ import React, { type FC } from 'react'
 import { AssetInput, ExecuteButton } from '../complex'
 import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
-import type { UseExecuteContractResult } from '@/hooks'
-import { useChain } from '@cosmos-kit/react'
+import { useChainContext, type UseExecuteContractResult } from '@/hooks'
 
 interface Props {
   nativeAsset: Asset
@@ -35,21 +34,19 @@ export const BurnerForm: FC<Props> = ({
   chainName,
   executeBurn
 }) => {
-  const { isWalletConnected } = useChain(chainName)
-
+  const { isConnected } = useChainContext(chainName)
   const canExecute =
     Number(burnDisplayAmount) > 0 &&
     Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals) <=
       nativeAsset.amount
 
-  const action = !isWalletConnected
+  const action = !isConnected
     ? 'Connect Wallet'
     : burnDisplayAmount === ''
       ? 'Enter Input'
       : canExecute
         ? 'Burn'
         : 'Invalid Input'
-
   return (
     <Grid
       container
@@ -73,7 +70,7 @@ export const BurnerForm: FC<Props> = ({
                 label="You Burn"
                 onChange={(e) => onChange(e.target.value)}
                 helperText={`Available: ${formatAssetAmount(nativeAsset)}`}
-                disabled={!isWalletConnected}
+                disabled={!isConnected}
               />
               <AssetInput
                 asset={mintAsset}
@@ -86,10 +83,9 @@ export const BurnerForm: FC<Props> = ({
                 {executeBurn != null
                   ? (
                   <ExecuteButton
-                    isWalletConnected={isWalletConnected}
                     chainName={chainName}
                     action={action}
-                    disabled={disabled || !isWalletConnected}
+                    disabled={disabled || !isConnected}
                     {...executeBurn}
                   />
                     )

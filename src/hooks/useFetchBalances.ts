@@ -10,13 +10,13 @@ export type UseFetchBalancesResult = AsyncHook<Coin[]>
 
 export const useFetchBalances = (chainName: string): UseFetchBalancesResult => {
   const [result, setResult] = useState<UseFetchBalancesResult>({ result: [], loading: false, error: null })
-  const { address } = useChainContext(chainName)
+  const userAddress = useChainContext(chainName).data?.bech32Address
 
   useEffect(() => {
     const fetchAndSet = (): void => {
-      if (address === undefined) return
+      if (userAddress === undefined) return
       setResult(prev => ({ ...prev, loading: true }))
-      fetchBalances(ENDPOINTS[chainName].rest[0], address)
+      fetchBalances(ENDPOINTS[chainName].rest[0], userAddress)
         .then(response => setResult(prev => ({ ...prev, result: response.balances, error: null })))
         .catch((error: Error) => setResult(prev => ({ ...prev, error })))
         .finally(() => setResult(prev => ({ ...prev, loading: false })))
@@ -25,7 +25,7 @@ export const useFetchBalances = (chainName: string): UseFetchBalancesResult => {
     const timeout = setInterval(fetchAndSet, FETCH_INTERVAL)
     return () => clearInterval(timeout)
   },
-  [address, chainName, setResult]
+  [userAddress, chainName, setResult]
   )
 
   return useMemo(() => result, [result])

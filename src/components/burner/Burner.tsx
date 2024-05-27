@@ -15,20 +15,18 @@ interface Props {
 
 export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset }) => {
   const [burnDisplayAmount, setBurnDisplayAmount] = useState('')
-  const executeBurn = useExecuteBurn(chainName,
-    Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals),
-    chains.find(({ chain_name: chain }) => chain === chainName)?.fees?.fee_tokens[0].denom
-  )
+  const amount = Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals)
+  const executeBurn = useExecuteBurn(chainName, amount, nativeAsset.id)
   return (
     <BurnerForm
-    disabled={false}
-    chainName={chainName}
-    burnDisplayAmount={burnDisplayAmount}
+     disabled={false}
+     chainName={chainName}
+     burnDisplayAmount={burnDisplayAmount}
      onChange={setBurnDisplayAmount}
      nativeAsset={nativeAsset}
      mintAsset={mintAsset}
      executeBurn={executeBurn}
-      />
+    />
   )
 }
 

@@ -1,66 +1,54 @@
 'use client'
 import { useState, useEffect, useMemo } from 'react'
-import { useChainContext } from './useChainContext'
 import type { AsyncHook } from '@/types'
-import { type ChainName, ENDPOINTS } from '@/constants'
+import { type ChainName, ENDPOINTS, chainIds } from '@/constants'
 import { FurnaceClient, FurnaceQueryClient } from '@/codegen'
-import { useChains } from '@cosmos-kit/react'
-import { useQueries } from '@tanstack/react-query'
 import { useRecoilStateLoadable } from 'recoil'
-import type { CosmWasmClient, SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate'
+import type {
+  SigningCosmWasmClient
+} from '@cosmjs/cosmwasm-stargate'
 import { clientsAtom } from '@/state'
+import { useAccount, useCosmWasmClient, useCosmWasmSigningClient } from 'graz'
+import { chainIdConvert, useChainContext } from '@/hooks'
 
-export type UseSigningClientResult =
-  AsyncHook<FurnaceClient | null>
+export type UseSigningClientResult = AsyncHook<FurnaceClient | null>
 
-export type UseClientResult =
-  AsyncHook<FurnaceQueryClient | null>
-
-export const getClient = async (
-  chainName: ChainName,
-  getCosmWasmClient: () => Promise<CosmWasmClient>
-): Promise<FurnaceQueryClient> => {
-  const cwClient = await getCosmWasmClient()
-
-  return new FurnaceQueryClient(
-    cwClient,
-    ENDPOINTS[chainName].contractAddress
-  )
-}
-
-export const getSigningClient = async (
-  chainName: ChainName,
-  getSigningCosmWasmClient: () => Promise<SigningCosmWasmClient>,
-  userAddress: string
-): Promise<FurnaceClient> => {
-  const cwClient = await getSigningCosmWasmClient()
-
-  return new FurnaceClient(
-    cwClient, userAddress,
-    ENDPOINTS[chainName].contractAddress
-  )
-}
+export type UseClientResult = AsyncHook<FurnaceQueryClient | null>
 
 /**
  * Fetches all the furnace clients for each of the chains in the ENDPOINTS object
  * and stores them in the clients atom/recoil
  */
 export const useAllCosmWasmClients = (): void => {
+  const { data: client } = useCosmWasmClient({
+    chainId: chainIds,
+    multiChain: true
+  })
   const [_, setClients] = useRecoilStateLoadable(clientsAtom)
 
-  const chainNames: ChainName[] = Object.keys(ENDPOINTS)
-  // multiple chains connected at one time
-  const chainContexts = useChains(chainNames)
+  useEffect(() => {
+    const clients = Object.entries(ENDPOINTS)
+      .map(
+        ([chainName, { chainId }]) =>
+          [chainName, client?.[chainId], chainId] as const
+      )
+      .filter(([_, queryClient]) => typeof queryClient !== 'undefined')
+      .map(
+        ([chainName, queryClient, chainId]) => {
+          return [
+            chainName,
+            queryClient
+              ? new FurnaceQueryClient(
+                queryClient,
+                ENDPOINTS[chainName].contractAddress
+              )
+              : undefined
+          ] as const
+        }
+      )
 
-  useEffect(
-    () => {
-      void Promise.all(chainNames.map(async (chainName) =>
-        [chainName, await getClient(chainName, chainContexts[chainName].getCosmWasmClient)]))
-        .then(Object.fromEntries)
-        .then(setClients)
-    },
-    []
-  )
+    setClients(Object.fromEntries(clients))
+  }, [client, ENDPOINTS])
 }
 
 /**
@@ -69,76 +57,25 @@ export const useAllCosmWasmClients = (): void => {
  * @param chainName The name of the chain for the client that you want.
  * @returns The client that can be used to interact with the furnace.
  */
-export const useSigningClient = (
-  chainName: string
-): UseSigningClientResult => {
-  const { isWalletConnected, getSigningCosmWasmClient, address } =
-    useChainContext(chainName)
+export const useSigningClient = (chainName: string): UseSigningClientResult => {
+  const { data: chainContext, isConnected } = useChainContext(chainName)
+  const { data: signingClient } = useCosmWasmSigningClient({chainId: chainIdConvert(chainName)})
   const [result, setResult] = useState<UseSigningClientResult>({
     result: null,
     loading: false,
     error: null
   })
+  const bech32Address = chainContext?.bech32Address 
+
   useEffect(
     () => {
-      if (!isWalletConnected || (address == null)) return
+      if (!isConnected || bech32Address == null || typeof signingClient === 'undefined') return
       setResult((prev) => ({ ...prev, loading: true }))
-      getSigningClient(chainName, getSigningCosmWasmClient, address)
-        .then((client) => {
-          return setResult((prev) => ({
-            ...prev,
-            result: client,
-            error: null
-          }))
-        })
-        .catch((error: Error) => setResult((prev) => ({ ...prev, error })))
-        .finally(() => setResult((prev) => ({ ...prev, loading: false })))
-    },
-    // Hack: Cosmos Kit is broken; dependency changes frequently.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isWalletConnected]
+
+      const furnaceClient = new FurnaceClient(signingClient, bech32Address, ENDPOINTS[chainName].contractAddress)
+      setResult((prev) => ({ ...prev, result: furnaceClient, error: null, loading: false }))
+    }, [isConnected, bech32Address, signingClient]
   )
 
-  return useMemo(() => result, [result])
-}
-
-/**
- * Gets every chain's Cosmwasm client for interacting with the furnace.
- * @returns All of the clients in an object, keyed by the chain name.
- */
-export const useAllChainCosmWasmClientsReactquery = (): {
-  data: Partial<Record<string, FurnaceQueryClient>>
-  isLoading: boolean
-  isError: boolean
-} => {
-  const chainNames = Object.keys(ENDPOINTS)
-  // multiple chains connected at one time
-  const chainContexts = useChains(chainNames)
-
-  const clients = useQueries({
-    queries: chainNames.map((chainName) => ({
-      queryKey: ['cwClient', chainName],
-      queryFn: async (): Promise<
-      [chainName: string, furnaceClient: FurnaceQueryClient]
-      > => {
-        const cwClient = await chainContexts[chainName].getCosmWasmClient()
-
-        return [
-          chainName,
-          new FurnaceQueryClient(
-            cwClient,
-            ENDPOINTS[chainName].contractAddress
-          )
-        ]
-      }
-    }))
-  })
-
-  const entries = clients.flatMap(({ data }) => (data != null ? [data] : []))
-
-  return {
-    data: Object.fromEntries(entries),
-    isLoading: clients.some(({ isLoading }) => isLoading),
-    isError: clients.some(({ isError }) => isError)
-  }
+  return useMemo(() => result, [result])  
 }

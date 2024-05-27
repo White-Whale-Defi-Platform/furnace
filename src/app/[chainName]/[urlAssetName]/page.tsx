@@ -20,8 +20,8 @@ const Burn = ({
   const registryBurnAsset: Asset = findRegistryAssetBySymbol(chainName, urlAssetName) ?? fcAssetConvert({ denom: urlAssetName, subdenom: urlAssetName.toUpperCase() })
   const registryMintAsset: Asset = findRegistryAssetBySymbol(chainName, `ash${urlAssetName}`) ?? fcAssetConvert({ denom: '', subdenom: `ash${urlAssetName.toUpperCase()}` })
   const [input, setInput] = useState('')
-  const { address } = useChainContext(chainName)
-
+  const chain = useChainContext(chainName)
+  const address = chain.data?.bech32Address
   const fuels = useRecoilValueLoadable(
     assetPairWithBalanceSelector({
       chainName,
@@ -29,14 +29,14 @@ const Burn = ({
       address
     })
   )
-
   const loadedBurnAsset = fuels.contents?.burnAsset
-
-  useEffect(
-    () => {
-      // Redirect to the homepage if the fuel asset does not exist in the furnace
-      if (fuels.state === 'hasValue' && loadedBurnAsset === undefined) { redirect('/') }
-    }, [loadedBurnAsset, fuels.state])
+  // useEffect(
+  //   () => {
+  //     console.log(fuels, fuels.contents, "loading")
+  //     // Redirect to the homepage if the fuel asset does not exist in the furnace
+  //     //loading
+  //     if (fuels.state === 'hasValue') { redirect('/')}
+  //   }, [loadedBurnAsset, fuels.state])
 
   const onChange = ({
     target: { value }
@@ -48,7 +48,6 @@ const Burn = ({
     fuels.state !== 'hasValue'
       ? `Burn ${urlAssetName}`
       : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
-
   return (
     <PageLayout
       title={`${urlAssetName.toUpperCase()} Furnace`}
@@ -66,7 +65,7 @@ const Burn = ({
             chainName={chainName} />
             )
           : typeof fuels.contents === 'undefined'
-            ? <Typography>No Token Found</Typography>
+            ? <Typography>Loading</Typography>
             : (
           <Grid>
            <Burner
@@ -80,7 +79,6 @@ const Burn = ({
               chainName={chainName}
               burnDenom={fuels.contents.burnAsset}
               mintDenom={fuels.contents.mintAsset}
-              userAddress={address}
             />
           </Grid>
               )}

@@ -1,21 +1,20 @@
 'use client'
 import type { FC, PropsWithChildren } from 'react'
 import { RecoilRoot } from 'recoil'
-import { ChainProvider } from '@cosmos-kit/react'
-import { chains, assets } from 'chain-registry'
-import { wallets as keplr } from '@cosmos-kit/keplr-extension'
-import { darkTheme, ENDPOINTS } from '@/constants'
-
+import { darkTheme } from '@/constants'
 import CssBaseline from '@mui/material/CssBaseline'
-import { SnackbarProvider } from './SnackbarProvider'
-import { ModalProvider } from './ModalProvider'
-import { AppProvider } from './AppProvider'
-import { UserProvider } from './UserProvider'
 import { ThemeProvider } from '@mui/material'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
+import { osmosis, chihuahua } from 'graz/chains'
+import { GrazProvider, WalletType } from 'graz'
+import { SnackbarProvider, ModalProvider, AppProvider, UserProvider } from '@/components'
 
 const queryClient = new QueryClient()
+
 export const Provider: FC<PropsWithChildren> = ({ children }) => {
+  const chihuahua_chain = { ...chihuahua, rpc: 'https://chihuahua-rpc.polkachu.com', rest: 'https://rest.cosmos.directory/chihuahua' }
+  const osmosis_chain = { ...osmosis, rpc: 'https://osmosis-rpc.polkachu.com', rest: 'https://rest.cosmos.directory/osmosis' }
+
   return (
     <QueryClientProvider client={queryClient}>
     <RecoilRoot>
@@ -23,23 +22,16 @@ export const Provider: FC<PropsWithChildren> = ({ children }) => {
         <CssBaseline />
         <ModalProvider>
           <SnackbarProvider>
-            <ChainProvider
-              chains={chains}
-              assetLists={assets}
-              disableIframe
-              wallets={[...keplr]} // Hack: Cosmos Kit is broken; just use one wallet.
-              walletModal={() => <></>} // Hack: Cosmos Kit is broken; use internal modal manager.
-              endpointOptions={{
-                isLazy: true,
-                endpoints: ENDPOINTS
-              }}
-            >
-              <AppProvider>
-                <UserProvider>
-                  {children}
-                </UserProvider>
-              </AppProvider>
-            </ChainProvider>
+              <GrazProvider
+                grazOptions={{
+                  chains: [osmosis_chain, chihuahua_chain],
+                  defaultWallet: WalletType.KEPLR
+                }}
+              >
+                <AppProvider>
+                  <UserProvider>{children}</UserProvider>
+                </AppProvider>
+              </GrazProvider>
           </SnackbarProvider>
         </ModalProvider>
       </ThemeProvider>

@@ -1,10 +1,5 @@
 import type { FurnaceQueryClient } from '@/codegen'
 import {
-  useAllChainCosmWasmClientsReactquery,
-  useFetchAllChainAssets,
-  useSigningClient
-} from './index'
-import {
   type UseQueryResult,
   useQuery,
   useQueries
@@ -75,85 +70,3 @@ export const fetchLeaderboard = async (
         avgTokensBurnedPerUniques
       }
     })
-
-/**
- * Gets the all of the leaderboard info for a single chain/furnace.
- * @param chainName That we're querying.
- * @param fuelDenom Denom that you want to get the leaderboard for - you can query fuel_denom from the fuels config.
- * @returns List of all of the burners for the given fuel denom and how much the user has burned in that denom.
- */
-export const useFetchLeaderboard = (
-  chainName: string,
-  fuelDenom: string
-): UseQueryResult<LeaderboardResults> => {
-  // requesting the client to interact with blockchain in future
-  const { result: client } = useSigningClient(chainName)
-  return useQuery({
-    queryKey: ['leaderboard', chainName, fuelDenom],
-    queryFn: async () =>
-      client != null
-        ? await fetchLeaderboard(client, fuelDenom, 100)
-        : undefined,
-    enabled: client != null
-  })
-}
-
-/**
- * Gets the leaderboards for every chain.
- * @returns All of the burners and its precalculated burners info in an object, keyed by the chain name.
- */
-export const useFetchAllLeaderboard = (): {
-  data: LeaderboardsByChain
-  isLoading: boolean
-  isError: boolean
-} => {
-  const { data: clients } = useAllChainCosmWasmClientsReactquery()
-  const allChainAssets = useFetchAllChainAssets()
-
-  const leaderboardData = useQueries({
-    queries: allChainAssets
-      .flatMap(({ data }) => (data != null ? [data] : []))
-      .flatMap(([chainName, assets]) =>
-        assets.map(({ id: fuelDenom }) => ({
-          queryKey: ['leaderboard', chainName, fuelDenom],
-          queryFn: async () => {
-            const client = clients[chainName]
-            return typeof client !== 'undefined'
-              ? await fetchLeaderboard(client, fuelDenom, 100).then(
-                (
-                  leaderboard
-                ): [
-                    chainName: string,
-                    leaderboardInfo: LeaderboardInfo
-                ] => [chainName, [fuelDenom, leaderboard]]
-              )
-              : undefined
-          },
-          enabled: clients[chainName] != null
-        }))
-      )
-  })
-
-  return {
-    // Reduce the array of leaderboards down into an object that is keyed by the chain name
-    // to make the data more accessible else where
-    data: leaderboardData.reduce<LeaderboardsByChain>((allLeaderboards, thisLeaderboard) => {
-      if (thisLeaderboard.data != null) {
-        const {
-          data: [chainName, leaderboard]
-        } = thisLeaderboard
-        return {
-          ...allLeaderboards,
-          [chainName]:
-            chainName in allLeaderboards
-              ? [...allLeaderboards[chainName], leaderboard]
-              : [leaderboard]
-        }
-      } else {
-        return allLeaderboards
-      }
-    }, {}),
-    isLoading: leaderboardData.some(({ isLoading }) => isLoading),
-    isError: leaderboardData.some(({ isError }) => isError)
-  }
-}

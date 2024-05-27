@@ -127,7 +127,7 @@ export const FurnaceSearchBar: FC = () => {
                   </Button>
                 )
               })
-              : 'No Furnace Found'}</Stack>
+              : 'Loacing'}</Stack>
           </Stack>
         </DialogContent>
       </Dialog>
