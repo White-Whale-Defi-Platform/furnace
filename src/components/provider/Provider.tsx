@@ -1,41 +1,48 @@
 'use client'
 import type { FC, PropsWithChildren } from 'react'
 import { RecoilRoot } from 'recoil'
-import { darkTheme } from '@/constants'
+import { ENDPOINTS, darkTheme } from '@/constants'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider } from '@mui/material'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
-import { osmosis, chihuahua } from 'graz/chains'
 import { GrazProvider, WalletType } from 'graz'
-import { SnackbarProvider, ModalProvider, AppProvider, UserProvider } from '@/components'
+import * as grazChains from 'graz/chains'
+import { SnackbarProvider, ModalProvider, AppProvider } from '@/components'
 
 const queryClient = new QueryClient()
 
 export const Provider: FC<PropsWithChildren> = ({ children }) => {
-  const chihuahua_chain = { ...chihuahua, rpc: 'https://chihuahua-rpc.polkachu.com', rest: 'https://rest.cosmos.directory/chihuahua' }
-  const osmosis_chain = { ...osmosis, rpc: 'https://osmosis-rpc.polkachu.com', rest: 'https://rest.cosmos.directory/osmosis' }
 
+  const chains = Object.entries(ENDPOINTS)
+  .filter(([chainName]) => 
+    // @ts-ignore module type defaults to any
+    grazChains?.[chainName] != null)
+  .map(([chainName, {rpc: [rpc], rest: [rest]}]) => ({
+    // @ts-ignore module type definition doesn't like us throwing a random string in it
+    // so we added a filter to ensure everything doesn't blow up
+    ...grazChains[chainName], rpc, rest}))
+ 
   return (
     <QueryClientProvider client={queryClient}>
-    <RecoilRoot>
-      <ThemeProvider theme={darkTheme}>
-        <CssBaseline />
-        <ModalProvider>
-          <SnackbarProvider>
-              <GrazProvider
-                grazOptions={{
-                  chains: [osmosis_chain, chihuahua_chain],
-                  defaultWallet: WalletType.KEPLR
-                }}
-              >
-                <AppProvider>
-                  <UserProvider>{children}</UserProvider>
-                </AppProvider>
-              </GrazProvider>
-          </SnackbarProvider>
-        </ModalProvider>
-      </ThemeProvider>
-    </RecoilRoot>
+      <RecoilRoot>
+        <ThemeProvider theme={darkTheme}>
+          <CssBaseline />
+          <ModalProvider>
+            <SnackbarProvider>
+                <GrazProvider
+                  grazOptions={{
+                    chains,
+                    defaultWallet: WalletType.KEPLR
+                  }}
+                >
+                  <AppProvider>
+                    {children}
+                  </AppProvider>
+                </GrazProvider>
+            </SnackbarProvider>
+          </ModalProvider>
+        </ThemeProvider>
+      </RecoilRoot>
     </QueryClientProvider>
   )
 }

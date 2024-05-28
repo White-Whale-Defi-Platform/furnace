@@ -25,9 +25,10 @@ export const FurnaceSearchBar: FC = () => {
   )
 
   // format the getAssetInfo into array then flatten every asset info into one arry
-  const assetOptions = Object.entries(pair.contents).flatMap(
-    ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))
-  )
+  const assetOptions = []
+  // Object.entries(pair.contents).flatMap(
+    // ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))
+  // )
 
   const filteredAssetOptions =
   // if searchString is set then do the filtering otherwise just use all assets

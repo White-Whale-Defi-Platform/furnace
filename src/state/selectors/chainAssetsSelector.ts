@@ -22,11 +22,11 @@ ChainName
   get:
     (chainName: string) =>
       async ({ get }) => {
-        const clients = get(clientsAtom)
+        const [clients] = get(waitForAll([clientsAtom]))
 
         const client = clients[chainName]
 
-        if (typeof client === 'undefined') { return [] }
+        if (typeof client === 'undefined') { return Promise.reject('No client found for ' + chainName) }
         const assets = await fetchChainAssetsWithMintDenom(
           chainName,
           client,
@@ -58,17 +58,18 @@ ChainName
 })
 
 /**
- * Returns the single pair of the chain asset and its balance. This selecotr can be used in a burning page.
+ * Returns the single pair of the chain asset and its balance. This selector can be used in a burning page.
  */
 export const assetPairWithBalanceSelector = selectorFamily<
-{ burnAsset: ChainAsset, mintAsset: ChainAsset } | undefined,
+{ burnAsset: ChainAsset, mintAsset: ChainAsset },
 { chainName: ChainName, burnAssetName: string, address: string | undefined }
 >({
   key: 'assetPairWithBalanceSelector',
   get:
     ({ chainName, burnAssetName, address }) =>
       ({ get }) => {
-        const pair = get(assetPairSelector({ chainName, burnAssetName }))
+        const [pair] = get(waitForAll([assetPairSelector({ chainName, burnAssetName })]))
+        console.log("assetPairWithBalanceSelector", pair)
         if (pair != null) {
           const { burnAsset, mintAsset } = pair
           const burnBalance = get(
@@ -88,7 +89,7 @@ export const assetPairWithBalanceSelector = selectorFamily<
             )
           }
         } else {
-          return undefined
+          return Promise.reject(new Error(`Could not find assets (chain: ${chainName}, asset: ${burnAssetName}, address: ${address})`))
         }
       }
 })
@@ -97,17 +98,19 @@ export const assetPairWithBalanceSelector = selectorFamily<
  * Returns the pair of burn and mint denoms when they exist.
  */
 export const assetPairSelector = selectorFamily<
-{ burnAsset: ChainAsset, mintAsset: ChainAsset } | undefined,
+{ burnAsset: ChainAsset, mintAsset: ChainAsset },
 { chainName: ChainName, burnAssetName: string }
 >({
   key: 'assetPairSelector',
   get:
     ({ chainName, burnAssetName }) =>
-      ({ get }) => {
-        const allChainAssets = get(chainAssetsSelector(chainName))
-        return allChainAssets.find(({ burnAsset: { name } }) => {
+      async ({ get }) => {
+        const [allChainAssets] =get( waitForAll([chainAssetsSelector(chainName)]))
+        console.log({allChainAssets})
+        const foundAssets =  allChainAssets.find(({ burnAsset: { name } }) => {
           return name.toLowerCase() === burnAssetName.toLowerCase()
         })
+        return foundAssets ? foundAssets : Promise.reject(Error(`No assets exist ${chainName + burnAssetName}`))
       }
 })
 

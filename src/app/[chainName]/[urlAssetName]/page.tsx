@@ -4,10 +4,11 @@ import { Box, Unstable_Grid2 as Grid, Typography } from '@mui/material'
 import { fcAssetConvert, isValidTokenInput, findRegistryAssetBySymbol } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
 import { assetPairWithBalanceSelector } from '@/state'
-import { redirect } from 'next/navigation'
+import { RedirectType, redirect } from 'next/navigation'
 import { Burner, PageLayout, LeaderboardLayout, BurnerForm } from '@/components'
 import { useChainContext } from '@/hooks'
 import type { Asset } from '@/types'
+import Image from 'next/image'
 
 const Burn = ({
   params: { chainName, urlAssetName }
@@ -30,13 +31,20 @@ const Burn = ({
     })
   )
   const loadedBurnAsset = fuels.contents?.burnAsset
-  // useEffect(
-  //   () => {
-  //     console.log(fuels, fuels.contents, "loading")
-  //     // Redirect to the homepage if the fuel asset does not exist in the furnace
-  //     //loading
-  //     if (fuels.state === 'hasValue') { redirect('/')}
-  //   }, [loadedBurnAsset, fuels.state])
+
+  const fuelsState = fuels.state
+
+  // console.log({fuels, state: fuels.state, loadedBurnAsset}, "loading")
+
+  useEffect(
+    () => {
+      // Redirect to the homepage if the fuel asset does not exist in the furnace
+      //loading
+      if (fuelsState === 'hasError' ) {
+        console.log(fuels, "REDIRECTING")
+      // redirect('/', )
+    }
+    }, [fuelsState])
 
   const onChange = ({
     target: { value }
@@ -49,13 +57,7 @@ const Burn = ({
       ? `Burn ${urlAssetName}`
       : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
   return (
-    <Box 
-    sx={{
-      backgroundImage: `url(/public/assets/chihuahua_bg.png)`,
-      backgroundRepeat: "no-repeat",
-      // height: '385px',
-      // width: '385px'
-    }}>
+    <>
     <PageLayout
       title={`${urlAssetName.toUpperCase()} Furnace`}
       subtitle={subtitle}      
@@ -91,7 +93,7 @@ const Burn = ({
               )}
       </Grid>
     </PageLayout>
-    </Box>
+    </>
   )
 }
 

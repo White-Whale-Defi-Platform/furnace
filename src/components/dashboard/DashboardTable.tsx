@@ -1,6 +1,6 @@
 'use client'
 import { type ChainName, ENDPOINTS } from '@/constants'
-import type { TotalFurnaceData } from '@/hooks'
+import { TotalFurnaceData } from '@/state'
 import { formatPrettyName, formatTokenAmount } from '@/util'
 import {
   TableContainer,
