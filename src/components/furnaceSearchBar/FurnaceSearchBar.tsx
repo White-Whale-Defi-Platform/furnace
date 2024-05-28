@@ -15,6 +15,7 @@ import {
 import { Search } from '@mui/icons-material'
 import { useRecoilValueLoadable } from 'recoil'
 import { allChainAssetsSelector } from '@/state'
+import { formatPrettyName } from '@/util'
 
 export const FurnaceSearchBar: FC = () => {
   const [open, setOpen] = useState(false)
@@ -124,7 +125,7 @@ export const FurnaceSearchBar: FC = () => {
                     <Chip
                       variant="outlined"
                       size="small"
-                      label={chain} />
+                      label={formatPrettyName(chain)}/>
                   </Button>
                 )
               })

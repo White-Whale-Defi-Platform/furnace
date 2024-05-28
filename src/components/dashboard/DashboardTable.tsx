@@ -13,8 +13,10 @@ import {
   Avatar,
   Stack,
   Typography,
-  Unstable_Grid2 as Grid
+  Unstable_Grid2 as Grid,
+  Button
 } from '@mui/material'
+import { useRouter } from 'next/navigation'
 import { useState, type FC } from 'react'
 
 interface Props {
@@ -22,8 +24,8 @@ interface Props {
 }
 
 export const DashboardTable: FC<Props> = ({ furnaceData }) => {
+  const router = useRouter()
   const [filterChain, setFilterChain] = useState<string>()
-
   const flattenedFurnaceData = furnaceData.flatMap(([chainName, assets]) => assets.map((asset) => [chainName, asset] as const))
 
   // Filtered assets by chain name. Default to be all chains
@@ -60,9 +62,6 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
             <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
               Burned Tokens
             </TableCell>
-            {/* <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
-              Burned Value
-            </TableCell> */}
             <TableCell align="center" sx={{ fontSize: 20, fontWeight: 'bold' }}>
               Unique Burners
             </TableCell>
@@ -77,21 +76,22 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
+                  <Button sx={{ color: "white", '&:hover': { bgcolor: "transparent", color: `${chainColor}`}}} type="button" onClick={() => router.push(`/${chainName}/${asset.burnAsset.name}`)}>
                     <Stack direction="row" gap={1}>
                       <Avatar
                         alt={`${asset.burnAsset.name} Logo`}
                         sx={{ width: 24, height: 24 }}
                         src={asset.burnAsset.logo}
                       />
-                      <Typography>{asset.burnAsset.name}</Typography>                  
+                      <Typography>{asset.burnAsset.name}</Typography>                      
                     </Stack>
+                    </Button>
                   </TableCell>
                   <TableCell align="center">
                     <Typography fontSize="medium">
                       {formatTokenAmount(totalBurnedAssets / Math.pow(10, asset.burnAsset.decimals))}
                     </Typography>
                   </TableCell>
-                  {/* <TableCell align="center">-</TableCell> */}
                   <TableCell align="center">
                     <Typography fontSize="medium">
                       {formatTokenAmount(uniqueBurners)}
