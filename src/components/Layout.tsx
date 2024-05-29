@@ -7,7 +7,7 @@ import {
   Box,
   Toolbar,
   IconButton,
-  Grid
+  Unstable_Grid2 as Grid
 } from '@mui/material'
 import { AccountMenu } from './AccountMenu'
 import { useRouter } from 'next/navigation'
@@ -36,46 +36,47 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           fill
           quality={100}
         />
-        <Stack component="nav">
-          <Toolbar>
-            <Grid xs={12} container alignItems="center">
-              <Grid xs={3} alignItems="center">
-                <Avatar
-                  src="/assets/ashdao.jpg"
-                  onClick={() => router.push('/')}
-                  sx={{ cursor: 'pointer' }}
-                />
-              </Grid>
-              <Grid xs={6}>
-                <FurnaceSearchBar />
-              </Grid>
-              <Grid
-                xs={3}
-                sx={{ flexGrow: 1 }}
-                display="flex"
-                gap={1}
-                justifyContent="flex-end"
-                alignItems="center"
-              >
-                <Button
-                  sx={{ display: { xs: 'none', md: 'block' } }}
-                  variant="outlined"
-                  color="inherit"
-                  onClick={() => modal.open(<KadoModal />)}
-                >
-                  Buy Whale
-                </Button>
-                <AccountMenu />
-              </Grid>
+        <Stack component="nav" px={5} py={3}>
+          <Grid
+            container
+            xl={9}
+            justifyContent={'space-between'}
+            sx={{ alignSelf: { xl: 'center' } }}
+          >
+            <Grid alignItems="center">
+              <Avatar
+                src="/assets/ashdao.jpg"
+                onClick={() => router.push('/')}
+                sx={{ cursor: 'pointer' }}
+              />
             </Grid>
-          </Toolbar>
+            <Grid>
+              <FurnaceSearchBar />
+            </Grid>
+            <Grid
+              display="flex"
+              gap={1}
+              justifyContent="flex-end"
+              alignItems="center"
+            >
+              <Button
+                sx={{ display: { xs: 'none', md: 'block' } }}
+                variant="outlined"
+                color="inherit"
+                onClick={() => modal.open(<KadoModal />)}
+              >
+                Buy Whale
+              </Button>
+              <AccountMenu />
+            </Grid>
+          </Grid>
         </Stack>
         <Stack
           component="main"
           direction="column"
           minHeight="calc(100vh - 128px)"
-          px={5}
           py={3}
+          px={5}
         >
           {children}
         </Stack>

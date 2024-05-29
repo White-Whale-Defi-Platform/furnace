@@ -1,5 +1,5 @@
 'use client'
-import { Box, Breadcrumbs, Typography } from '@mui/material'
+import { Unstable_Grid2 as Grid, Breadcrumbs, Typography } from '@mui/material'
 import { usePathname } from 'next/navigation'
 import type { FC, PropsWithChildren } from 'react'
 
@@ -40,19 +40,21 @@ export const PageLayout: FC<PageLayoutProps> = ({
   children
 }): JSX.Element => (
   <>
-    <Box>
-      <BreadcrumbComponent />
-      <Typography
-        color="primary"
-        variant="h4"
-        pb={subtitle == null ? '15px' : 'none'}
-      >
-        {title}
-      </Typography>
-      <Typography color="secondary" variant="h6">
-        {subtitle}
-      </Typography>
-    </Box>
+    <Grid container xl={9} sx={{ alignSelf: { xl: 'center' } }}>
+      <Grid flexDirection={'column'}>
+        <BreadcrumbComponent />
+        <Typography
+          color="primary"
+          variant="h4"
+          pb={subtitle == null ? '15px' : 'none'}
+        >
+          {title}
+        </Typography>
+        <Typography color="secondary" variant="h6">
+          {subtitle}
+        </Typography>
+      </Grid>
+    </Grid>
     {children}
   </>
 )
