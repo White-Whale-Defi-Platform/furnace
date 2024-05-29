@@ -23,7 +23,7 @@ export const DashboardLayout: FC = () => {
   const allFurnaceData = useRecoilValueLoadable(furnaceSelector)
   const furnaceData = Object.entries(allFurnaceData.valueMaybe() ?? {})
   return (
-    <Grid gap={3} container justifyContent="space-between">
+    <Grid gap={3} xl={9} alignSelf='center' justifyContent="center" container>
     <DashboardBox>
       <Typography>Chains Supported</Typography>
       <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
