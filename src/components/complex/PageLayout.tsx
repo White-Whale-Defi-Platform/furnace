@@ -32,7 +32,6 @@ const BreadcrumbComponent = (): JSX.Element => {
 export interface PageLayoutProps extends PropsWithChildren {
   title?: string
   subtitle?: string
-  background?: boolean
 }
 
 export const PageLayout: FC<PageLayoutProps> = ({

@@ -27,7 +27,7 @@ export const AssetInput: FC<AssetInputProps> = ({ asset, prefillClick, value, la
   return (
     <TextField
       sx={{ cursor: 'pointer' }}
-      color={(invalidAmount ?? false) ? 'error' : 'primary'}
+      color={(invalidAmount ?? false) ? 'error' : 'success'}
       fullWidth
       disabled={disabled}
       label={label}

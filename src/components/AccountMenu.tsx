@@ -1,6 +1,24 @@
 'use client'
-import { AccountBox, Campaign, Feedback, Logout, Newspaper, Settings, Support, Paid } from '@mui/icons-material'
-import { Avatar, Button, Divider, Menu, MenuItem, styled, Tooltip, Typography } from '@mui/material'
+import {
+  AccountBox,
+  Campaign,
+  Feedback,
+  Logout,
+  Newspaper,
+  Settings,
+  Support,
+  Paid
+} from '@mui/icons-material'
+import {
+  Avatar,
+  Button,
+  Divider,
+  Menu,
+  MenuItem,
+  styled,
+  Tooltip,
+  Typography
+} from '@mui/material'
 import { useState } from 'react'
 import { useModal, useSnackbar } from './provider'
 import { KadoModal } from './modals/KadoModal'
@@ -50,7 +68,8 @@ export const AccountMenu = (): JSX.Element => {
   const { disconnectAsync } = useDisconnect()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
-  const openMenu = (event: React.MouseEvent<HTMLElement>): void => setAnchorEl(event.currentTarget)
+  const openMenu = (event: React.MouseEvent<HTMLElement>): void =>
+    setAnchorEl(event.currentTarget)
   const closeMenu = (): void => setAnchorEl(null)
   const snackbar = useSnackbar()
   const onConnect = (): void => {
@@ -68,16 +87,10 @@ export const AccountMenu = (): JSX.Element => {
   const modal = useModal()
   return (
     <>
-      {isConnected && (
+      {isConnected != null && (
         <>
-          <Tooltip
-            title="Account"
-            arrow
-            enterDelay={3000}>
-            <ProfileAvatar
-              src="/default-avatar.webp"
-              onClick={openMenu}
-            />
+          <Tooltip title="Account" arrow enterDelay={3000}>
+            <ProfileAvatar src="/default-avatar.webp" onClick={openMenu} />
           </Tooltip>
           <AccountDropDownMenu
             anchorEl={anchorEl}
@@ -87,14 +100,20 @@ export const AccountMenu = (): JSX.Element => {
           >
             <MenuItem
               disableRipple
-              sx={{ '&:hover': { backgroundColor: 'transparent' }, cursor: 'default' }}
+              sx={{
+                '&:hover': { backgroundColor: 'transparent' },
+                cursor: 'default'
+              }}
             >
               <Avatar src="/default-avatar.webp" />
               <Typography>Anon</Typography>
             </MenuItem>
             <Divider />
 
-            <MenuItem sx={{ display: { md: 'none' } }} onClick={() => modal.open(<KadoModal />)}>
+            <MenuItem
+              sx={{ display: { md: 'none' } }}
+              onClick={() => modal.open(<KadoModal />)}
+            >
               <Paid />
               <Typography>Buy Whale</Typography>
             </MenuItem>
@@ -131,11 +150,8 @@ export const AccountMenu = (): JSX.Element => {
           </AccountDropDownMenu>
         </>
       )}
-      {!isConnected && (
-        <LogInButton
-          variant="contained"
-          onClick={onConnect}
-        >
+      {isConnected == null && (
+        <LogInButton variant="contained" onClick={onConnect}>
           Log In
         </LogInButton>
       )}

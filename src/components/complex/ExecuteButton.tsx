@@ -47,7 +47,6 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({
           })
           .catch((e) => {
             setLoading(false)
-            console.log('Execute Button Error', e)
             snackbar.open('Request Rejected', 'error')
           })
       })

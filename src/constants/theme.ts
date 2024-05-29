@@ -5,15 +5,26 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#00FF94'
+      // main: '#00FF94'
+      main: '#D73502'
     },
     secondary: {
       main: '#8A91A3'
     },
+    error: {
+      main: '#f44336'
+    },
+    info: {
+      main: '#FFFF'
+    },
+    success: {
+      main: '#00FF94'
+    },
     background: {
       // default: '#0C1821',
       default: '#0A0C12',
-      paper: '#10131A'
+      // paper: '#10131A'
+      paper: '#131D33'
     }
   },
   components: {
@@ -36,7 +47,7 @@ export const darkTheme = createTheme({
     MuiAvatar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#00FF94'
+          backgroundColor: '#ffff'
         }
       }
     },
@@ -63,7 +74,7 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: '10px',
-          opacity: '0.8'
+          opacity: '0.6'
         }
       }
     }
