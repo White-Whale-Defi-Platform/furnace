@@ -25,13 +25,13 @@ export const DashboardLayout: FC = () => {
   return (
     <Grid gap={3} container justifyContent="space-between">
     <DashboardBox>
-      <Typography color="GrayText">Chains Supported</Typography>
+      <Typography>Chains Supported</Typography>
       <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
         {furnaceData.length}
       </Typography>
     </DashboardBox>
     <DashboardBox>
-      <Typography color="GrayText">Assets Supported</Typography>
+      <Typography>Assets Supported</Typography>
       <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
         {furnaceData.map(([_, chainInfo]) => chainInfo.length)
           .reduce((x, y) => x + y, 0)}

@@ -80,7 +80,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                     <Stack direction="row" gap={1}>
                       <Avatar
                         alt={`${asset.burnAsset.name} Logo`}
-                        sx={{ width: 24, height: 24, bgcolor: '#10131A' }}
+                        sx={{ width: 24, height: 24, bgcolor: '#131D33' }}
                         src={asset.burnAsset.logo}
                       />
                       <Typography sx={{ '&:hover': { color: `${chainColor}` } }}>{asset.burnAsset.name}</Typography>

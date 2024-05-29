@@ -30,19 +30,19 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
   return (
     <Grid
       component={Paper}
-      sx={{ gap: 3, flexDirection: 'column', display: 'flex', padding: 3, bgcolor: '#131D33', opacity: 0.9 }}
+      sx={{ gap: 3, flexDirection: 'column', display: 'flex', padding: 3, bgcolor: '#131D33' }}
     >
       <Typography sx={{ fontSize: 24 }}>Leaderboard</Typography>
 
-      <Grid container xs={12} sx={{ background: '#18181b', padding: 3 }}>
+      <Grid container xs={12} sx={{ background: '#131D33', padding: 3 }}>
         <Grid xs={6} flexGrow={1} gap={3}>
-          <Typography color="GrayText">Total Burned</Typography>
+          <Typography>Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
             {formatTokenAmount(Number(formatAmountWithExponent(totalBurnedAssets, decimals)))}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
-          <Typography color="GrayText">Total Burners</Typography>
+          <Typography>Total Burners</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
           {uniqueBurners}
           </Typography>
@@ -51,13 +51,13 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
           <Divider flexItem />
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
-          <Typography color="GrayText">My Rank</Typography>
+          <Typography>My Rank</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
             {userAddress !== undefined && userRank > 0 ? userRank : '-'}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
-          <Typography color="GrayText">{`My ${mintDenom.name} Tokens`}</Typography>
+          <Typography>{`My ${mintDenom.name} Tokens`}</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
            {typeof userAddress === 'string' ? formatAssetAmount(mintDenom) : '-'}
           </Typography>

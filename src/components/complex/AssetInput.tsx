@@ -29,7 +29,6 @@ export const AssetInput: FC<AssetInputProps> = ({ asset, prefillClick, value, la
       sx={{ cursor: 'pointer' }}
       color={(invalidAmount ?? false) ? 'error' : 'success'}
       fullWidth
-      focused
       disabled={disabled}
       label={label}
       value={value}

@@ -52,7 +52,7 @@ export const FurnaceSearchBar: FC = () => {
         sx={{
           border: '1px solid #8A91A3',
           color: '#8A91A3',
-          '&:hover': { borderColor: '#00FF94', background: 'none' }
+          '&:hover': { borderColor: '#FFFF', color: '#FFFF' }
         }}
         component="label"
         variant="outlined"
