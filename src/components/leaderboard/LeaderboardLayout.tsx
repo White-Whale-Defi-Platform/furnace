@@ -5,9 +5,8 @@ import { leaderboardSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'
 import type { Asset } from '@/types'
 import { formatAmountWithExponent, formatAssetAmount, formatTokenAmount } from '@/util'
-import RankingTable from './RankingTable'
+import { RankingTable, LeaderboardLoading } from '@/components'
 import { useChainContext } from '@/hooks'
-
 interface Props {
   burnDenom: Asset
   mintDenom: Asset
@@ -17,7 +16,7 @@ interface Props {
 export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decimals }, mintDenom }) => {
   const userAddress = useChainContext(chainName).data?.bech32Address
   const fetchLeaderboard = useRecoilValueLoadable(leaderboardSelector({ chainName, denom: id }))
-  if (fetchLeaderboard.state !== 'hasValue') return <Typography>Loading...</Typography>
+  if (fetchLeaderboard.state !== 'hasValue') return <LeaderboardLoading/>
 
   const { leaderboard, totalBurnedAssets, uniqueBurners } = fetchLeaderboard.contents
   const formattedLeaderboard = leaderboard.map(([burner, totalBurn]) => ({
