@@ -5,7 +5,7 @@ import {
   Stack,
   Button,
   Avatar,
-  AppBar,
+  Box,
   Toolbar,
   IconButton,
   Grid,
@@ -18,6 +18,7 @@ import { KadoModal } from './modals/KadoModal'
 import { Language, X } from '@mui/icons-material'
 import { Discord } from '../../public/assets/Discord'
 import FurnaceSearchBar from './furnaceSearchBar/FurnaceSearchBar'
+import Image from 'next/image'
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const theme = useTheme()
@@ -28,7 +29,15 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <>
-      <AppBar component="nav" >
+    <Box sx={{ position: 'relative', padding: 0 }}>
+        <Image
+         style={{ zIndex: -1, overflowY: 'scroll', backgroundAttachment: 'fixed' }}
+         src="/assets/fireAshes_bg.jpeg"
+         alt="burning page background"
+         fill
+         quality={100}
+      />
+        <Stack component="nav">
         <Toolbar>
           <Grid xs={12} container alignItems="center">
             <Grid xs={3} alignItems="center">
@@ -60,9 +69,8 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
               <AccountMenu />
             </Grid>
           </Grid>
-        </Toolbar>
-      </AppBar>
-      <Toolbar />
+          </Toolbar>
+        </Stack>
       <Stack
         component="main"
         direction="column"
@@ -72,10 +80,10 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
       >
         {children}
       </Stack>
-      <AppBar
+      <Stack
         component="footer"
         position="fixed"
-        sx={{ position: 'relative', bottom: 0 }}      
+        sx={{ position: 'relative', bottom: 0 }}
       >
         <Toolbar sx={{ flex: 1, direction: 'row', justifyContent: 'center' }}>
           <Stack
@@ -110,7 +118,8 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
             </IconButton>
           </Stack>
         </Toolbar>
-      </AppBar>
+      </Stack>
+    </Box>
     </>
   )
 }

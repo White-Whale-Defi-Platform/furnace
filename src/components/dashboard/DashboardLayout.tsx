@@ -11,13 +11,12 @@ import { furnaceSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'
 
 const DashboardBox = styled(Paper)({
-  background: '##30313D',
   display: 'flex',
   flexDirection: 'column',
   flexGrow: 1,
   justifyContent: 'space-between',
   alignContent: 'center',
-  padding: 20,  
+  padding: 20
 })
 
 export const DashboardLayout: FC = () => {
@@ -25,27 +24,27 @@ export const DashboardLayout: FC = () => {
   const furnaceData = Object.entries(allFurnaceData.valueMaybe() ?? {})
   return (
     <Grid gap={3} container justifyContent="space-between">
+    <DashboardBox>
+      <Typography color="GrayText">Chains Supported</Typography>
+      <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
+        {furnaceData.length}
+      </Typography>
+    </DashboardBox>
+    <DashboardBox>
+      <Typography color="GrayText">Assets Supported</Typography>
+      <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
+        {furnaceData.map(([_, chainInfo]) => chainInfo.length)
+          .reduce((x, y) => x + y, 0)}
+      </Typography>
+    </DashboardBox>
+    <Grid xs={12}>
       <DashboardBox>
-        <Typography color="GrayText">Chains Supported</Typography>
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {furnaceData.length}
-        </Typography>
+        <DashboardTable furnaceData={furnaceData} />
       </DashboardBox>
-      <DashboardBox>
-        <Typography color="GrayText">Assets Supported</Typography>
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {furnaceData.map(([_, chainInfo]) => chainInfo.length)
-            .reduce((x, y) => x + y, 0)}
-        </Typography>
-      </DashboardBox>
-      <Grid xs={12}>
-        <DashboardBox>
-          <DashboardTable furnaceData={furnaceData} />
-        </DashboardBox>
-      </Grid>
-      <Grid xs={12}>
-        <DashboardCharts furnaceData={furnaceData} />
-      </Grid>
     </Grid>
+    <Grid xs={12}>
+      <DashboardCharts furnaceData={furnaceData} />
+    </Grid>
+  </Grid>
   )
 }

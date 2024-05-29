@@ -27,8 +27,8 @@ export const FurnaceSearchBar: FC = () => {
 
   // format the getAssetInfo into array then flatten every asset info into one arry
   const assetOptions = []
-  // Object.entries(pair.contents).flatMap(
-    // ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))
+  //  Object.entries(pair.contents).flatMap(
+  //   ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))
   // )
 
   const filteredAssetOptions =
@@ -51,12 +51,7 @@ export const FurnaceSearchBar: FC = () => {
       <Button
         disabled={pair.state !== 'hasValue'}
         focusRipple
-        sx={{
-          border: 'unset',
-          background: "#10131A",
-          color: 'white',
-          '&:hover': { borderColor: '#00FF94' }
-        }}
+        sx={{ border: '1px solid #8A91A3', color: '#8A91A3', '&:hover': { borderColor: '#00FF94', background: 'none' } }}
         component="label"
         variant="outlined"
         startIcon={<Search />}
@@ -64,7 +59,7 @@ export const FurnaceSearchBar: FC = () => {
       >
         Search Assets
       </Button>
-      <Dialog fullWidth open={open} onClose={() => setOpen(false)} sx={{backdropFilter: "blur(5px)"}}>
+      <Dialog fullWidth open={open} onClose={() => setOpen(false)} sx={{ backdropFilter: 'blur(5px)' }}>
         <DialogContent>
           <Stack gap={2}>
             <TextField
@@ -119,7 +114,6 @@ export const FurnaceSearchBar: FC = () => {
                             src={toLogo} />
                         </Stack>
                         <Typography color="white">{`${fromSymbol} / ${toSymbol}`}</Typography>
-                        {/* <Typography>hi i am jenna</Typography> */}
                       </Box>
                     </Stack>
                     <Chip

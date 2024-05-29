@@ -12,16 +12,16 @@ import { SnackbarProvider, ModalProvider, AppProvider } from '@/components'
 const queryClient = new QueryClient()
 
 export const Provider: FC<PropsWithChildren> = ({ children }) => {
-
   const chains = Object.entries(ENDPOINTS)
-  .filter(([chainName]) => 
-    // @ts-ignore module type defaults to any
-    grazChains?.[chainName] != null)
-  .map(([chainName, {rpc: [rpc], rest: [rest]}]) => ({
-    // @ts-ignore module type definition doesn't like us throwing a random string in it
+    .filter(([chainName]) =>
+    // @ts-expect-error module type defaults to any
+      grazChains[chainName] != null)
+    .map(([chainName, { rpc: [rpc], rest: [rest] }]) => ({
+    // @ts-expect-error module type definition doesn't like us throwing a random string in it
     // so we added a filter to ensure everything doesn't blow up
-    ...grazChains[chainName], rpc, rest}))
- 
+      ...grazChains[chainName], rpc, rest
+    }))
+
   return (
     <QueryClientProvider client={queryClient}>
       <RecoilRoot>

@@ -1,36 +1,71 @@
 'use client'
 import { createTheme } from '@mui/material'
 
-export const darkTheme = createTheme({  
+export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      main: '#00ff94',
+      main: '#00FF94'
     },
     secondary: {
-      main: '#8A91A3',
+      main: '#8A91A3'
     },
     background: {
-      default: '#0a0c12',
-      paper: '#10131a',
-    },  
-},
-components: { 
-  MuiDialog: {
-  styleOverrides: {
-    paper: {
-     background: "#10131A",
-     borderRadius: "5px",
-     border: "2px solid #2E3443",
-    },
+      // default: '#0C1821',
+      default: '#0A0C12',
+      paper: '#10131A'
+    }
   },
- },
- MuiCard: {
-  styleOverrides: {
-    root: {
-      border: "2px solid #2E3443",
+  components: {
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          background: '#10131A',
+          borderRadius: '5px',
+          border: '2px solid #2E3443'
+        }
+      }
     },
-  },
- },
-}
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          border: '2px solid #2E3443'
+        }
+      }
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#00FF94'
+        }
+      }
+    },
+    MuiChip: {
+      styleOverrides: {
+        colorPrimary: {
+          color: '#00FF94',
+          borderColor: '#00FF94'
+        },
+        colorSecondary: {
+          color: '#8A91A3',
+          borderColor: '#8A91A3'
+        }
+      }
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: '#FFFF'
+        }
+      }
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px',
+          opacity: '0.8'
+        }
+      }
+    }
+  }
 })

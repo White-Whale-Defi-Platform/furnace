@@ -13,12 +13,17 @@ const BreadcrumbComponent = (): JSX.Element => {
         const to = `/${pathnames.slice(0, index + 1).join('/')}`
 
         return last
-          ? <Typography color="inherit" key={to}>
-            {index === 0 ? '/home' : ''}{value}
-          </Typography>
-          : <Typography color="inherit" key={to} >
+          ? (
+          <Typography color="inherit" key={to}>
+            {index === 0 ? '/home' : ''}
             {value}
           </Typography>
+            )
+          : (
+          <Typography color="inherit" key={to}>
+            {value}
+          </Typography>
+            )
       })}
     </Breadcrumbs>
   )
@@ -27,14 +32,27 @@ const BreadcrumbComponent = (): JSX.Element => {
 export interface PageLayoutProps extends PropsWithChildren {
   title?: string
   subtitle?: string
+  background?: boolean
 }
 
-export const PageLayout: FC<PageLayoutProps> = ({ title, subtitle, children }): JSX.Element => (
+export const PageLayout: FC<PageLayoutProps> = ({
+  title,
+  subtitle,
+  children
+}): JSX.Element => (
   <>
     <Box>
       <BreadcrumbComponent />
-      <Typography color="primary" variant='h4' pb={!subtitle ? "15px" : "none"}>{title}</Typography>
-      <Typography color="secondary" variant='h6'>{subtitle}</Typography>
+      <Typography
+        color="primary"
+        variant="h4"
+        pb={subtitle == null ? '15px' : 'none'}
+      >
+        {title}
+      </Typography>
+      <Typography color="secondary" variant="h6">
+        {subtitle}
+      </Typography>
     </Box>
     {children}
   </>

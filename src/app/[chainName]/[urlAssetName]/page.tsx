@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Box, Unstable_Grid2 as Grid, Typography } from '@mui/material'
+import { Unstable_Grid2 as Grid, Typography } from '@mui/material'
 import { fcAssetConvert, isValidTokenInput, findRegistryAssetBySymbol } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
 import { assetPairWithBalanceSelector } from '@/state'
@@ -39,11 +39,11 @@ const Burn = ({
   useEffect(
     () => {
       // Redirect to the homepage if the fuel asset does not exist in the furnace
-      //loading
-      if (fuelsState === 'hasError' ) {
-        console.log(fuels, "REDIRECTING")
+      // loading
+      if (fuelsState === 'hasError') {
+        console.log(fuels, 'REDIRECTING')
       // redirect('/', )
-    }
+      }
     }, [fuelsState])
 
   const onChange = ({
@@ -55,14 +55,15 @@ const Burn = ({
   const subtitle =
     fuels.state !== 'hasValue'
       ? `Burn ${urlAssetName}`
-      : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
+      : `Burn ${fuels.valueMaybe().burnAsset.name} and Receive ${fuels.valueMaybe().mintAsset.name}`
   return (
     <>
     <PageLayout
       title={`${urlAssetName.toUpperCase()} Furnace`}
-      subtitle={subtitle}      
+      subtitle={subtitle}
+      background
     >
-      <Grid container alignItems="center" justifyContent="center" >
+      <Grid container alignItems="center" justifyContent="center">
         {fuels.state !== 'hasValue'
           ? (
           <BurnerForm

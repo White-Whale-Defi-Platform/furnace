@@ -94,7 +94,7 @@ export const BurnerForm: FC<Props> = ({
                     variant="contained"
                     disabled
                     size="large"
-                    sx={{ width: 256 }}
+                    sx={{ width: 256, border: 'none' }}
                   >
                     <CircularProgress color="inherit" size={26} />
                   </Button>

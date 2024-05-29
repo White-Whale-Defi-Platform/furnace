@@ -40,7 +40,7 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({
                 <TransactionModal
                   deliveryTxResp={response}
                   chainName={chainName} />
-              )
+                )
               )
               .catch(() => snackbar.open('Broadcast Failed', 'error'))
               .finally(() => setLoading(false))
@@ -64,7 +64,7 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({
       onClick={() => execute()}
       disabled={disabled}
       size="large"
-      sx={{ width: 256 }}
+      sx={{ width: 256, border: 'none' }}
     >
       {loading ? <CircularProgress color="inherit" size={26} /> : action}
     </Button>

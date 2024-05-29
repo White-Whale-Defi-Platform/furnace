@@ -1,6 +1,6 @@
 'use client'
 import { type ChainName, ENDPOINTS } from '@/constants'
-import { TotalFurnaceData } from '@/state'
+import type { TotalFurnaceData } from '@/state'
 import { formatPrettyName, formatTokenAmount } from '@/util'
 import {
   TableContainer,
@@ -38,7 +38,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
       {
        <Stack direction="row" gap={1} maxWidth={300}>
         <Chip label="All" variant="outlined"
-               color={filterChain === undefined ? 'primary' : 'default'}
+               color={filterChain === undefined ? 'primary' : 'secondary'}
                onClick={() => setFilterChain(undefined)}/>
        {
          flattenedFurnaceData.map(([chainName]) => (
@@ -46,7 +46,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                key={chainName}
                variant="outlined"
                label={formatPrettyName(chainName)}
-               color={filterChain === chainName ? 'primary' : 'default'}
+               color={filterChain === chainName ? 'primary' : 'secondary'}
                onClick={() => setFilterChain(chainName)} />
          ))
        }
@@ -76,14 +76,14 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                  <Button sx={{ color: "white", '&:hover': { bgcolor: "transparent", color: `${chainColor}`}}} type="button" onClick={() => router.push(`/${chainName}/${asset.burnAsset.name}`)}>
+                  <Button sx={{ border: 'none', '&:hover': { bgcolor: 'transparent' } }} type="button" onClick={() => router.push(`/${chainName}/${asset.burnAsset.name}`)}>
                     <Stack direction="row" gap={1}>
                       <Avatar
                         alt={`${asset.burnAsset.name} Logo`}
-                        sx={{ width: 24, height: 24 }}
+                        sx={{ width: 24, height: 24, bgcolor: '#10131A' }}
                         src={asset.burnAsset.logo}
                       />
-                      <Typography>{asset.burnAsset.name}</Typography>                      
+                      <Typography sx={{ '&:hover': { color: `${chainColor}` } }}>{asset.burnAsset.name}</Typography>
                     </Stack>
                     </Button>
                   </TableCell>

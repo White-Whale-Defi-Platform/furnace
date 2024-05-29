@@ -42,9 +42,8 @@ export const AssetInput: FC<AssetInputProps> = ({ asset, prefillClick, value, la
         endAdornment: (
           <InputAdornment position="end">
             <Button
-              color="inherit"
               disabled={!isMultiAsset}
-              startIcon={<Avatar src={asset.logo} sx={{ width: 24, height: 24 }} />}
+              startIcon={<Avatar src={asset.logo} sx={{ width: 24, height: 24, background: 'none' }} />}
               endIcon={isMultiAsset && <KeyboardArrowDownIcon />}
               onClick={() => modal.open(<SelectAssetModal assets={assets} callback={onAssetChange} />)}
             >
