@@ -5,7 +5,6 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      // main: '#00FF94'
       main: '#D73502'
     },
     secondary: {
@@ -21,9 +20,7 @@ export const darkTheme = createTheme({
       main: '#00FF94'
     },
     background: {
-      // default: '#0C1821',
       default: '#0A0C12',
-      // paper: '#10131A'
       paper: '#131D33'
     }
   },
@@ -74,7 +71,7 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: '10px',
-          opacity: '0.6'
+          opacity: '0.9'
         }
       }
     }
