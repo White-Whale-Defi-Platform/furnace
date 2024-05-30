@@ -5,7 +5,7 @@ import { atom, RecoilLoadable } from 'recoil'
 /**
  * Intends to store clients for each of the chains in the ENDPOINTS constant
  */
-export const clientsAtom = atom<Record<ChainName, FurnaceQueryClient | undefined>>(
+export const clientsAtom = atom<Record<ChainName, FurnaceQueryClient>>(
   {
     key: 'clientsAtom',
     default: RecoilLoadable.loading()

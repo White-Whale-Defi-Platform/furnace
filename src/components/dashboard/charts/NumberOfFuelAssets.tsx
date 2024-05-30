@@ -76,7 +76,7 @@ export const NumberOfFuelAssets: FC<Props> = ({ fuelAssetData }) => {
           <Tooltip
             cursor={{ fill: 'transparent' }}
             labelStyle={{ color: 'ActiveBorder' }}
-            content={<CustomTooltip />}
+            content={<CustomTooltip active={false} payload={[]} />}
           />
           <Legend
             payload={fuelAssets.map((item, index) => ({

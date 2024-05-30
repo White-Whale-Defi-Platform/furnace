@@ -58,7 +58,7 @@ export const BurnerForm: FC<Props> = ({
       width={560}
     >
       <Grid xs={12}>
-        <Card>
+        <Card sx={{ bgcolor: '#2B2626', border: 'none' }}>
           <CardHeader title="Burn" />
           <CardContent>
             <Stack direction="column" alignItems="center" spacing={2}>
@@ -94,7 +94,7 @@ export const BurnerForm: FC<Props> = ({
                     variant="contained"
                     disabled
                     size="large"
-                    sx={{ width: 256 }}
+                    sx={{ width: 256, border: 'none' }}
                   >
                     <CircularProgress color="inherit" size={26} />
                   </Button>

@@ -23,28 +23,28 @@ export const DashboardLayout: FC = () => {
   const allFurnaceData = useRecoilValueLoadable(furnaceSelector)
   const furnaceData = Object.entries(allFurnaceData.valueMaybe() ?? {})
   return (
-    <Grid gap={3} container justifyContent="space-between">
+    <Grid gap={3} xl={9} alignSelf='center' justifyContent="center" container>
+    <DashboardBox>
+      <Typography>Chains Supported</Typography>
+      <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
+        {furnaceData.length}
+      </Typography>
+    </DashboardBox>
+    <DashboardBox>
+      <Typography>Assets Supported</Typography>
+      <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
+        {furnaceData.map(([_, chainInfo]) => chainInfo.length)
+          .reduce((x, y) => x + y, 0)}
+      </Typography>
+    </DashboardBox>
+    <Grid xs={12}>
       <DashboardBox>
-        <Typography color="GrayText">Chains Supported</Typography>
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {furnaceData.length}
-        </Typography>
+        <DashboardTable furnaceData={furnaceData} />
       </DashboardBox>
-      <DashboardBox>
-        <Typography color="GrayText">Assets Supported</Typography>
-        <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {furnaceData.map(([_, chainInfo]) => chainInfo.length)
-            .reduce((x, y) => x + y, 0)}
-        </Typography>
-      </DashboardBox>
-      <Grid xs={12}>
-        <DashboardBox>
-          <DashboardTable furnaceData={furnaceData} />
-        </DashboardBox>
-      </Grid>
-      <Grid xs={12}>
-        <DashboardCharts furnaceData={furnaceData} />
-      </Grid>
     </Grid>
+    <Grid xs={12}>
+      <DashboardCharts furnaceData={furnaceData} />
+    </Grid>
+  </Grid>
   )
 }

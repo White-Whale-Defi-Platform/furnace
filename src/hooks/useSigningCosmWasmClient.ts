@@ -56,13 +56,13 @@ export const useAllCosmWasmClients = (): void => {
  */
 export const useSigningClient = (chainName: string): UseSigningClientResult => {
   const { data: chainContext, isConnected } = useChainContext(chainName)
-  const { data: signingClient } = useCosmWasmSigningClient({chainId: chainIdConvert(chainName)})
+  const { data: signingClient } = useCosmWasmSigningClient({ chainId: chainIdConvert(chainName) })
   const [result, setResult] = useState<UseSigningClientResult>({
     result: null,
     loading: false,
     error: null
   })
-  const bech32Address = chainContext?.bech32Address 
+  const bech32Address = chainContext?.bech32Address
 
   useEffect(
     () => {
@@ -74,5 +74,5 @@ export const useSigningClient = (chainName: string): UseSigningClientResult => {
     }, [isConnected, bech32Address, signingClient]
   )
 
-  return useMemo(() => result, [result])  
+  return useMemo(() => result, [result])
 }

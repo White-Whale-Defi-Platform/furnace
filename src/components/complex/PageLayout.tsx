@@ -1,5 +1,5 @@
 'use client'
-import { Box, Breadcrumbs, Typography } from '@mui/material'
+import { Unstable_Grid2 as Grid, Breadcrumbs, Typography } from '@mui/material'
 import { usePathname } from 'next/navigation'
 import type { FC, PropsWithChildren } from 'react'
 
@@ -13,12 +13,17 @@ const BreadcrumbComponent = (): JSX.Element => {
         const to = `/${pathnames.slice(0, index + 1).join('/')}`
 
         return last
-          ? <Typography color="inherit" key={to}>
-            {index === 0 ? '/home' : ''}{value}
-          </Typography>
-          : <Typography color="inherit" key={to} >
+          ? (
+          <Typography color="secondary" key={to}>
+            {index === 0 ? '/home' : ''}
             {value}
           </Typography>
+            )
+          : (
+          <Typography color="secondary" key={to}>
+            {value}
+          </Typography>
+            )
       })}
     </Breadcrumbs>
   )
@@ -29,13 +34,27 @@ export interface PageLayoutProps extends PropsWithChildren {
   subtitle?: string
 }
 
-export const PageLayout: FC<PageLayoutProps> = ({ title, subtitle, children }): JSX.Element => (
+export const PageLayout: FC<PageLayoutProps> = ({
+  title,
+  subtitle,
+  children
+}): JSX.Element => (
   <>
-    <Box>
-      <BreadcrumbComponent />
-      <Typography variant='h4'>{title}</Typography>
-      <Typography variant='h6' color="GrayText">{subtitle}</Typography>
-    </Box>
+    <Grid container xl={9} sx={{ alignSelf: { xl: 'center' } }}>
+      <Grid flexDirection={'column'}>
+        <BreadcrumbComponent />
+        <Typography
+          color="primary"
+          variant="h4"
+          pb={subtitle == null ? '15px' : 'none'}
+        >
+          {title}
+        </Typography>
+        <Typography color="secondary" variant="h6">
+          {subtitle}
+        </Typography>
+      </Grid>
+    </Grid>
     {children}
   </>
 )

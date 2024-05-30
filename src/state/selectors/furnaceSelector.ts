@@ -1,8 +1,7 @@
 import { type ChainName, ENDPOINTS } from '@/constants'
 import { selector } from 'recoil'
 import { chainLeaderboardSelector, chainAssetsSelector } from '@/state'
-import { LeaderboardResults, type ChainAsset } from '@/hooks'
-
+import type { LeaderboardResults, ChainAsset } from '@/hooks'
 
 export type TotalFurnaceData = [
   chainName: string,

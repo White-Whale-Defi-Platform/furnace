@@ -5,26 +5,75 @@ export const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: {
-      light: '#4bd170',
-      main: '#3CCD64',
-      dark: '#31c259',
-      contrastText: '#000000'
-    },
-    success: {
-      light: '#4bd170',
-      main: '#3CCD64',
-      dark: '#31c259',
-      contrastText: '#000000'
+      main: '#D73502'
     },
     secondary: {
-      light: '#3CCD64',
-      main: '#8f2972',
-      dark: '#194325',
-      contrastText: '#000000'
+      main: '#8A91A3'
+    },
+    error: {
+      main: '#f44336'
+    },
+    info: {
+      main: '#FFFF'
+    },
+    success: {
+      main: '#00FF94'
     },
     background: {
-      default: '#18181b',
-      paper: '#18181b'
+      default: '#0A0C12',
+      paper: '#2B2626'
+    }
+  },
+  components: {
+    MuiDialog: {
+      styleOverrides: {
+        paper: {
+          background: '#10131A',
+          borderRadius: '5px',
+          border: '2px solid #2E3443'
+        }
+      }
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          border: '2px solid #2E3443'
+        }
+      }
+    },
+    MuiAvatar: {
+      styleOverrides: {
+        root: {
+          backgroundColor: '#ffff'
+        }
+      }
+    },
+    MuiChip: {
+      styleOverrides: {
+        colorPrimary: {
+          color: '#00FF94',
+          borderColor: '#00FF94'
+        },
+        colorSecondary: {
+          color: '#8A91A3',
+          borderColor: '#8A91A3'
+        }
+      }
+    },
+    MuiTypography: {
+      styleOverrides: {
+        root: {
+          color: '#FFFF'
+        }
+      }
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          borderRadius: '10px',
+          opacity: '0.9'
+        }
+      }
     }
   }
 })
