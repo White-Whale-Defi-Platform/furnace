@@ -63,7 +63,7 @@ const Burn = ({
   const subtitle =
     fuels.state !== 'hasValue'
       ? `Burn ${urlAssetName}`
-      : `Burn ${fuels.valueMaybe().burnAsset.name} and Receive ${fuels.valueMaybe().mintAsset.name}`
+      : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
   return (
     <>
       <PageLayout
