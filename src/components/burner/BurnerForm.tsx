@@ -58,7 +58,7 @@ export const BurnerForm: FC<Props> = ({
       width={560}
     >
       <Grid xs={12}>
-        <Card sx={{ bgcolor: '#131D33' }}>
+        <Card sx={{ bgcolor: '#2B2626' }}>
           <CardHeader title="Burn" />
           <CardContent>
             <Stack direction="column" alignItems="center" spacing={2}>

@@ -30,11 +30,11 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
   return (
     <Grid
       component={Paper}
-      sx={{ gap: 3, flexDirection: 'column', display: 'flex', padding: 3, bgcolor: '#131D33' }}
+      sx={{ gap: 3, flexDirection: 'column', display: 'flex', padding: 3, bgcolor: '#2B2626' }}
     >
       <Typography sx={{ fontSize: 24 }}>Leaderboard</Typography>
 
-      <Grid container xs={12} sx={{ background: '#131D33', padding: 3 }}>
+      <Grid container xs={12} sx={{ background: '#10131A', padding: 3 }}>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
