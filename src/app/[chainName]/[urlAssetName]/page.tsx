@@ -63,7 +63,7 @@ const Burn = ({
   const subtitle =
     fuels.state !== 'hasValue'
       ? `Burn ${urlAssetName}`
-      : `Burn ${fuels.valueMaybe().burnAsset.name} and Receive ${fuels.valueMaybe().mintAsset.name}`
+      : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
   return (
     <>
       <PageLayout
@@ -71,7 +71,7 @@ const Burn = ({
         subtitle={subtitle}
       >
         <Grid container alignItems="center" justifyContent="center">
-          {fuels.state !== 'hasValue'
+          {fuels.state !== 'hasValue' || typeof fuels.contents === 'undefined'
             ? (
             <BurnerForm
               nativeAsset={registryBurnAsset}
@@ -82,11 +82,7 @@ const Burn = ({
               chainName={chainName}
             />
               )
-            : typeof fuels.contents === 'undefined'
-              ? (
-            <Typography>Loading</Typography>
-                )
-              : (
+            : (
             <Grid>
               <Burner
                 chainName={chainName}
@@ -101,7 +97,7 @@ const Burn = ({
                 mintDenom={fuels.contents.mintAsset}
               />
             </Grid>
-                )}
+              )}
         </Grid>
       </PageLayout>
     </>
