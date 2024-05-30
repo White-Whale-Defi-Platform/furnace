@@ -14,13 +14,13 @@ const BreadcrumbComponent = (): JSX.Element => {
 
         return last
           ? (
-          <Typography color="inherit" key={to}>
+          <Typography color="secondary" key={to}>
             {index === 0 ? '/home' : ''}
             {value}
           </Typography>
             )
           : (
-          <Typography color="inherit" key={to}>
+          <Typography color="secondary" key={to}>
             {value}
           </Typography>
             )
