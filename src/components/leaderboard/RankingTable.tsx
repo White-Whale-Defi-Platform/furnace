@@ -43,7 +43,7 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
   }, [])
   return (
     <TableContainer
-      sx={{ background: '#131D33', paddingX: 3, paddingTop: 1.5 }}
+      sx={{ background: '#10131A', paddingX: 3, paddingTop: 1.5 }}
     >
       <Table aria-label="ranking table">
         <TableHead>
