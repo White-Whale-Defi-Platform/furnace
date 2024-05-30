@@ -16,9 +16,13 @@ interface Props {
 export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decimals }, mintDenom }) => {
   const userAddress = useChainContext(chainName).data?.bech32Address
   const fetchLeaderboard = useRecoilValueLoadable(leaderboardSelector({ chainName, denom: id }))
-  if (fetchLeaderboard.state !== 'hasValue') return <LeaderboardLoading/>
 
-  const { leaderboard, totalBurnedAssets, uniqueBurners } = fetchLeaderboard.contents
+  const { leaderboard, totalBurnedAssets, uniqueBurners } = (fetchLeaderboard.valueMaybe()) ?? {
+    uniqueBurners: 0,
+    totalBurnedAssets: 0,
+    avgTokensBurnedPerUniques: 0,
+    leaderboard: []
+  }
   const formattedLeaderboard = leaderboard.map(([burner, totalBurn]) => ({
     id: burner,
     totalBurn
@@ -37,13 +41,13 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {formatTokenAmount(Number(formatAmountWithExponent(totalBurnedAssets, decimals)))}
+            {fetchLeaderboard.state !== 'hasValue' ? '-' : formatTokenAmount(Number(formatAmountWithExponent(totalBurnedAssets, decimals)))}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>Total Burners</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {uniqueBurners}
+          {fetchLeaderboard.state === 'hasValue' ? uniqueBurners : '-'}
           </Typography>
         </Grid>
         <Grid xs={12} sx={{ paddingY: 2 }}>
@@ -58,7 +62,7 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>{`My ${mintDenom.name} Tokens`}</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-           {typeof userAddress === 'string' ? formatAssetAmount(mintDenom) : '-'}
+           {typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' ? formatAssetAmount(mintDenom) : '-'}
           </Typography>
         </Grid>
       </Grid>

@@ -54,10 +54,12 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {(rowsPerPage > 0
-            ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : data
-          ).map((value) => (
+          {data.length === 0
+            ? [...new Array(5)].fill(<TableRow><TableCell></TableCell><TableCell>-</TableCell><TableCell>-</TableCell></TableRow>)
+            : (rowsPerPage > 0
+                ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                : data
+              ).map((value) => (
             <TableRow key={Math.random()}>
               <TableCell>{`#${data.indexOf(value) + 1}`}</TableCell>
               <TableCell color="brandGreen">
@@ -67,7 +69,7 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
                 {formatTokenAmount(Number(formatAmountWithExponent(value.totalBurn, decimals)))}
               </TableCell>
             </TableRow>
-          ))}
+              ))}
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={3} />
