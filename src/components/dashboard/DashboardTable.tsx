@@ -14,8 +14,10 @@ import {
   Stack,
   Typography,
   Unstable_Grid2 as Grid,
-  Button
+  Button,
+  Tooltip
 } from '@mui/material'
+import LinkIcon from '@mui/icons-material/Link'
 import { useRouter } from 'next/navigation'
 import { useState, type FC } from 'react'
 
@@ -78,14 +80,17 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                 >
                   <TableCell component="th" scope="row">
                   <Button sx={{ border: 'none', '&:hover': { bgcolor: 'transparent' } }} type="button" onClick={() => router.push(`/${chainName}/${asset.burnAsset.name}`)}>
+                  <Tooltip title={`Click to burn ${asset.burnAsset.name}`} placement="top">
                     <Stack direction="row" gap={1}>
                       <Avatar
                         alt={`${asset.burnAsset.name} Logo`}
-                        sx={{ width: 24, height: 24, bgcolor: '#131D33' }}
+                        sx={{ width: 24, height: 24, bgcolor: '#2B2626' }}
                         src={asset.burnAsset.logo}
                       />
                       <Typography sx={{ '&:hover': { color: `${chainColor}` } }}>{asset.burnAsset.name}</Typography>
+                      <LinkIcon color='info' sx={{ width: '30px' }} />
                     </Stack>
+                   </Tooltip>
                     </Button>
                   </TableCell>
                   <TableCell align="center">

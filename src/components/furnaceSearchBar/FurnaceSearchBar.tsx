@@ -60,7 +60,7 @@ export const FurnaceSearchBar: FC = () => {
         startIcon={<Search />}
         onClick={() => setOpen(true)}
       >
-        Search Assets
+        Search Asset to Burn
       </Button>
       <Dialog
         fullWidth
