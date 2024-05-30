@@ -8,12 +8,16 @@
     "start": "next start",
     "lint": "npx eslint ./ --fix",
     "unimported": "npx unimported",
-    "codegen:wasm": "npx cosmwasm-ts-codegen generate --plugin client --schema ./schemas --out ./src/codegen --name Furnace --no-bundle"
+    "codegen:wasm": "npx cosmwasm-ts-codegen generate --plugin client --schema ./schemas --out ./src/codegen --name Furnace --no-bundle",
+    "install": "graz generate -g"
   },
   "dependencies": {
-    "@cosmos-kit/core": "^2.7.6",
-    "@cosmos-kit/keplr": "^2.4.10",
-    "@cosmos-kit/react": "^2.9.8",
+    "@chain-registry/client": "^1.46.4",
+    "@cosmjs/cosmwasm-stargate": "^0.32.3",
+    "@cosmjs/launchpad": "^0.27.1",
+    "@cosmjs/proto-signing": "^0.32.3",
+    "@cosmjs/stargate": "^0.32.3",
+    "@cosmjs/tendermint-rpc": "^0.32.3",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mui/icons-material": "^5.15.14",
@@ -22,6 +26,8 @@
     "@tanstack/react-query": "^5.37.1",
     "bech32": "^2.0.0",
     "chain-registry": "^1.33.17",
+    "graz": "^0.1.17",
+    "long": "^5.2.3",
     "next": "^14.0.1",
     "react": "^18",
     "react-countup": "^6.5.0",
@@ -31,6 +37,7 @@
     "unimported": "^1.30.0"
   },
   "devDependencies": {
+    "@tanstack/eslint-plugin-query": "^5.35.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",

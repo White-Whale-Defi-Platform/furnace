@@ -1,12 +1,11 @@
 'use client'
-import { WalletStatus } from '@cosmos-kit/core'
 import { AccountBox, Campaign, Feedback, Logout, Newspaper, Settings, Support, Paid } from '@mui/icons-material'
 import { Avatar, Button, Divider, Menu, MenuItem, styled, Tooltip, Typography } from '@mui/material'
 import { useState } from 'react'
 import { useModal, useSnackbar } from './provider'
 import { KadoModal } from './modals/KadoModal'
-import { useChains } from '@cosmos-kit/react'
-import { ENDPOINTS } from '@/constants'
+import { chainIds } from '@/constants'
+import { useConnect, useAccount, useDisconnect } from 'graz'
 
 const LogInButton = styled(Button)(({ theme }) => ({
   borderRadius: theme.shape.borderRadius
@@ -43,22 +42,25 @@ const AccountDropDownMenu = styled(Menu)(({ theme }) => ({
 }))
 
 export const AccountMenu = (): JSX.Element => {
-  const chainContexts = useChains(Object.keys(ENDPOINTS))
-  const { status, disconnect, connect } = chainContexts.osmosis
+  const { data: isConnected } = useAccount({
+    chainId: chainIds,
+    multiChain: true
+  })
+  const { connectAsync } = useConnect()
+  const { disconnectAsync } = useDisconnect()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
   const openMenu = (event: React.MouseEvent<HTMLElement>): void => setAnchorEl(event.currentTarget)
   const closeMenu = (): void => setAnchorEl(null)
   const snackbar = useSnackbar()
   const onConnect = (): void => {
-    snackbar.open('Logging In', 'info')
-    void connect()
+    void connectAsync({ chainId: chainIds })
       .then(() => ({}))
+      .then(() => snackbar.open('Logged In', 'success'))
       .catch(() => snackbar.open('Login Failed', 'error'))
-      .finally(() => snackbar.open('Logged In', 'success'))
   }
   const onDisconnect = (): void => {
-    void disconnect()
+    void disconnectAsync({ chainId: chainIds })
       .then(() => snackbar.open('Logged Out', 'success'))
       .catch(() => snackbar.open('Logout Failed', 'error'))
   }
@@ -66,7 +68,7 @@ export const AccountMenu = (): JSX.Element => {
   const modal = useModal()
   return (
     <>
-      {status === WalletStatus.Connected &&
+      {isConnected && (
         <>
           <Tooltip
             title="Account"
@@ -128,15 +130,15 @@ export const AccountMenu = (): JSX.Element => {
             </MenuItem>
           </AccountDropDownMenu>
         </>
-      }
-      {(status === WalletStatus.Disconnected || status === WalletStatus.Rejected) &&
+      )}
+      {!isConnected && (
         <LogInButton
           variant="contained"
           onClick={onConnect}
         >
           Log In
         </LogInButton>
-      }
+      )}
     </>
   )
 }

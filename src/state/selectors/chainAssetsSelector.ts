@@ -23,9 +23,13 @@ ChainName
     (chainName: string) =>
       async ({ get }) => {
         const clients = get(clientsAtom)
+
+        const client = clients[chainName]
+
+        if (typeof client === 'undefined') { return [] }
         const assets = await fetchChainAssetsWithMintDenom(
           chainName,
-          clients[chainName],
+          client,
           50
         )
         if (assets.some(({ burnAsset, mintAsset }) => !(burnAsset.inChainRegistry && mintAsset.inChainRegistry))) {

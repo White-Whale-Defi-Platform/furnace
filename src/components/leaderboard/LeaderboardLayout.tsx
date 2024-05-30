@@ -15,7 +15,7 @@ interface Props {
 }
 
 export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decimals }, mintDenom }) => {
-  const { address: userAddress } = useChainContext(chainName)
+  const userAddress = useChainContext(chainName).data?.bech32Address
   const fetchLeaderboard = useRecoilValueLoadable(leaderboardSelector({ chainName, denom: id }))
   if (fetchLeaderboard.state !== 'hasValue') return <Typography>Loading...</Typography>
 
