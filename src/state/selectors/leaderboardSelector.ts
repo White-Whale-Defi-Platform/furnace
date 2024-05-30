@@ -1,11 +1,17 @@
 import {
   type LeaderboardInfo,
   fetchLeaderboard,
-  type LeaderboardResults
 } from '@/hooks'
 import { selector, selectorFamily, waitForAll } from 'recoil'
 import { clientsAtom, chainAssetsSelector } from '@/state'
 import { ENDPOINTS, type ChainName } from '@/constants'
+
+export interface LeaderboardResults {
+  uniqueBurners: number
+  totalBurnedAssets: number
+  avgTokensBurnedPerUniques: number
+  leaderboard: Array<[userAddress: string, tokensBurned: number]>
+}
 
 /**
  * The leaderboard for a single fule denom.

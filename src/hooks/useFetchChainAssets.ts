@@ -1,11 +1,4 @@
 import type { FurnaceQueryClient, FuelConfig } from '@/codegen'
-import { assets } from 'chain-registry'
-import type { Asset as CRAsset } from '@chain-registry/types'
-import {
-  type UseQueryResult,
-  useQuery,
-  useQueries
-} from '@tanstack/react-query'
 import type { Asset } from '@/types/app'
 import { crAssetConvert, fcAssetConvert, fetchChainRegistryAsset } from '@/util/asset'
 import { ENDPOINTS } from '@/constants'
