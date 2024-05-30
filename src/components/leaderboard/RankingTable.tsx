@@ -1,4 +1,5 @@
 'use client'
+import { KNOWN_ADDRESSES } from '@/constants'
 import { formatAmountWithExponent, formatTokenAmount, truncateAddress } from '@/util'
 import {
   Table,
@@ -59,17 +60,20 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
             : (rowsPerPage > 0
                 ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 : data
-              ).map((value) => (
-            <TableRow key={Math.random()}>
-              <TableCell>{`#${data.indexOf(value) + 1}`}</TableCell>
-              <TableCell color="brandGreen">
-                {truncateAddress(value.id)}
-              </TableCell>
-              <TableCell align='right'>
-                {formatTokenAmount(Number(formatAmountWithExponent(value.totalBurn, decimals)))}
-              </TableCell>
-            </TableRow>
-              ))}
+              ).map((value) => {
+                const userAddress = value.id
+                return (
+                  <TableRow key={Math.random()}>
+                    <TableCell>{`#${data.indexOf(value) + 1}`}</TableCell>
+                    <TableCell color="brandGreen">
+                      {KNOWN_ADDRESSES.hasOwnProperty(userAddress) ? KNOWN_ADDRESSES[userAddress] : truncateAddress(userAddress)}
+                    </TableCell>
+                    <TableCell align='right'>
+                      {formatTokenAmount(Number(formatAmountWithExponent(value.totalBurn, decimals)))}
+                    </TableCell>
+                  </TableRow>
+                )
+              })}
           {emptyRows > 0 && (
             <TableRow style={{ height: 53 * emptyRows }}>
               <TableCell colSpan={3} />
