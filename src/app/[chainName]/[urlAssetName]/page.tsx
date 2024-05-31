@@ -71,33 +71,29 @@ const Burn = ({
         subtitle={subtitle}
       >
         <Grid container alignItems="center" justifyContent="center">
-          {fuels.state !== 'hasValue' || typeof fuels.contents === 'undefined'
-            ? (
-            <BurnerForm
-              nativeAsset={registryBurnAsset}
-              mintAsset={registryMintAsset}
-              onChange={() => undefined}
-              burnDisplayAmount={''}
-              disabled
-              chainName={chainName}
-            />
-              )
-            : (
-            <Grid>
-              <Burner
+          <Grid>
+            { fuels.state === 'hasValue' && fuels.contents != null
+              ? <Burner
                 chainName={chainName}
                 nativeAsset={fuels.contents.burnAsset}
                 mintAsset={fuels.contents.mintAsset}
                 input={input}
                 onChange={onChange}
               />
-              <LeaderboardLayout
+              : <BurnerForm
+              nativeAsset={registryBurnAsset}
+              mintAsset={registryMintAsset}
+              onChange={() => undefined}
+              burnDisplayAmount={''}
+              disabled
+              chainName={chainName}
+            />}
+
+                <LeaderboardLayout
                 chainName={chainName}
-                burnDenom={fuels.contents.burnAsset}
-                mintDenom={fuels.contents.mintAsset}
-              />
-            </Grid>
-              )}
+                burnDenom={fuels.valueMaybe()?.burnAsset ?? { ...fcAssetConvert({ denom: urlAssetName, subdenom: urlAssetName }), inChainRegistry: false }}
+                mintDenom={fuels.valueMaybe()?.mintAsset ?? { ...fcAssetConvert({ denom: `ash${urlAssetName.toUpperCase()}`, subdenom: `ash${urlAssetName.toUpperCase()}` }), inChainRegistry: false } }
+              /></Grid>
         </Grid>
       </PageLayout>
     </>
