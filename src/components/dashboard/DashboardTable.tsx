@@ -41,7 +41,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                color={filterChain === undefined ? 'primary' : 'secondary'}
                onClick={() => setFilterChain(undefined)}/>
        {
-         flattenedFurnaceData.map(([chainName]) => (
+         ((flattenedFurnaceData.length > 0) ? flattenedFurnaceData : Object.entries(ENDPOINTS)).map(([chainName]) => (
              <Chip
                key={chainName}
                variant="outlined"
@@ -68,10 +68,11 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredAssets.map(([chainName, { asset, leaderboard: { totalBurnedAssets, uniqueBurners } }]) => {
-            const { chainColor } = ENDPOINTS[chainName]
-            return (asset != null
-              ? <TableRow
+          {furnaceData.length > 0
+            ? filteredAssets.map(([chainName, { asset, leaderboard: { totalBurnedAssets, uniqueBurners } }]) => {
+              const { chainColor } = ENDPOINTS[chainName]
+              return (asset != null
+                ? <TableRow
                   key={asset.burnAsset.id}
                   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                 >
@@ -98,9 +99,12 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                     </Typography>
                   </TableCell>
                 </TableRow>
-              : <></>
-            )
-          })}
+                : <></>
+              )
+            })
+            : <TableRow>
+                <TableCell colSpan={3}><Typography>Loading Assets</Typography></TableCell>
+              </TableRow>}
         </TableBody>
       </Table>
     </TableContainer>
