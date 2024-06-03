@@ -5,7 +5,7 @@ import { leaderboardSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'
 import type { Asset } from '@/types'
 import { formatAmountWithExponent, formatAssetAmount, formatTokenAmount } from '@/util'
-import { RankingTable, LeaderboardLoading } from '@/components'
+import { RankingTable } from '@/components'
 import { useChainContext } from '@/hooks'
 interface Props {
   burnDenom: Asset
@@ -32,8 +32,9 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
 
   return (
     <Grid
+      container
       component={Paper}
-      sx={{ gap: 3, flexDirection: 'column', display: 'flex', padding: 3, bgcolor: '#2B2626' }}
+      sx={{ gap: 3, flexDirection: 'column', padding: 3, bgcolor: '#2B2626', minWidth: '70vw' }}
     >
       <Typography sx={{ fontSize: 24 }}>Leaderboard</Typography>
 

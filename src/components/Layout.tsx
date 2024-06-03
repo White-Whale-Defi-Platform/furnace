@@ -36,7 +36,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           fill
           quality={100}
         />
-        <Stack component="nav" px={5} py={3}>
+        <Stack component="nav" py={3} px={{ xs: 2, md: 5 }}>
           <Grid
             container
             xl={9}
@@ -75,8 +75,8 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           component="main"
           direction="column"
           minHeight="calc(100vh - 128px)"
-          py={3}
-          px={5}
+          py={{ xs: 1, md: 3 }}
+          px={{ xs: 2, md: 5 }}
         >
           {children}
         </Stack>

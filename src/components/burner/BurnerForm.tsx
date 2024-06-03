@@ -50,12 +50,9 @@ export const BurnerForm: FC<Props> = ({
   return (
     <Grid
       container
-      alignItems="center"
       justifyContent="center"
       minHeight="65vh"
       direction="column"
-      spacing={2}
-      width={560}
     >
       <Grid xs={12}>
         <Card sx={{ bgcolor: '#2B2626', border: 'none' }}>
