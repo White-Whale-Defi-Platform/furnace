@@ -71,7 +71,8 @@ const Burn = ({
         subtitle={subtitle}
       >
         <Grid container alignItems="center" justifyContent="center">
-            {fuels.state === 'hasValue' && fuels.contents != null
+          <Grid>
+            { fuels.state === 'hasValue' && fuels.contents != null
               ? <Burner
                 chainName={chainName}
                 nativeAsset={fuels.contents.burnAsset}
@@ -87,11 +88,12 @@ const Burn = ({
               disabled
               chainName={chainName}
             />}
-                <LeaderboardLayout
+              <LeaderboardLayout
                 chainName={chainName}
                 burnDenom={fuels.valueMaybe()?.burnAsset ?? { ...fcAssetConvert({ denom: urlAssetName, subdenom: urlAssetName }), inChainRegistry: false }}
                 mintDenom={fuels.valueMaybe()?.mintAsset ?? { ...fcAssetConvert({ denom: `ash${urlAssetName.toUpperCase()}`, subdenom: `ash${urlAssetName.toUpperCase()}` }), inChainRegistry: false } }
               />
+          </Grid>
         </Grid>
       </PageLayout>
     </>

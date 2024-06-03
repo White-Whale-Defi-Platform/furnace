@@ -54,7 +54,7 @@ export const BurnerForm: FC<Props> = ({
       minHeight="65vh"
       direction="column"
     >
-      <Grid alignSelf='center' sx={{ minWidth: '40vw' }}>
+      <Grid xs={12}>
         <Card sx={{ bgcolor: '#2B2626', border: 'none' }}>
           <CardHeader title="Burn" />
           <CardContent>
