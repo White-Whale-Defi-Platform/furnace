@@ -18,7 +18,7 @@ export const Burner: FC <Props> = ({ chainName, nativeAsset, mintAsset }) => {
   const executeBurn = useExecuteBurn(chainName, amount, nativeAsset.id)
   return (
     <BurnerForm
-     disabled={false}
+     loading={false}
      chainName={chainName}
      burnDisplayAmount={burnDisplayAmount}
      onChange={setBurnDisplayAmount}

@@ -1,5 +1,5 @@
 'use client'
-import { Unstable_Grid2 as Grid, Typography, Paper, Divider } from '@mui/material'
+import { Unstable_Grid2 as Grid, Typography, Paper, Divider, Skeleton } from '@mui/material'
 import React, { type FC } from 'react'
 import { leaderboardSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'
@@ -29,7 +29,6 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
   }))
 
   const userRank = formattedLeaderboard.findIndex((burner) => burner.id === userAddress) + 1
-
   return (
     <Grid
       container
@@ -42,13 +41,13 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {fetchLeaderboard.state !== 'hasValue' ? '-' : formatTokenAmount(Number(formatAmountWithExponent(totalBurnedAssets, decimals)))}
+            {!(fetchLeaderboard.state !== 'hasValue' && totalBurnedAssets === 0) ? formatTokenAmount(Number(formatAmountWithExponent(totalBurnedAssets, decimals))) : <Skeleton width={180} /> }
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>Total Burners</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-          {fetchLeaderboard.state === 'hasValue' ? uniqueBurners : '-'}
+            {!(fetchLeaderboard.state !== 'hasValue' && totalBurnedAssets === 0) ? uniqueBurners : <Skeleton width={180} /> }
           </Typography>
         </Grid>
         <Grid xs={12} sx={{ paddingY: 2 }}>
@@ -57,13 +56,13 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>My Rank</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {userAddress !== undefined && userRank > 0 ? userRank : '-'}
+            {(typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && userRank >= 0) ? userRank : <Skeleton width={180}/> }
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>{`My ${mintDenom.name} Tokens`}</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-           {typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' ? formatAssetAmount(mintDenom) : '-'}
+           {typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && totalBurnedAssets !== 0 ? formatAssetAmount(mintDenom) : <Skeleton width={180} /> }
           </Typography>
         </Grid>
       </Grid>

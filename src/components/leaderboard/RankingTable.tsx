@@ -1,7 +1,12 @@
 'use client'
 import { KNOWN_ADDRESSES } from '@/constants'
-import { formatAmountWithExponent, formatTokenAmount, truncateAddress } from '@/util'
 import {
+  formatAmountWithExponent,
+  formatTokenAmount,
+  truncateAddress
+} from '@/util'
+import {
+  Skeleton,
   Table,
   TableBody,
   TableCell,
@@ -28,20 +33,26 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0
 
   //  Table pagination click event
-  const onChangePage = useCallback((
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ): void => {
-    setPage(newPage)
-  }, [])
+  const onChangePage = useCallback(
+    (
+      event: React.MouseEvent<HTMLButtonElement> | null,
+      newPage: number
+    ): void => {
+      setPage(newPage)
+    },
+    []
+  )
 
   //  Table pagination "rows per page drop down" event
-  const onChangeRowsPerPage = useCallback((
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ): void => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }, [])
+  const onChangeRowsPerPage = useCallback(
+    (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ): void => {
+      setRowsPerPage(parseInt(event.target.value, 10))
+      setPage(0)
+    },
+    []
+  )
   return (
     <TableContainer
       sx={{ background: '#10131A', paddingX: 3, paddingTop: 1.5 }}
@@ -51,14 +62,25 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
           <TableRow>
             <TableCell>Rank</TableCell>
             <TableCell>Address / Name</TableCell>
-            <TableCell align='right'>Total Burned</TableCell>
+            <TableCell align="right">Total Burned</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {data.length === 0
-            ? [...new Array(5)].fill(<TableRow><TableCell></TableCell><TableCell>-</TableCell><TableCell>-</TableCell></TableRow>)
+          // While the data is still loading
+            ? [...new Array(5)].fill(
+                <TableRow>
+                  <TableCell colSpan={3}>
+                    <Skeleton />
+                  </TableCell>
+                </TableRow>
+              )
+          // After the data is fetched then it shows the ranking table
             : (rowsPerPage > 0
-                ? data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                ? data.slice(
+                  page * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 : data
               ).map((value) => {
                 const userAddress = value.id
@@ -66,10 +88,16 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
                   <TableRow key={Math.random()}>
                     <TableCell>{`#${data.indexOf(value) + 1}`}</TableCell>
                     <TableCell color="brandGreen">
-                      {KNOWN_ADDRESSES.hasOwnProperty(userAddress) ? KNOWN_ADDRESSES[userAddress] : truncateAddress(userAddress)}
+                      {KNOWN_ADDRESSES.hasOwnProperty(userAddress)
+                        ? KNOWN_ADDRESSES[userAddress]
+                        : truncateAddress(userAddress)}
                     </TableCell>
-                    <TableCell align='right'>
-                      {formatTokenAmount(Number(formatAmountWithExponent(value.totalBurn, decimals)))}
+                    <TableCell align="right">
+                      {formatTokenAmount(
+                        Number(
+                          formatAmountWithExponent(value.totalBurn, decimals)
+                        )
+                      )}
                     </TableCell>
                   </TableRow>
                 )

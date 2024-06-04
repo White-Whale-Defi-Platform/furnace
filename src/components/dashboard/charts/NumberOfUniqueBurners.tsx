@@ -1,5 +1,5 @@
 'use client'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Skeleton, Typography, styled } from '@mui/material'
 import React, { type FC } from 'react'
 import {
   Bar,
@@ -24,8 +24,9 @@ const ChartLabel = styled(Typography)({
 
 interface Props {
   uniqueBurnersData: FurnaceDataByChain
+  chartLoading: boolean
 }
-export const NumberOfUniqueBurners: FC<Props> = ({ uniqueBurnersData }) => {
+export const NumberOfUniqueBurners: FC<Props> = ({ uniqueBurnersData, chartLoading }) => {
   // Reduce down each chain and its fuel assets' leaderboard to calculate the unique number of burners
   // e.g. a address who burned Whale and Guppy in Migaloo should be 1 unique address not 2
   // Keyed by chain name and value being number of unique burners
@@ -71,6 +72,11 @@ export const NumberOfUniqueBurners: FC<Props> = ({ uniqueBurnersData }) => {
   return (
     <>
       <ChartLabel>Number of Unique Burners by Chains</ChartLabel>
+      {chartLoading
+        ? (
+        <Skeleton variant="rectangular" height={400} />
+          )
+        : (
       <ResponsiveContainer height={400}>
         <BarChart
           data={numberOfUniqueBurners}
@@ -109,6 +115,7 @@ export const NumberOfUniqueBurners: FC<Props> = ({ uniqueBurnersData }) => {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
+          )}
     </>
   )
 }
