@@ -1,6 +1,6 @@
 use cosmwasm_schema::write_api;
 
-use white_whale_furnace::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
+use furnace::msg::{ExecuteMsg, InstantiateMsg, QueryMsg};
 
 fn main() {
     write_api! {

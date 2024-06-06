@@ -11,7 +11,7 @@ use cosmwasm_std::{to_json_binary, Binary, Deps, DepsMut, Env, MessageInfo, Resp
 use cw2::set_contract_version;
 
 // version info for migration info
-const CONTRACT_NAME: &str = "white_whale_furnace";
+const CONTRACT_NAME: &str = "furnace";
 const CONTRACT_VERSION: &str = env!("CARGO_PKG_VERSION");
 
 // minimum amount of tokens to burn as fees need to be taken from the burned tokens
