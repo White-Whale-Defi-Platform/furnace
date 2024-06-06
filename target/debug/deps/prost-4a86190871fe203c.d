@@ -1,0 +1,12 @@
+/Users/nseguias/dev/ww/furnace/target/debug/deps/libprost-4a86190871fe203c.rmeta: /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/lib.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/error.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/message.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/types.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/encoding.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/../README.md
+
+/Users/nseguias/dev/ww/furnace/target/debug/deps/libprost-4a86190871fe203c.rlib: /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/lib.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/error.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/message.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/types.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/encoding.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/../README.md
+
+/Users/nseguias/dev/ww/furnace/target/debug/deps/prost-4a86190871fe203c.d: /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/lib.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/error.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/message.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/types.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/encoding.rs /Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/../README.md
+
+/Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/lib.rs:
+/Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/error.rs:
+/Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/message.rs:
+/Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/types.rs:
+/Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/encoding.rs:
+/Users/nseguias/.cargo/registry/src/index.crates.io-6f17d22bba15001f/prost-0.11.9/src/../README.md:
