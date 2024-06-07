@@ -1,5 +1,5 @@
 'use client'
-import { Box, Typography, styled } from '@mui/material'
+import { Box, Skeleton, Typography, styled } from '@mui/material'
 import React, { type FC } from 'react'
 import {
   Scatter,
@@ -26,9 +26,10 @@ const ChartLabel = styled(Typography)({
 
 interface Props {
   uniqueBurnerAndAssets: FurnaceDataByChain
+  chartLoading: boolean
 }
 
-export const UniqueBurnersAndAsset: FC<Props> = ({ uniqueBurnerAndAssets }) => {
+export const UniqueBurnersAndAsset: FC<Props> = ({ uniqueBurnerAndAssets, chartLoading }) => {
   const scatterData = Object.entries(uniqueBurnerAndAssets).map(
     ([chainName, assetInfos]) => {
       const leaderboards = new Set(
@@ -79,6 +80,11 @@ export const UniqueBurnersAndAsset: FC<Props> = ({ uniqueBurnerAndAssets }) => {
       <ChartLabel paddingBottom="2px">
         Number of Unique Burners vs Assets Per Chain
       </ChartLabel>
+      {chartLoading
+        ? (
+        <Skeleton variant="rectangular" height={400} />
+          )
+        : (
       <ResponsiveContainer height={400}>
         <ScatterChart
           data={scatterData}
@@ -123,6 +129,7 @@ export const UniqueBurnersAndAsset: FC<Props> = ({ uniqueBurnerAndAssets }) => {
           ))}
         </ScatterChart>
       </ResponsiveContainer>
+          )}
     </>
   )
 }

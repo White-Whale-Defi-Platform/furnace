@@ -1,6 +1,6 @@
 'use client'
 import React, { useEffect, useState } from 'react'
-import { Unstable_Grid2 as Grid, Typography } from '@mui/material'
+import { Unstable_Grid2 as Grid } from '@mui/material'
 import {
   fcAssetConvert,
   isValidTokenInput,
@@ -8,7 +8,7 @@ import {
 } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
 import { assetPairWithBalanceSelector } from '@/state'
-import { RedirectType, redirect } from 'next/navigation'
+import { redirect } from 'next/navigation'
 import {
   Burner,
   PageLayout,
@@ -85,7 +85,7 @@ const Burn = ({
               mintAsset={registryMintAsset}
               onChange={() => undefined}
               burnDisplayAmount={''}
-              disabled
+              loading
               chainName={chainName}
             />}
               <LeaderboardLayout

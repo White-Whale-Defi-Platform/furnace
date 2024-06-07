@@ -1,5 +1,5 @@
 'use client'
-import { Avatar, Box, Stack, Typography, styled } from '@mui/material'
+import { Avatar, Box, Skeleton, Stack, Typography, styled } from '@mui/material'
 import React, { type FC } from 'react'
 import {
   Bar,
@@ -23,9 +23,10 @@ const ChartLabel = styled(Typography)({
 })
 interface Props {
   fuelAssetData: FurnaceDataByChain
+  chartLoading: boolean
 }
 
-export const TopFiveAssetsBurned: FC<Props> = ({ fuelAssetData }) => {
+export const TopFiveAssetsBurned: FC<Props> = ({ fuelAssetData, chartLoading }) => {
   const scatterChartData = Object.entries(fuelAssetData)
     .flatMap(([chainName, assetInfos]) =>
       assetInfos.map(({ asset, leaderboard }) => ({
@@ -71,6 +72,11 @@ export const TopFiveAssetsBurned: FC<Props> = ({ fuelAssetData }) => {
   return (
     <>
       <ChartLabel>Top 5 Assets Burned by Users</ChartLabel>
+      {chartLoading
+        ? (
+        <Skeleton variant="rectangular" height={400} />
+          )
+        : (
       <ResponsiveContainer height={400}>
         <BarChart
           data={scatterChartData}
@@ -100,6 +106,7 @@ export const TopFiveAssetsBurned: FC<Props> = ({ fuelAssetData }) => {
           </Bar>
         </BarChart>
       </ResponsiveContainer>
+          )}
     </>
   )
 }

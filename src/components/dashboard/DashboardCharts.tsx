@@ -13,8 +13,9 @@ import type { TotalFurnaceData } from '@/state'
 export type FurnaceDataByChain = Record<string, Array<TotalFurnaceData[1]>>
 interface Props {
   furnaceData: Array<[ChainName, Array<TotalFurnaceData[1]>]>
+  chartLoading: boolean
 }
-export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
+export const DashboardCharts: FC<Props> = ({ furnaceData, chartLoading }) => {
   const formattedChartData: FurnaceDataByChain =
     furnaceData.reduce<FurnaceDataByChain>(
       (allFurnaceData, currentFurnaceData): FurnaceDataByChain => {
@@ -29,27 +30,26 @@ export const DashboardCharts: FC<Props> = ({ furnaceData }) => {
       },
       {}
     )
-
   return (
     <Grid container spacing={3}>
       <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
-          <NumberOfFuelAssets fuelAssetData={formattedChartData} />
+          <NumberOfFuelAssets fuelAssetData={formattedChartData} chartLoading={chartLoading} />
         </Paper>
       </Grid>
       <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
-          <TopFiveAssetsBurned fuelAssetData={formattedChartData} />
+          <TopFiveAssetsBurned fuelAssetData={formattedChartData} chartLoading={chartLoading} />
         </Paper>
       </Grid>
       <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
-          <NumberOfUniqueBurners uniqueBurnersData={formattedChartData} />
+          <NumberOfUniqueBurners uniqueBurnersData={formattedChartData} chartLoading={chartLoading} />
         </Paper>
       </Grid>
       <Grid xs={12} lg={6}>
         <Paper sx={{ p: 2 }}>
-          <UniqueBurnersAndAsset uniqueBurnerAndAssets={formattedChartData} />
+          <UniqueBurnersAndAsset uniqueBurnerAndAssets={formattedChartData} chartLoading={chartLoading} />
         </Paper>
       </Grid>
     </Grid>

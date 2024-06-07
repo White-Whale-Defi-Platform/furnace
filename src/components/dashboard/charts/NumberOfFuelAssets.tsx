@@ -1,7 +1,7 @@
 'use client'
 import type { FurnaceDataByChain } from '@/components'
 import { ENDPOINTS } from '@/constants'
-import { Box, styled, Typography } from '@mui/material'
+import { Box, Skeleton, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
 import {
   Cell,
@@ -24,9 +24,13 @@ const ChartLabel = styled(Typography)({
 
 interface Props {
   fuelAssetData: FurnaceDataByChain
+  chartLoading: boolean
 }
 
-export const NumberOfFuelAssets: FC<Props> = ({ fuelAssetData }) => {
+export const NumberOfFuelAssets: FC<Props> = ({
+  fuelAssetData,
+  chartLoading
+}) => {
   // keyed by chain name and value being number of fuel assets
   const fuelAssets = Object.entries(fuelAssetData).map(
     ([chainName, assetInfos]) => ({
@@ -56,48 +60,51 @@ export const NumberOfFuelAssets: FC<Props> = ({ fuelAssetData }) => {
       )
     }
   }
-
   return (
     <>
       <ChartLabel>Number of Fuel Assets Per Chain</ChartLabel>
-      <ResponsiveContainer height={400}>
-        <BarChart
-          data={fuelAssets}
-          margin={{
-            top: 20,
-            bottom: 5
-          }}
-        >
-          <CartesianGrid />
-          <YAxis
-            allowDecimals={false}
-            tickFormatter={(value) => formatTokenAmount(Number(value))}
-          />
-          <Tooltip
-            cursor={{ fill: 'transparent' }}
-            labelStyle={{ color: 'ActiveBorder' }}
-            content={<CustomTooltip active={false} payload={[]} />}
-          />
-          <Legend
-            payload={fuelAssets.map((item, index) => ({
-              id: `${item.name}-${index}`,
-              type: 'circle',
-              value: `${item.name}`,
-              color: ENDPOINTS[item.name].chainColor
-            }))}
-          />
-          <Bar
-            dataKey="length"
+      {chartLoading
+        ? (
+        <Skeleton variant="rectangular" height={400} />
+          )
+        : (
+        <ResponsiveContainer height={400}>
+          <BarChart
+            data={fuelAssets}
+            margin={{
+              top: 20,
+              bottom: 5
+            }}
           >
-            {fuelAssets.map((entry, index) => (
-              <Cell
-                key={`cell-${index}`}
-                fill={ENDPOINTS[entry.name].chainColor}
-              />
-            ))}
-          </Bar>
-        </BarChart>
-      </ResponsiveContainer>
+            <CartesianGrid />
+            <YAxis
+              allowDecimals={false}
+              tickFormatter={(value) => formatTokenAmount(Number(value))}
+            />
+            <Tooltip
+              cursor={{ fill: 'transparent' }}
+              labelStyle={{ color: 'ActiveBorder' }}
+              content={<CustomTooltip active={false} payload={[]} />}
+            />
+            <Legend
+              payload={fuelAssets.map((item, index) => ({
+                id: `${item.name}-${index}`,
+                type: 'circle',
+                value: `${item.name}`,
+                color: ENDPOINTS[item.name].chainColor
+              }))}
+            />
+            <Bar dataKey="length">
+              {fuelAssets.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={ENDPOINTS[entry.name].chainColor}
+                />
+              ))}
+            </Bar>
+          </BarChart>
+        </ResponsiveContainer>
+          )}
     </>
   )
 }

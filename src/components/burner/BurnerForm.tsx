@@ -20,7 +20,7 @@ interface Props {
   mintAsset: Asset
   onChange: (displayAmount: string) => void
   burnDisplayAmount: string
-  disabled: boolean
+  loading?: boolean
   chainName: string
   executeBurn?: UseExecuteContractResult
 }
@@ -30,7 +30,7 @@ export const BurnerForm: FC<Props> = ({
   nativeAsset,
   mintAsset,
   onChange,
-  disabled,
+  loading = false,
   chainName,
   executeBurn
 }) => {
@@ -60,21 +60,22 @@ export const BurnerForm: FC<Props> = ({
           <CardContent>
             <Stack direction="column" alignItems="center" spacing={2}>
               <AssetInput
-                invalidAmount={!canExecute}
+                invalidAmount={!canExecute && !loading}
                 asset={nativeAsset}
                 prefillClick={() => onChange(formatAssetAmount(nativeAsset))}
                 value={burnDisplayAmount}
                 label="You Burn"
                 onChange={(e) => onChange(e.target.value)}
-                helperText={`Available: ${formatAssetAmount(nativeAsset)}`}
-                disabled={!isConnected}
+                helperText={`Available: ${loading ? '-' : formatAssetAmount(nativeAsset)}`}
+                disabled={!isConnected && loading}
+                loading={loading}
               />
               <AssetInput
                 asset={mintAsset}
                 value={burnDisplayAmount}
                 label="You Get"
-                disabled={true}
-                helperText={`Available: ${formatAssetAmount(mintAsset)}`}
+                helperText={`Available: ${loading ? '-' : formatAssetAmount(mintAsset)}`}
+                loading={loading}
               />
               <CardActions>
                 {executeBurn != null
@@ -82,7 +83,7 @@ export const BurnerForm: FC<Props> = ({
                   <ExecuteButton
                     chainName={chainName}
                     action={action}
-                    disabled={disabled || !isConnected}
+                    disabled={loading || !isConnected}
                     {...executeBurn}
                   />
                     )
