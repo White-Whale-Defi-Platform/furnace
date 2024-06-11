@@ -30,7 +30,9 @@ const LogInButton = styled(Button)(({ theme }) => ({
 }))
 
 const ProfileAvatar = styled(Avatar)({
-  cursor: 'pointer'
+  cursor: 'pointer',
+  background: '#e98741',
+  color: 'white'
 })
 
 const AccountDropDownMenu = styled(Menu)(({ theme }) => ({

@@ -6,8 +6,10 @@ import {
   Avatar,
   Box,
   Toolbar,
+  styled,
   IconButton,
-  Unstable_Grid2 as Grid
+  Unstable_Grid2 as Grid,
+  Typography
 } from '@mui/material'
 import { AccountMenu } from './AccountMenu'
 import { useRouter } from 'next/navigation'
@@ -16,7 +18,13 @@ import { KadoModal } from './modals/KadoModal'
 import { Language, X } from '@mui/icons-material'
 import { Discord } from '../../public/assets/Discord'
 import FurnaceSearchBar from './furnaceSearchBar/FurnaceSearchBar'
-import Image from 'next/image'
+
+const BuyWhaleBtn = styled(Button)({
+  backgroundColor: '#318b68',
+  border: 'none',
+  color: 'white',
+  '&:hover': { backgroundColor: '#276f53', border: 'none' }
+})
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter()
@@ -25,32 +33,30 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <>
       <Box sx={{ position: 'relative', padding: 0 }}>
-        <Image
-          style={{
-            zIndex: -1,
-            overflowY: 'scroll',
-            backgroundAttachment: 'fixed'
-          }}
-          src="/assets/fireAshes_bg.jpeg"
-          alt="burning page background"
-          fill
-          quality={100}
-        />
-        <Stack component="nav" py={3} px={{ xs: 2, md: 5 }}>
+        <Stack component="nav" py={1} px={{ xs: 2, md: 5 }}>
           <Grid
             container
             xl={9}
             justifyContent={'space-between'}
             sx={{ alignSelf: { xl: 'center' } }}
           >
-            <Grid alignItems="center">
-              <Avatar
-                src="/assets/ashdao.jpg"
+            <Grid alignItems="center" >
+              <Button
                 onClick={() => router.push('/')}
-                sx={{ cursor: 'pointer' }}
-              />
+                sx={{ cursor: 'pointer', paddingLeft: 0 }}
+              >
+                <Avatar src="/assets/ashdao.jpg" />
+                <Typography
+                  sx={{ paddingLeft: 1 }}
+                  fontSize={20}
+                  fontWeight={520}
+                  color="primary"
+                >
+                  Furnace
+                </Typography>
+              </Button>
             </Grid>
-            <Grid>
+            <Grid alignContent={'center'}>
               <FurnaceSearchBar />
             </Grid>
             <Grid
@@ -59,19 +65,19 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
               justifyContent="flex-end"
               alignItems="center"
             >
-              <Button
+              <BuyWhaleBtn
                 sx={{ display: { xs: 'none', md: 'block' } }}
                 variant="outlined"
-                color="inherit"
                 onClick={() => modal.open(<KadoModal />)}
               >
                 Buy Whale
-              </Button>
+              </BuyWhaleBtn>
               <AccountMenu />
             </Grid>
           </Grid>
         </Stack>
         <Stack
+        sx={{ backgroundColor: '#734420' }}
           component="main"
           direction="column"
           minHeight="calc(100vh - 128px)"
