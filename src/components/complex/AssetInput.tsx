@@ -18,6 +18,7 @@ export type AssetInputProps = {
   label: string
   helperText: string
   asset: Asset
+  borderLine?: boolean
 } & (
   | {
     assets?: Asset[]
@@ -38,6 +39,7 @@ export const AssetInput: FC<AssetInputProps> = ({
   label,
   value,
   helperText,
+  borderLine,
   ...props
 }) => {
   const modal = useModal()
@@ -93,7 +95,7 @@ export const AssetInput: FC<AssetInputProps> = ({
 
   return (
     <TextField
-      sx={{ cursor: 'pointer' }}
+      sx={{ cursor: 'pointer', '& fieldset': { border: borderLine ?? 'none' } }}
       color={props.invalidAmount ?? false ? 'error' : 'success'}
       fullWidth
       disabled={disabled}
