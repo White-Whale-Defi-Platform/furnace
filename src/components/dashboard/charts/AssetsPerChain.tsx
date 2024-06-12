@@ -3,6 +3,7 @@ import type { FurnaceDataByChain } from '@/components'
 import { Skeleton, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
 import { BarChart } from '@mui/x-charts/BarChart'
+import { ChartColors } from '@/util'
 
 const ChartLabel = styled(Typography)({
   fontSize: 20,
@@ -40,7 +41,11 @@ export const AssetsPerChain: FC<Props> = ({
           yAxis={[
             {
               scaleType: 'band',
-              dataKey: 'name'
+              dataKey: 'name',
+              colorMap: {
+                type: 'ordinal',
+                colors: ChartColors
+              }
             }
           ]}
           xAxis={[

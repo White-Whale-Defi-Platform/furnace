@@ -4,6 +4,7 @@ export * from './execute'
 export * from './explorer'
 export * from './format'
 export * from './validate'
+export * from './theme'
 
 export const calculateProgress = (startTime: number, endTime: number, currentTime: number): number => {
   if (currentTime <= startTime) return 0

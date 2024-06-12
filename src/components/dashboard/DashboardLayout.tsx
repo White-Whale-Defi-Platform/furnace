@@ -11,7 +11,7 @@ import {
   DashboardCharts,
   DashboardTable,
   type FurnaceDataByChain,
-  TopFiveAssetsBurned
+  BurnersPerAsset
 } from '@/components'
 import { furnaceSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'
@@ -85,7 +85,7 @@ export const DashboardLayout: FC = () => {
         </Grid>
         <Grid xs={8}>
           <Paper sx={{ p: 2 }}>
-            <TopFiveAssetsBurned
+            <BurnersPerAsset
               fuelAssetData={burnesPerAsset}
               chartLoading={loading}
             />

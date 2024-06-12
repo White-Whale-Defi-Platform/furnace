@@ -7,6 +7,7 @@ import {
 import React, { type FC } from 'react'
 import { BarChart } from '@mui/x-charts/BarChart'
 import type { FurnaceDataByChain } from '@/components'
+import { ChartColors } from '@/util'
 
 const ChartLabel = styled(Typography)({
   fontSize: 20,
@@ -18,7 +19,7 @@ interface Props {
   chartLoading: boolean
 }
 
-export const TopFiveAssetsBurned: FC<Props> = ({
+export const BurnersPerAsset: FC<Props> = ({
   fuelAssetData,
   chartLoading
 }) => {
@@ -34,7 +35,7 @@ export const TopFiveAssetsBurned: FC<Props> = ({
 
   return (
     <>
-      <ChartLabel>Burnes per Asset</ChartLabel>
+      <ChartLabel>Burners per Asset</ChartLabel>
       {chartLoading
         ? (
         <Skeleton variant="rectangular" height={400} />
@@ -54,7 +55,11 @@ export const TopFiveAssetsBurned: FC<Props> = ({
             scaleType: 'band',
             dataKey: 'name',
             tickMinStep: 1,
-            tickMaxStep: 1
+            tickMaxStep: 1,
+            colorMap: {
+              type: 'ordinal',
+              colors: ChartColors
+            }
           }
         ]}
         series={[
