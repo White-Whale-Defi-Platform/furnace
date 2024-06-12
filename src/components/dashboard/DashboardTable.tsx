@@ -147,7 +147,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                                 >
                                   {asset.burnAsset.name}
                                 </Typography>
-                                <LinkIcon color="info" sx={{ width: '30px' }} />
+                                <LinkIcon color='secondary' sx={{ width: '30px' }} />
                               </Stack>
                             </Tooltip>
                           </Button>
