@@ -14,13 +14,12 @@ export const darkTheme = createTheme({
       main: '#f44336'
     },
     info: {
-      main: '#FFFF'
+      main: '#e88741'
     },
     success: {
       main: '#00FF94'
     },
     background: {
-      default: '#0A0C12',
       paper: '#2B2626'
     }
   },
@@ -28,9 +27,9 @@ export const darkTheme = createTheme({
     MuiDialog: {
       styleOverrides: {
         paper: {
-          background: '#10131A',
+          background: '#271f1b',
           borderRadius: '5px',
-          border: '2px solid #2E3443'
+          border: '1px solid #271f1b'
         }
       }
     },
@@ -71,7 +70,8 @@ export const darkTheme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: '10px',
-          opacity: '0.9'
+          opacity: '0.9',
+          backgroundColor: '#1d1818'
         }
       }
     }

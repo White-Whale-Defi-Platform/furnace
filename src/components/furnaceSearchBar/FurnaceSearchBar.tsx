@@ -16,7 +16,6 @@ import { LocalFireDepartment } from '@mui/icons-material'
 import { useRecoilValueLoadable } from 'recoil'
 import { allChainAssetsSelector } from '@/state'
 import { formatPrettyName } from '@/util'
-import { ENDPOINTS } from '@/constants'
 
 export const FurnaceSearchBar: FC = () => {
   const [open, setOpen] = useState(false)
@@ -58,7 +57,6 @@ export const FurnaceSearchBar: FC = () => {
           textTransform: 'none'
         }}
         component="label"
-        variant="outlined"
         startIcon={<LocalFireDepartment fontSize='large'/>}
         onClick={() => setOpen(true)}
       >
@@ -74,15 +72,14 @@ export const FurnaceSearchBar: FC = () => {
           <Stack gap={2}>
             <TextField
               focused
-              color='info'
+              color='primary'
               fullWidth
               id="outlined-basic"
-              label="Search for Assets"
-              variant="outlined"
+              label="Search asset to burn"
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
-                    <LocalFireDepartment />
+                    <LocalFireDepartment color='primary' />
                   </InputAdornment>
                 )
               }}
@@ -96,7 +93,6 @@ export const FurnaceSearchBar: FC = () => {
                     const toSymbol = mintAsset.name
                     const fromLogo = burnAsset.logo
                     const toLogo = mintAsset.logo
-                    const { chainColor } = ENDPOINTS[chain]
                     return (
                         <Button
                           component={Link}
@@ -112,18 +108,18 @@ export const FurnaceSearchBar: FC = () => {
                               <Stack direction="row">
                                 <Avatar
                                   alt="token img"
-                                  sx={{ width: 24, height: 24, mr: 1, bgcolor: '#10131A' }}
+                                  sx={{ width: 26, height: 26, mr: 1, bgcolor: '#271f1b' }}
                                   src={fromLogo}
                                 />
                                 <Avatar
                                   alt="token img"
                                   sx={{
-                                    width: 24,
-                                    height: 24,
+                                    width: 26,
+                                    height: 26,
                                     mr: 0.5,
                                     left: '-10px',
                                     display: 'absolute',
-                                    bgcolor: '#10131A'
+                                    bgcolor: '#271f1b'
                                   }}
                                   src={toLogo}
                                 />
@@ -135,7 +131,7 @@ export const FurnaceSearchBar: FC = () => {
                             variant="outlined"
                             size="small"
                             label={formatPrettyName(chain)}
-                            sx={{ borderColor: chainColor, color: chainColor }}
+                            sx={{ borderColor: '#d67329', color: '#da813e' }}
                           />
                         </Button>
                     )

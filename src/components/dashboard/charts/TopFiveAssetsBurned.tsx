@@ -32,7 +32,6 @@ export const TopFiveAssetsBurned: FC<Props> = ({
       }))
     )
 
-  console.log(scatterChartData, 'scatterChartData')
   return (
     <>
       <ChartLabel>Burnes per Asset</ChartLabel>
