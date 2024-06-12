@@ -4,7 +4,8 @@ import { Unstable_Grid2 as Grid } from '@mui/material'
 import {
   fcAssetConvert,
   isValidTokenInput,
-  findRegistryAssetBySymbol
+  findRegistryAssetBySymbol,
+  formatPrettyName
 } from '@/util'
 import { useRecoilValueLoadable } from 'recoil'
 import { assetPairWithBalanceSelector } from '@/state'
@@ -59,16 +60,14 @@ const Burn = ({
   }: React.ChangeEvent<HTMLInputElement>): void => {
     isValidTokenInput(value) && setInput(value)
   }
-
-  const subtitle =
-    fuels.state !== 'hasValue'
-      ? `Burn ${urlAssetName}`
-      : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
+  // const subtitle =
+  //   fuels.state !== 'hasValue'
+  //     ? `Burn ${urlAssetName}`
+  //     : `Burn ${fuels.valueMaybe()?.burnAsset.name} and Receive ${fuels.valueMaybe()?.mintAsset.name}`
   return (
     <>
       <PageLayout
-        title={`${urlAssetName.toUpperCase()} Furnace`}
-        subtitle={subtitle}
+        title={`${formatPrettyName(chainName)} - ${urlAssetName.toUpperCase()}`}
       >
         <Grid container alignItems="center" justifyContent="center">
           <Grid>
