@@ -51,12 +51,12 @@ export const darkTheme = createTheme({
     MuiChip: {
       styleOverrides: {
         colorPrimary: {
-          color: '#00FF94',
-          borderColor: '#00FF94'
+          background: '#e58946',
+          color: 'white'
         },
         colorSecondary: {
-          color: '#8A91A3',
-          borderColor: '#8A91A3'
+          background: '#6f6868',
+          color: 'white'
         }
       }
     },
