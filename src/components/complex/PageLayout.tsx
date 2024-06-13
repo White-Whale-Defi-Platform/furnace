@@ -6,20 +6,18 @@ import type { FC, PropsWithChildren } from 'react'
 
 const BreadcrumbComponent = (): JSX.Element => {
   const pathnames = usePathname().split('/').slice(1)
+
+  console.log(pathnames, 'pathnames')
   return (
     <Breadcrumbs aria-label="breadcrumb">
-      {pathnames.map((value, index) => {
-        const last = index === pathnames.length - 1
-        const to = `/${pathnames.slice(0, index + 1).join('/')}`
-        return last
-          ? <Typography color="secondary" key={to}>
-            {index === 0 ? '/ Home' : ''}
+      {pathnames.length < 2
+        ? <Typography color="secondary" >
+            {'/ Home' }
           </Typography>
-
-          : <Typography color="secondary" key={to}>
-            {`/ Home / ${formatPrettyName(pathnames[0])} - ${formatPrettyName(pathnames[1])}`}
+        : <Typography color="secondary">
+            {`/ Home / ${formatPrettyName(pathnames[0])} - ${formatPrettyName(pathnames[1]).toUpperCase()}`}
           </Typography>
-      })}
+          }
     </Breadcrumbs>
   )
 }
