@@ -17,11 +17,12 @@ import {
   Button,
   Tooltip,
   Skeleton,
-  styled
+  styled,
+  TablePagination
 } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import { useRouter } from 'next/navigation'
-import { useState, type FC } from 'react'
+import { useCallback, useState, type FC } from 'react'
 
 interface Props {
   furnaceData: Array<[ChainName, Array<TotalFurnaceData[1]>]>
@@ -39,6 +40,8 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
   const flattenedFurnaceData = furnaceData.flatMap(([chainName, assets]) =>
     assets.map((asset) => [chainName, asset] as const)
   )
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(5)
 
   // Filtered assets by chain name. Default to be all chains
   const filteredAssets =
@@ -51,6 +54,28 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
       assetInfos[1].length] as const
   ))
   const totalAssets = fuelAssets.reduce((assets, [_, asset]) => assets + asset, 0)
+
+  //  Table pagination click event
+  const onChangePage = useCallback(
+    (
+      event: React.MouseEvent<HTMLButtonElement> | null,
+      newPage: number
+    ): void => {
+      setPage(newPage)
+    },
+    []
+  )
+
+  //  Table pagination "rows per page drop down" event
+  const onChangeRowsPerPage = useCallback(
+    (
+      event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ): void => {
+      setRowsPerPage(parseInt(event.target.value, 10))
+      setPage(0)
+    },
+    []
+  )
   return (
     <Grid container direction={'column'} gap={2}>
       <ChartLabel>Asset Breakdown</ChartLabel>
@@ -98,17 +123,22 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
           </TableHead>
           <TableBody>
             {furnaceData.length > 0
-              ? filteredAssets.map(
-                ([
-                  chainName,
-                  {
-                    asset,
-                    leaderboard: { totalBurnedAssets, uniqueBurners }
-                  }
-                ]) => {
-                  const { chainColor } = ENDPOINTS[chainName]
-                  return asset != null
-                    ? (
+              ? (rowsPerPage > 0
+                  ? filteredAssets.slice(
+                    page * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                  : filteredAssets).map(
+                  ([
+                    chainName,
+                    {
+                      asset,
+                      leaderboard: { totalBurnedAssets, uniqueBurners }
+                    }
+                  ]) => {
+                    const { chainColor } = ENDPOINTS[chainName]
+                    return asset != null
+                      ? (
                       <TableRow
                         key={asset.burnAsset.id}
                         sx={{
@@ -166,14 +196,14 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                           </Typography>
                         </TableCell>
                       </TableRow>
-                      )
-                    : (
+                        )
+                      : (
                       <></>
-                      )
-                }
-              )
-              : Object.keys(ENDPOINTS).map((chainName) => (
-                  <TableRow key={chainName}>
+                        )
+                  }
+                )
+              : [...new Array(rowsPerPage)].map((_, i) => (
+                  <TableRow key={i}>
                     <TableCell colSpan={3}>
                       <Stack direction="row" gap={1}>
                         <Skeleton variant="circular">
@@ -186,9 +216,19 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                       </Stack>
                     </TableCell>
                   </TableRow>
-              ))}
+                ))}
           </TableBody>
         </Table>
+        <TablePagination
+        component={'div'}
+        colSpan={3}
+        count={filteredAssets.length}
+        page={page}
+        rowsPerPage={rowsPerPage}
+        onPageChange={onChangePage}
+        onRowsPerPageChange={onChangeRowsPerPage}
+        rowsPerPageOptions={[5, 10, 20]}
+        />
       </TableContainer>
     </Grid>
   )

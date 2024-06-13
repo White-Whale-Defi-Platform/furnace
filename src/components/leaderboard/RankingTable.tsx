@@ -68,7 +68,7 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
         <TableBody>
           {data.length === 0
           // While the data is still loading
-            ? [...new Array(5)].fill(
+            ? [...new Array(rowsPerPage)].fill(
                 <TableRow>
                   <TableCell colSpan={3}>
                     <Skeleton />
