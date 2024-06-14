@@ -29,7 +29,10 @@ interface Props {
   chartLoading: boolean
 }
 
-export const UniqueBurnersAndAsset: FC<Props> = ({ uniqueBurnerAndAssets, chartLoading }) => {
+export const UniqueBurnersAndAsset: FC<Props> = ({
+  uniqueBurnerAndAssets,
+  chartLoading
+}) => {
   const scatterData = Object.entries(uniqueBurnerAndAssets).map(
     ([chainName, assetInfos]) => {
       const leaderboards = new Set(
@@ -85,50 +88,50 @@ export const UniqueBurnersAndAsset: FC<Props> = ({ uniqueBurnerAndAssets, chartL
         <Skeleton variant="rectangular" height={400} />
           )
         : (
-      <ResponsiveContainer height={400}>
-        <ScatterChart
-          data={scatterData}
-          margin={{
-            top: 20,
-            right: 20,
-            bottom: 20,
-            left: 20
-          }}
-        >
-          <CartesianGrid />
-          <XAxis allowDecimals={false} type="number" dataKey="numberOfAssets">
-            <Label position="bottom" value={'Number of Assets'} />
-          </XAxis>
+        <ResponsiveContainer height={400}>
+          <ScatterChart
+            data={scatterData}
+            margin={{
+              top: 20,
+              right: 20,
+              bottom: 20,
+              left: 20
+            }}
+          >
+            <CartesianGrid />
+            <XAxis allowDecimals={false} type="number" dataKey="numberOfAssets">
+              <Label position="bottom" value={'Number of Assets'} />
+            </XAxis>
 
-          <YAxis allowDecimals={false} type="number" dataKey="uniqueBurners">
-            <Label
-              dy={-170}
-              dx={-250}
-              transform="rotate(-90)"
-              value={'Number of Unique Burners'}
+            <YAxis allowDecimals={false} type="number" dataKey="uniqueBurners">
+              <Label
+                dy={-170}
+                dx={-250}
+                transform="rotate(-90)"
+                value={'Number of Unique Burners'}
+              />
+            </YAxis>
+            <ZAxis range={[250, 251]} />
+            <Tooltip
+              cursor={{ strokeDasharray: '3 3' }}
+              labelStyle={{ color: 'ActiveBorder' }}
+              content={<CustomTooltip />}
             />
-          </YAxis>
-          <ZAxis range={[250, 251]} />
-          <Tooltip
-            cursor={{ strokeDasharray: '3 3' }}
-            labelStyle={{ color: 'ActiveBorder' }}
-            content={<CustomTooltip />}
-          />
-          <Legend
-            verticalAlign="top"
-            align="center"
-            wrapperStyle={{ top: 0, paddingBottom: '1px' }}
-          />
-          {scatterData.map((chartInfo) => (
-            <Scatter
-              key={chartInfo.chainName}
-              name={chartInfo.chainName}
-              data={[chartInfo]}
-              fill={ENDPOINTS[chartInfo.chainName].chainColor}
+            <Legend
+              verticalAlign="top"
+              align="center"
+              wrapperStyle={{ top: 0, paddingBottom: '1px' }}
             />
-          ))}
-        </ScatterChart>
-      </ResponsiveContainer>
+            {scatterData.map((chartInfo) => (
+              <Scatter
+                key={chartInfo.chainName}
+                name={chartInfo.chainName}
+                data={[chartInfo]}
+                fill={ENDPOINTS[chartInfo.chainName].chainColor}
+              />
+            ))}
+          </ScatterChart>
+        </ResponsiveContainer>
           )}
     </>
   )

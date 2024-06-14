@@ -33,11 +33,11 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
     <Grid
       container
       component={Paper}
-      sx={{ gap: 3, flexDirection: 'column', padding: 3, bgcolor: '#2B2626', minWidth: '70vw' }}
+      sx={{ gap: 3, flexDirection: 'column', padding: 3, minWidth: '70vw' }}
     >
       <Typography sx={{ fontSize: 24 }}>Leaderboard</Typography>
 
-      <Grid container xs={12} sx={{ background: '#10131A', padding: 3 }}>
+      <Grid container xs={12} sx={{ paddingY: 3 }}>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -51,18 +51,17 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
           </Typography>
         </Grid>
         <Grid xs={12} sx={{ paddingY: 2 }}>
-          <Divider flexItem />
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>My Rank</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {(typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && userRank >= 0) ? userRank : <Skeleton width={180}/> }
+            {(typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && userRank >= 0) ? userRank : <Typography color='GrayText' fontSize='18px'>Connect Wallet</Typography> }
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>{`My ${mintDenom.name} Tokens`}</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-           {typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && totalBurnedAssets !== 0 ? formatAssetAmount(mintDenom) : <Skeleton width={180} /> }
+           {typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && totalBurnedAssets !== 0 ? formatAssetAmount(mintDenom) : <Typography color='GrayText' fontSize='18px'>Connect Wallet</Typography> }
           </Typography>
         </Grid>
       </Grid>

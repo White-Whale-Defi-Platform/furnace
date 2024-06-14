@@ -77,7 +77,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           </Grid>
         </Stack>
         <Stack
-        sx={{ backgroundColor: '#734420' }}
+        sx={{ background: 'linear-gradient(to right top, #29170b, #844c26)' }}
           component="main"
           direction="column"
           minHeight="calc(100vh - 128px)"

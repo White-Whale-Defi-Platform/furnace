@@ -16,7 +16,8 @@ import {
   Unstable_Grid2 as Grid,
   Button,
   Tooltip,
-  Skeleton
+  Skeleton,
+  styled
 } from '@mui/material'
 import LinkIcon from '@mui/icons-material/Link'
 import { useRouter } from 'next/navigation'
@@ -25,6 +26,12 @@ import { useState, type FC } from 'react'
 interface Props {
   furnaceData: Array<[ChainName, Array<TotalFurnaceData[1]>]>
 }
+
+const ChartLabel = styled(Typography)({
+  fontSize: 20,
+  fontWeight: 'bold',
+  pb: 5
+})
 
 export const DashboardTable: FC<Props> = ({ furnaceData }) => {
   const router = useRouter()
@@ -39,13 +46,19 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
       ? flattenedFurnaceData
       : flattenedFurnaceData.filter(([chainName]) => chainName === filterChain)
 
+  const fuelAssets = Object.entries(furnaceData).map(([_, assetInfos]) => (
+    [assetInfos[0],
+      assetInfos[1].length] as const
+  ))
+  const totalAssets = fuelAssets.reduce((assets, [_, asset]) => assets + asset, 0)
   return (
-    <Grid>
+    <Grid container direction={'column'} gap={2}>
+      <ChartLabel>Asset Breakdown</ChartLabel>
       {
         <Stack direction="row" gap={1} maxWidth={300}>
           <Chip
+            avatar={<Avatar sx={{ backgroundColor: '#ae6628' }}>{totalAssets}</Avatar>}
             label="All"
-            variant="outlined"
             color={filterChain === undefined ? 'primary' : 'secondary'}
             onClick={() => setFilterChain(undefined)}
           />
@@ -54,12 +67,11 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
             : Object.entries(ENDPOINTS)
           ).map(([chainName]) => (
             <Chip
+              avatar={<Avatar sx={{ backgroundColor: '#ae6628' }}>{Object.fromEntries(fuelAssets)[chainName] || 0}</Avatar>}
               key={chainName}
-              variant="outlined"
               label={formatPrettyName(chainName)}
               color={filterChain === chainName ? 'primary' : 'secondary'}
-              onClick={() => setFilterChain(chainName)}
-            />
+              onClick={() => setFilterChain(chainName)} />
           ))}
         </Stack>
       }
@@ -135,7 +147,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                                 >
                                   {asset.burnAsset.name}
                                 </Typography>
-                                <LinkIcon color="info" sx={{ width: '30px' }} />
+                                <LinkIcon color='secondary' sx={{ width: '30px' }} />
                               </Stack>
                             </Tooltip>
                           </Button>
