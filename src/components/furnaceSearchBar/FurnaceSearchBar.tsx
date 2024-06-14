@@ -12,7 +12,7 @@ import {
   Chip,
   Link
 } from '@mui/material'
-import { Search } from '@mui/icons-material'
+import { LocalFireDepartment } from '@mui/icons-material'
 import { useRecoilValueLoadable } from 'recoil'
 import { allChainAssetsSelector } from '@/state'
 import { formatPrettyName } from '@/util'
@@ -50,17 +50,19 @@ export const FurnaceSearchBar: FC = () => {
         disabled={pair.state !== 'hasValue'}
         focusRipple
         sx={{
-          border: '1px solid #8A91A3',
-          color: '#8A91A3',
-          '&:hover': { borderColor: '#FFFF', color: '#FFFF' },
-          width: { md: 350, lg: 400, xl: 450 }
+          border: '1px solid #c4825a',
+          borderRadius: '7px',
+          color: 'primary',
+          width: { md: 350, lg: 380 },
+          justifyContent: 'start',
+          textTransform: 'none'
         }}
         component="label"
         variant="outlined"
-        startIcon={<Search />}
+        startIcon={<LocalFireDepartment fontSize='large'/>}
         onClick={() => setOpen(true)}
       >
-        Search Asset to Burn
+        Search Asset to burn
       </Button>
       <Dialog
         fullWidth
@@ -80,7 +82,7 @@ export const FurnaceSearchBar: FC = () => {
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="start">
-                    <Search />
+                    <LocalFireDepartment />
                   </InputAdornment>
                 )
               }}

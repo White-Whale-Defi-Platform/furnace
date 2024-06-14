@@ -3,7 +3,7 @@ import { PageLayout, DashboardLayout } from '@/components'
 
 const Page = (): JSX.Element => {
   return (
-    <PageLayout title="Furnace">
+    <PageLayout title="Home">
       <DashboardLayout />
     </PageLayout>
   )

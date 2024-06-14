@@ -15,7 +15,7 @@ const BreadcrumbComponent = (): JSX.Element => {
         return last
           ? (
           <Typography color="secondary" key={to}>
-            {index === 0 ? '/home' : ''}
+            {index === 0 ? '/ Home' : ''}
             {value}
           </Typography>
             )
@@ -44,7 +44,7 @@ export const PageLayout: FC<PageLayoutProps> = ({
       <Grid flexDirection={'column'}>
         <BreadcrumbComponent />
         <Typography
-          color="primary"
+          color="secondary"
           variant="h4"
           pb={subtitle == null ? '15px' : 'none'}
         >
