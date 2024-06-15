@@ -1,9 +1,8 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Unstable_Grid2 as Grid } from '@mui/material'
 import {
   fcAssetConvert,
-  isValidTokenInput,
   findRegistryAssetBySymbol,
   formatPrettyName
 } from '@/util'
@@ -36,7 +35,6 @@ const Burn = ({
   const registryMintAsset: Asset =
     findRegistryAssetBySymbol(chainName, `ash${urlAssetName}`) ??
     fcAssetConvert({ denom: '', subdenom: `ash${urlAssetName.toUpperCase()}` })
-  const [input, setInput] = useState('')
   const chain = useChainContext(chainName)
   const address = chain.data?.bech32Address
   const fuels = useRecoilValueLoadable(
@@ -46,7 +44,7 @@ const Burn = ({
       address
     })
   )
-  const loadedBurnAsset = fuels.contents?.burnAsset
+  const loadedBurnAsset = fuels.valueMaybe()?.burnAsset
 
   useEffect(() => {
     // Redirect to the homepage if the fuel asset does not exist in the furnace
@@ -55,11 +53,11 @@ const Burn = ({
     }
   }, [loadedBurnAsset, fuels.state])
 
-  const onChange = ({
-    target: { value }
-  }: React.ChangeEvent<HTMLInputElement>): void => {
-    isValidTokenInput(value) && setInput(value)
-  }
+  // const onChange = ({
+  //   target: { value }
+  // }: React.ChangeEvent<HTMLInputElement>): void => {
+  //   isValidTokenInput(value) && setInput(value)
+  // }
   // const subtitle =
   //   fuels.state !== 'hasValue'
   //     ? `Burn ${urlAssetName}`
@@ -76,8 +74,6 @@ const Burn = ({
                 chainName={chainName}
                 nativeAsset={fuels.contents.burnAsset}
                 mintAsset={fuels.contents.mintAsset}
-                input={input}
-                onChange={onChange}
               />
               : <BurnerForm
               nativeAsset={registryBurnAsset}

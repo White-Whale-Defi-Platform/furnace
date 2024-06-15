@@ -1,4 +1,4 @@
-export const KNOWN_ADDRESSES = {
+export const KNOWN_ADDRESSES: Partial<Record<string, string>> = {
   migaloo17w97atfwdnjpe6wywwsjjw09050aq9s78jjjsmrmhhqtg7nevpmq0u8t9v: 'Eris Protocol',
   migaloo1tj69t56h3levwepq4cdmvf8fn59rzhdcqakkc6: 'LunaVShape',
   migaloo1fw0xmf4574hccxsvagc6dzzg37r2gwxtdqdemp: 'EC',

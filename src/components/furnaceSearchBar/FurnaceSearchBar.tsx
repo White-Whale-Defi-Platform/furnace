@@ -24,7 +24,7 @@ export const FurnaceSearchBar: FC = () => {
   const pair = useRecoilValueLoadable(allChainAssetsSelector)
 
   // format the getAssetInfo into array then flatten every asset info into one arry
-  const assetOptions = Object.entries(pair.contents).flatMap(
+  const assetOptions = Object.entries(pair.valueMaybe() ?? {}).flatMap(
     ([chain, chainInfo]) => chainInfo.map((asset) => ({ ...asset, chain }))
   )
 
@@ -34,9 +34,9 @@ export const FurnaceSearchBar: FC = () => {
       ? assetOptions.filter(({ burnAsset, mintAsset, chain }) => {
         return (
         // check if search string matches with from asset symbol
-          Boolean(burnAsset?.name.toLowerCase().includes(searchString)) ||
+          Boolean(burnAsset.name.toLowerCase().includes(searchString)) ||
             // check if search string matches with to asset symbol
-            Boolean(mintAsset?.name.toLowerCase().includes(searchString)) ||
+            Boolean(mintAsset.name.toLowerCase().includes(searchString)) ||
             // check if search string matches with chain name
             chain.toLowerCase().includes(searchString)
         )

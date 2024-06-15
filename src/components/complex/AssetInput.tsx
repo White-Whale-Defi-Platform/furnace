@@ -90,12 +90,12 @@ export const AssetInput: FC<AssetInputProps> = ({
     )
   }
 
-  const { assets, onChange, disabled, onAssetChange, prefillClick } = props
-  const isMultiAsset = assets?.length > 1
+  const { assets, onChange, disabled, onAssetChange = () => undefined, prefillClick } = props
+  const isMultiAsset = (assets != null) && assets.length > 1
 
   return (
     <TextField
-      sx={{ cursor: 'pointer', '& fieldset': { border: borderLine ?? 'none' } }}
+      sx={{ cursor: 'pointer', '& fieldset': { border: (borderLine ?? false) ? undefined : 'none' } }}
       color={props.invalidAmount ?? false ? 'error' : 'success'}
       fullWidth
       disabled={disabled}
@@ -120,7 +120,7 @@ export const AssetInput: FC<AssetInputProps> = ({
               endIcon={isMultiAsset && <KeyboardArrowDownIcon />}
               onClick={() =>
                 modal.open(
-                  <SelectAssetModal assets={assets} callback={onAssetChange} />
+                  <SelectAssetModal assets={assets ?? []} callback={onAssetChange} />
                 )
               }
             >

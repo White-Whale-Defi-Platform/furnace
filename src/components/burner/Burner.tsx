@@ -8,7 +8,6 @@ import { BurnerForm } from './BurnerForm'
 interface Props {
   nativeAsset: Asset
   mintAsset: Asset
-  isLoading: boolean
   chainName: ChainName
 }
 

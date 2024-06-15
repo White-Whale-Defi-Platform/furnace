@@ -21,7 +21,7 @@ import { MonetizationOnOutlined, Link } from '@mui/icons-material'
 export const DashboardLayout: FC = () => {
   const allFurnaceData = useRecoilValueLoadable(furnaceSelector)
   const isLoading = allFurnaceData.state === 'loading'
-  const furnaceData = Object.entries(allFurnaceData.valueMaybe() ?? isLoading)
+  const furnaceData = Object.entries(allFurnaceData.valueMaybe() ?? {})
   const loading = isLoading || furnaceData.length === 0
   const burnesPerAsset = furnaceData.reduce<FurnaceDataByChain>(
     (allchartData, currentFurnaceData): FurnaceDataByChain => {

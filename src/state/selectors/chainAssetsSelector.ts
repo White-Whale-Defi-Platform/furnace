@@ -42,7 +42,7 @@ ChainName
           ).assets
 
           // map over all the items and utilize the crAssets dynamic fetcher for any assets that were not in the registry
-          return assets.map(({ burnAsset, mintAsset }) => {
+          return assets.flatMap(({ burnAsset, mintAsset }) => {
             if (!(burnAsset.inChainRegistry && mintAsset.inChainRegistry)) {
               const newBurnAsset = findRegistryAssetBySymbol(
                 chainName,
@@ -54,7 +54,7 @@ ChainName
                 mintAsset.name,
                 crAssets
               )
-              return {
+              return [{
                 burnAsset:
                 newBurnAsset != null
                   ? { ...newBurnAsset, inChainRegistry: true }
@@ -63,7 +63,7 @@ ChainName
                 newMintAsset != null
                   ? { ...newMintAsset, inChainRegistry: true }
                   : mintAsset
-              }
+              }]
             }
             return assets
           })
@@ -82,7 +82,7 @@ export const assetPairWithBalanceSelector = selectorFamily<
   key: 'assetPairWithBalanceSelector',
   get:
     ({ chainName, burnAssetName, address }) =>
-      async ({ get }) => {
+      ({ get }) => {
         const pair = get(
           assetPairSelector({ chainName, burnAssetName })
         )
@@ -120,7 +120,7 @@ export const assetPairSelector = selectorFamily<
   key: 'assetPairSelector',
   get:
     ({ chainName, burnAssetName }) =>
-      async ({ get }) => {
+      ({ get }) => {
         const allChainAssets = get(chainAssetsSelector(chainName))
         return allChainAssets.find(({ burnAsset: { name } }) => {
           return name.toLowerCase() === burnAssetName.toLowerCase()

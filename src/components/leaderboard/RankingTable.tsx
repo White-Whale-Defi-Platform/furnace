@@ -35,7 +35,7 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
   //  Table pagination click event
   const onChangePage = useCallback(
     (
-      event: React.MouseEvent<HTMLButtonElement> | null,
+      _: React.MouseEvent<HTMLButtonElement> | null,
       newPage: number
     ): void => {
       setPage(newPage)
@@ -68,13 +68,13 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
         <TableBody>
           {data.length === 0
           // While the data is still loading
-            ? [...new Array(rowsPerPage)].fill(
-                <TableRow>
+            ? Array.from({ length: rowsPerPage }).map((_, i) =>
+                <TableRow key={i}>
                   <TableCell colSpan={3}>
                     <Skeleton />
                   </TableCell>
                 </TableRow>
-              )
+            )
           // After the data is fetched then it shows the ranking table
             : (rowsPerPage > 0
                 ? data.slice(
@@ -88,7 +88,7 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
                   <TableRow key={Math.random()}>
                     <TableCell>{`#${data.indexOf(value) + 1}`}</TableCell>
                     <TableCell color="brandGreen">
-                      {KNOWN_ADDRESSES.hasOwnProperty(userAddress)
+                      {userAddress in KNOWN_ADDRESSES
                         ? KNOWN_ADDRESSES[userAddress]
                         : truncateAddress(userAddress)}
                     </TableCell>

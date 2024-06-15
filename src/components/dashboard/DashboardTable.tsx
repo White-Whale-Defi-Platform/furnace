@@ -58,7 +58,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
   //  Table pagination click event
   const onChangePage = useCallback(
     (
-      event: React.MouseEvent<HTMLButtonElement> | null,
+      _: React.MouseEvent<HTMLButtonElement> | null,
       newPage: number
     ): void => {
       setPage(newPage)
@@ -92,7 +92,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
             : Object.entries(ENDPOINTS)
           ).map(([chainName]) => (
             <Chip
-              avatar={<Avatar sx={{ backgroundColor: '#ae6628' }}>{Object.fromEntries(fuelAssets)[chainName] || 0}</Avatar>}
+              avatar={<Avatar sx={{ backgroundColor: '#ae6628' }}>{Object.fromEntries(fuelAssets)[chainName] ?? 0}</Avatar>}
               key={chainName}
               label={formatPrettyName(chainName)}
               color={filterChain === chainName ? 'primary' : 'secondary'}
@@ -202,7 +202,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                         )
                   }
                 )
-              : [...new Array(rowsPerPage)].map((_, i) => (
+              : Array.from({ length: rowsPerPage }).map((_, i) => (
                   <TableRow key={i}>
                     <TableCell colSpan={3}>
                       <Stack direction="row" gap={1}>
@@ -216,7 +216,7 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
                       </Stack>
                     </TableCell>
                   </TableRow>
-                ))}
+              ))}
           </TableBody>
         </Table>
         <TablePagination

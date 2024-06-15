@@ -1,3 +1,3 @@
 export * from './LeaderboardLayout'
-export * from './RankingTable'
-export * from './LeaderboardLoading'
+export { RankingTable } from './RankingTable'
+export { LeaderboardLoading } from './LeaderboardLoading'
