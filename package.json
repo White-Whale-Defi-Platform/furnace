@@ -30,6 +30,7 @@
     "graz": "^0.1.17",
     "long": "^5.2.3",
     "next": "^14.0.1",
+    "pino-pretty": "^11.2.1",
     "react": "^18",
     "react-countup": "^6.5.0",
     "react-dom": "^18",
