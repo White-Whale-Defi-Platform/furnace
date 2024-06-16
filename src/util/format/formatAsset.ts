@@ -16,7 +16,7 @@ export const formatAmountWithExponent = (amount: number, exponent: number): stri
 
 export const formatAssetAmount = (asset: Asset): string => formatAmountWithExponent(asset.amount, asset.decimals)
 
-export const updateAssetAmount = (asset: Asset, { amount }: Coin): Asset => ({
+export const updateAssetAmount = <A extends Asset>(asset: A, { amount }: Coin): A => ({
   ...asset,
   amount: Number(amount)
 })

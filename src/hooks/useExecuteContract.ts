@@ -1,12 +1,11 @@
 import type { ExecuteMsg } from '@/types'
 import { createMsgExecuteContract } from '@/util'
-import { coin, type Coin } from '@cosmjs/stargate'
+import type { Coin } from '@cosmjs/stargate'
 import { useBroadcastTransaction, type UseBroadcastTransactionResult } from './useBroadcastTransaction'
 import { useChainContext } from './useChainContext'
 import type { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import { ENDPOINTS, type ChainName } from '@/constants'
 import { useSignTransaction, useSimulateTransaction } from '@/hooks'
-import { useAccount } from 'graz'
 import { chains } from 'chain-registry'
 export interface UseExecuteContractResult {
   sign: (gas: number) => Promise<TxRaw>

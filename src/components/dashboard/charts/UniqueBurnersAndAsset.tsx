@@ -49,10 +49,7 @@ export const UniqueBurnersAndAsset: FC<Props> = ({
     }
   )
 
-  const CustomTooltip = ({
-    active,
-    payload
-  }: {
+  const CustomTooltip: FC< {
     active: boolean
     payload: Array<{
       dataKey: string
@@ -63,6 +60,9 @@ export const UniqueBurnersAndAsset: FC<Props> = ({
         numberOfAssets: number
       }
     }>
+  }> = ({
+    active,
+    payload
   }) => {
     if (active && payload.length > 0) {
       const { chainName, uniqueBurners, numberOfAssets } = payload[0].payload
@@ -115,7 +115,7 @@ export const UniqueBurnersAndAsset: FC<Props> = ({
             <Tooltip
               cursor={{ strokeDasharray: '3 3' }}
               labelStyle={{ color: 'ActiveBorder' }}
-              content={<CustomTooltip />}
+              content={<CustomTooltip active={false} payload={[]} />}
             />
             <Legend
               verticalAlign="top"

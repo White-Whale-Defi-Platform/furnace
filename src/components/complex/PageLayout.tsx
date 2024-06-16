@@ -6,8 +6,6 @@ import type { FC, PropsWithChildren } from 'react'
 
 const BreadcrumbComponent = (): JSX.Element => {
   const pathnames = usePathname().split('/').slice(1)
-
-  console.log(pathnames, 'pathnames')
   return (
     <Breadcrumbs aria-label="breadcrumb">
       {pathnames.length < 2

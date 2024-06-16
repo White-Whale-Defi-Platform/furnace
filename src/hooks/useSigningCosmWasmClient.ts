@@ -30,22 +30,22 @@ export const useAllCosmWasmClients = (): void => {
           [chainName, client?.[chainId], chainId] as const
       )
       .filter(([_, queryClient]) => typeof queryClient !== 'undefined')
-      .map(
-        ([chainName, queryClient, chainId]) => {
-          return [
-            chainName,
-            queryClient
-              ? new FurnaceQueryClient(
-                queryClient,
-                ENDPOINTS[chainName].contractAddress
-              )
-              : undefined
-          ] as const
+      .flatMap(
+        ([chainName, queryClient]) => {
+          return (queryClient != null)
+            ? [[
+                chainName,
+                new FurnaceQueryClient(
+                  queryClient,
+                  ENDPOINTS[chainName].contractAddress
+                )
+              ] as const]
+            : []
         }
       )
 
     setClients(Object.fromEntries(clients))
-  }, [client, ENDPOINTS])
+  }, [client, setClients])
 }
 
 /**
@@ -71,7 +71,7 @@ export const useSigningClient = (chainName: string): UseSigningClientResult => {
 
       const furnaceClient = new FurnaceClient(signingClient, bech32Address, ENDPOINTS[chainName].contractAddress)
       setResult((prev) => ({ ...prev, result: furnaceClient, error: null, loading: false }))
-    }, [isConnected, bech32Address, signingClient]
+    }, [isConnected, bech32Address, signingClient, chainName]
   )
 
   return useMemo(() => result, [result])

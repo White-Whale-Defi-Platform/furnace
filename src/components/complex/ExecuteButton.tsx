@@ -45,7 +45,7 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({
               .catch(() => snackbar.open('Broadcast Failed', 'error'))
               .finally(() => setLoading(false))
           })
-          .catch((e) => {
+          .catch((_) => {
             setLoading(false)
             snackbar.open('Request Rejected', 'error')
           })

@@ -1,10 +1,12 @@
 'use client'
 import { ENDPOINTS } from '@/constants'
-import { useAccount } from 'graz'
+import { type UseAccountResult, useAccount } from 'graz'
 
-export const useChainContext = (chainName: string) => {
+export const useChainContext = (chainName: string): UseAccountResult<{
+  chainId: string
+}> => {
   const chain = ENDPOINTS[chainName].chainId
   return useAccount({ chainId: chain })
 }
 
-export const chainIdConvert = (chainName: string) => ENDPOINTS[chainName].chainId
+export const chainIdConvert = (chainName: string): string => ENDPOINTS[chainName].chainId

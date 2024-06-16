@@ -1,6 +1,6 @@
 import {
   type LeaderboardInfo,
-  fetchLeaderboard,
+  fetchLeaderboard
 } from '@/hooks'
 import { selector, selectorFamily, waitForAll } from 'recoil'
 import { clientsAtom, chainAssetsSelector } from '@/state'

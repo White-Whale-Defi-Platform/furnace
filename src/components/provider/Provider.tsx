@@ -16,9 +16,9 @@ export const Provider: FC<PropsWithChildren> = ({ children }) => {
     .filter(([chainName]) =>
     // @ts-expect-error module type defaults to any
       grazChains[chainName] != null)
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     .map(([chainName, { rpc: [rpc], rest: [rest] }]) => ({
-    // @ts-expect-error module type definition doesn't like us throwing a random string in it
-    // so we added a filter to ensure everything doesn't blow up
+    // @ts-expect-error module type definition doesn't like us throwing a random string in it so we added a filter to ensure everything doesn't blow up
       ...grazChains[chainName], rpc, rest
     }))
 

@@ -1,7 +1,8 @@
 'use client'
 import { Unstable_Grid2 as Grid, Typography, Paper, Divider } from '@mui/material'
+import type { FC } from 'react'
 
-export const LeaderboardLoading = () => {
+export const LeaderboardLoading: FC = () => {
   return (
     <Grid
     component={Paper}

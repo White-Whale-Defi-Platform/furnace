@@ -62,8 +62,8 @@ export const fetchChainAssetsWithMintDenom = async (
             return ({
               burnAsset,
               mintAsset: (mintRegistryAsset != null)
-                ? crAssetConvert(mintRegistryAsset)
-                : fcAssetConvert({ denom: expectedMintDenom, subdenom: `ash${burnAsset.name}` })
+                ? { ...crAssetConvert(mintRegistryAsset), inChainRegistry: true }
+                : { ...fcAssetConvert({ denom: expectedMintDenom, subdenom: `ash${burnAsset.name}` }), inChainRegistry: false }
             })
           })
     )

@@ -22,7 +22,7 @@ export const furnaceSelector = selector<Record<ChainName, Array<TotalFurnaceData
       const allLeaderboard = get(chainLeaderboardSelector(chainName))
       const allChainAssets = get(chainAssetsSelector(chainName))
 
-      if (allLeaderboard != null && allChainAssets != null) {
+      if (allLeaderboard.length > 0 && allChainAssets.length > 0) {
         const formattedAllLeaderboard = Object.fromEntries(allLeaderboard)
         return ([chainName,
           allChainAssets.map((asset) => {
@@ -35,6 +35,6 @@ export const furnaceSelector = selector<Record<ChainName, Array<TotalFurnaceData
       } return undefined
     })
 
-    return Object.fromEntries(allFurnace.filter(x => !!x))
+    return Object.fromEntries(allFurnace.flatMap(x => x != null ? [x] : []))
   }
 })

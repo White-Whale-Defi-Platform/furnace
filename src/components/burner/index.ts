@@ -1,2 +1,2 @@
-export * from './Burner'
-export * from './BurnerForm'
+export { Burner } from './Burner'
+export { BurnerForm } from './BurnerForm'
