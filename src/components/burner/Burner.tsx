@@ -15,6 +15,7 @@ const Burner: FC<Props> = ({ chainName, nativeAsset, mintAsset }) => {
   const [burnDisplayAmount, setBurnDisplayAmount] = useState('')
   const amount = Number(burnDisplayAmount) * Math.pow(10, nativeAsset.decimals)
   const executeBurn = useExecuteBurn(chainName, amount, nativeAsset.id)
+
   return (
     <BurnerForm
       loading={false}
