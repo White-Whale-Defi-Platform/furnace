@@ -3,7 +3,7 @@ import {
   type RecoilValueReadOnly,
   selector,
   selectorFamily,
-  waitForAll
+  waitForAll,
 } from 'recoil'
 import { ENDPOINTS, type ChainName } from '@/constants'
 import { balanceSelector, clientsAtom } from '@/state'
@@ -62,14 +62,14 @@ ChainName
                 mintAsset:
                 newMintAsset != null
                   ? { ...newMintAsset, inChainRegistry: true }
-                  : mintAsset
+                  : mintAsset,
               }]
             }
             return assets
           })
         }
         return assets
-      }
+      },
 })
 
 /**
@@ -102,18 +102,19 @@ export const assetPairWithBalanceSelector = selectorFamily<
             mintAsset: updateAssetAmount(
               mintAsset,
               mintBalance ?? coin(0, mintAsset.id)
-            )
+            ),
           }
-        } else {
+        }
+        else {
           return undefined
         }
-      }
+      },
 })
 
 /**
  * Returns the pair of burn and mint denoms when they exist.
  */
-export const assetPairSelector = selectorFamily<
+const assetPairSelector = selectorFamily<
 { burnAsset: ChainAsset, mintAsset: ChainAsset } | undefined,
 { chainName: ChainName, burnAssetName: string }
 >({
@@ -129,7 +130,7 @@ export const assetPairSelector = selectorFamily<
         // })
         // return await (foundAssets || Promise.reject(Error(`No assets exist ${chainName + burnAssetName}`)))
         })
-      }
+      },
 })
 
 /**
@@ -158,5 +159,5 @@ Record<ChainName, Array<{ burnAsset: ChainAsset, mintAsset: ChainAsset }>>
     )
     // Wait until the allChains gets loaded
     return get(waitForAll(Object.fromEntries(allChains)))
-  }
+  },
 })

@@ -1,0 +1,18 @@
+{
+  "includeEntryExports": true,
+  "include-libs": true,
+  "include": [
+    "nsExports",
+    "nsTypes",
+    "files",
+    "exports",
+    "types"
+  ],
+  "ignoreDependencies": [
+    "husky",
+    "pino-pretty"
+  ],
+  "ignore": [
+    "src/codegen/**"
+  ]
+}

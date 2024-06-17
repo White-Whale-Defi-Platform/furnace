@@ -19,8 +19,8 @@ export const crAssetConvert = (asset: CRAsset): Asset => {
     amount: 0,
     description: {
       short: asset.description ?? '',
-      long: asset.description ?? ''
-    }
+      long: asset.description ?? '',
+    },
   }
 }
 
@@ -39,7 +39,7 @@ export const fcAssetConvert = ({ denom, subdenom }: Pick<FuelConfig, 'denom' | '
     amount: 0,
     description: {
       short: subdenom,
-      long: subdenom
-    }
+      long: subdenom,
+    },
   }
 }

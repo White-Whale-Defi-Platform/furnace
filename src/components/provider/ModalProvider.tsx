@@ -9,7 +9,7 @@ interface ModalContextType {
 
 const ModalContext = createContext<ModalContextType>({
   open: () => undefined,
-  close: () => undefined
+  close: () => undefined,
 })
 
 export const useModal = (): ModalContextType => useContext(ModalContext)
@@ -23,7 +23,7 @@ export const ModalProvider: FC<PropsWithChildren> = ({ children }): JSX.Element 
     changeVisibility(true)
   }
 
-  const close = (): void => changeVisibility(false)
+  const close = (): void => { changeVisibility(false) }
 
   return (
     <ModalContext.Provider
@@ -38,7 +38,7 @@ export const ModalProvider: FC<PropsWithChildren> = ({ children }): JSX.Element 
           justifyContent: 'center',
           alignItems: 'center',
           height: '100vh',
-          width: '100vw'
+          width: '100vw',
         }}
       >
         {modalContent}

@@ -1,1 +1,1 @@
-export * from './FurnaceSearchBar'
+export { default as FurnaceSearchBar } from './FurnaceSearchBar'

@@ -5,11 +5,11 @@ import { useExecuteContract, type UseExecuteContractResult } from '@/hooks'
 import type { ChainName } from '@/constants'
 
 // Burn
-export interface BurnExecuteMsg {
+interface BurnExecuteMsg {
   burn: Record<string, never>
 }
 
-export const createBurnExecuteMsg = (): ExecuteMsg<BurnExecuteMsg> => createExecuteMsg<BurnExecuteMsg>({ burn: {} })
+const createBurnExecuteMsg = (): ExecuteMsg<BurnExecuteMsg> => createExecuteMsg<BurnExecuteMsg>({ burn: {} })
 
 export const useExecuteBurn = (chainName: ChainName, amount: number, denom: string): UseExecuteContractResult => {
   return useExecuteContract(

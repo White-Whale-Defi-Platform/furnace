@@ -9,17 +9,20 @@ const BreadcrumbComponent = (): JSX.Element => {
   return (
     <Breadcrumbs aria-label="breadcrumb">
       {pathnames.length < 2
-        ? <Typography color="secondary" >
-            {'/ Home' }
+        ? (
+          <Typography color="secondary">
+            / Home
           </Typography>
-        : <Typography color="secondary">
+          )
+        : (
+          <Typography color="secondary">
             {`/ Home / ${formatPrettyName(pathnames[0])} - ${formatPrettyName(pathnames[1]).toUpperCase()}`}
           </Typography>
-          }
+          )}
     </Breadcrumbs>
   )
 }
-export interface PageLayoutProps extends PropsWithChildren {
+interface PageLayoutProps extends PropsWithChildren {
   title?: string
   subtitle?: string
 }
@@ -27,11 +30,11 @@ export interface PageLayoutProps extends PropsWithChildren {
 export const PageLayout: FC<PageLayoutProps> = ({
   title,
   subtitle,
-  children
+  children,
 }): JSX.Element => (
   <>
     <Grid container xl={9} sx={{ alignSelf: { xl: 'center' } }}>
-      <Grid flexDirection={'column'}>
+      <Grid flexDirection="column">
         <BreadcrumbComponent />
         <Typography
           color="secondary"

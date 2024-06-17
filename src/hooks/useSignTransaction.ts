@@ -4,7 +4,7 @@ import { useSigningClient } from './useSigningCosmWasmClient'
 import type { EncodeObject } from '@cosmjs/proto-signing'
 import type { ChainName } from '@/constants'
 
-export type UseSignTransactionResult = (address: string, messages: EncodeObject[], fee: StdFee, memo?: string) => Promise<TxRaw>
+type UseSignTransactionResult = (address: string, messages: EncodeObject[], fee: StdFee, memo?: string) => Promise<TxRaw>
 
 export const useSignTransaction = (chainName: ChainName): UseSignTransactionResult => {
   const { result: client } = useSigningClient(chainName)

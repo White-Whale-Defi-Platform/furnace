@@ -10,9 +10,9 @@ export const dynamicAssetsSelector = selector({
   get: async () => {
     // create an instance of ChainRegistryClient by passing in the chain names
     const chainRegistryClient = new ChainRegistryClient({
-      chainNames: Object.keys(ENDPOINTS)
+      chainNames: Object.keys(ENDPOINTS),
     })
     await chainRegistryClient.fetchUrls()
     return chainRegistryClient
-  }
+  },
 })

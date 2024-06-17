@@ -7,7 +7,7 @@ import {
   Newspaper,
   Settings,
   Support,
-  Paid
+  Paid,
 } from '@mui/icons-material'
 import {
   Avatar,
@@ -17,7 +17,7 @@ import {
   MenuItem,
   styled,
   Tooltip,
-  Typography
+  Typography,
 } from '@mui/material'
 import { useState } from 'react'
 import { useModal, useSnackbar } from './provider'
@@ -26,64 +26,63 @@ import { chainIds } from '@/constants'
 import { useConnect, useAccount, useDisconnect } from 'graz'
 
 const LogInButton = styled(Button)(({ theme }) => ({
-  borderRadius: theme.shape.borderRadius
+  borderRadius: theme.shape.borderRadius,
 }))
 
 const ProfileAvatar = styled(Avatar)({
   cursor: 'pointer',
   background: '#e98741',
-  color: 'white'
+  color: 'white',
 })
 
 const AccountDropDownMenu = styled(Menu)(({ theme }) => ({
   '& .MuiPaper-root': {
-    width: 176,
-    marginTop: theme.spacing(1),
-    borderRadius: theme.shape.borderRadius,
+    'width': 176,
+    'marginTop': theme.spacing(1),
+    'borderRadius': theme.shape.borderRadius,
     '& .MuiAvatar-root': {
       width: 32,
-      height: 32
+      height: 32,
     },
     '& .MuiSvgIcon-root': {
       width: 24,
-      height: 24
+      height: 24,
     },
     '& .MuiTypography-root': {
       fontSize: theme.typography.body2.fontSize,
-      fontWeight: theme.typography.body2.fontWeight
+      fontWeight: theme.typography.body2.fontWeight,
     },
     '& .MuiMenuItem-root': {
       padding: theme.spacing(1),
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between'
-    }
-  }
+      justifyContent: 'space-between',
+    },
+  },
 }))
 
 export const AccountMenu = (): JSX.Element => {
   const { data: isConnected } = useAccount({
     chainId: chainIds,
-    multiChain: true
+    multiChain: true,
   })
   const { connectAsync } = useConnect()
   const { disconnectAsync } = useDisconnect()
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null)
   const open = Boolean(anchorEl)
-  const openMenu = (event: React.MouseEvent<HTMLElement>): void =>
-    setAnchorEl(event.currentTarget)
-  const closeMenu = (): void => setAnchorEl(null)
+  const openMenu = (event: React.MouseEvent<HTMLElement>): void => { setAnchorEl(event.currentTarget) }
+  const closeMenu = (): void => { setAnchorEl(null) }
   const snackbar = useSnackbar()
   const onConnect = (): void => {
     void connectAsync({ chainId: chainIds })
       .then(() => ({}))
-      .then(() => snackbar.open('Logged In', 'success'))
-      .catch(() => snackbar.open('Login Failed', 'error'))
+      .then(() => { snackbar.open('Logged In', 'success') })
+      .catch(() => { snackbar.open('Login Failed', 'error') })
   }
   const onDisconnect = (): void => {
     void disconnectAsync({ chainId: chainIds })
-      .then(() => snackbar.open('Logged Out', 'success'))
-      .catch(() => snackbar.open('Logout Failed', 'error'))
+      .then(() => { snackbar.open('Logged Out', 'success') })
+      .catch(() => { snackbar.open('Logout Failed', 'error') })
   }
 
   const modal = useModal()
@@ -104,7 +103,7 @@ export const AccountMenu = (): JSX.Element => {
               disableRipple
               sx={{
                 '&:hover': { backgroundColor: 'transparent' },
-                cursor: 'default'
+                'cursor': 'default',
               }}
             >
               <Avatar src="/default-avatar.webp" />
@@ -114,7 +113,7 @@ export const AccountMenu = (): JSX.Element => {
 
             <MenuItem
               sx={{ display: { md: 'none' } }}
-              onClick={() => modal.open(<KadoModal />)}
+              onClick={() => { modal.open(<KadoModal />) }}
             >
               <Paid />
               <Typography>Buy Whale</Typography>

@@ -8,7 +8,7 @@ import { ChartColors } from '@/util'
 const ChartLabel = styled(Typography)({
   fontSize: 20,
   fontWeight: 'bold',
-  pb: 5
+  pb: 5,
 })
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 }
 export const BurnersPerChain: FC<Props> = ({
   uniqueBurnersData,
-  chartLoading
+  chartLoading,
 }) => {
   // Reduce down each chain and its fuel assets' leaderboard to calculate the unique number of burners
   // e.g. a address who burned Whale and Guppy in Migaloo should be 1 unique address not 2
@@ -33,7 +33,7 @@ export const BurnersPerChain: FC<Props> = ({
 
       return {
         name: chainName,
-        burners: leaderboards
+        burners: leaderboards,
       }
     }
   )
@@ -42,34 +42,34 @@ export const BurnersPerChain: FC<Props> = ({
       <ChartLabel>Burners per Chain</ChartLabel>
       {chartLoading
         ? (
-        <Skeleton variant="rectangular" height={400} />
+          <Skeleton variant="rectangular" height={400} />
           )
         : (
-        <BarChart
-          tooltip={{ trigger: 'axis' }}
-          dataset={numberOfUniqueBurners}
-          yAxis={[
-            {
-              scaleType: 'band',
-              dataKey: 'name',
-              colorMap: {
-                type: 'ordinal',
-                colors: ChartColors
-              }
-            }
-          ]}
-          series={[
-            {
-              dataKey: 'burners',
-              label: 'burners'
-            }
-          ]}
-          layout="horizontal"
-          grid={{ vertical: true }}
-          height={300}
-          margin={{ top: 20, right: 80, bottom: 20, left: 80 }}
-          slotProps={{ legend: { hidden: true } }}
-        />
+          <BarChart
+            tooltip={{ trigger: 'axis' }}
+            dataset={numberOfUniqueBurners}
+            yAxis={[
+              {
+                scaleType: 'band',
+                dataKey: 'name',
+                colorMap: {
+                  type: 'ordinal',
+                  colors: ChartColors,
+                },
+              },
+            ]}
+            series={[
+              {
+                dataKey: 'burners',
+                label: 'burners',
+              },
+            ]}
+            layout="horizontal"
+            grid={{ vertical: true }}
+            height={300}
+            margin={{ top: 20, right: 80, bottom: 20, left: 80 }}
+            slotProps={{ legend: { hidden: true } }}
+          />
           )}
     </>
   )

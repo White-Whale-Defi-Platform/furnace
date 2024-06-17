@@ -5,7 +5,7 @@ import {
   InputAdornment,
   Skeleton,
   TextField,
-  Typography
+  Typography,
 } from '@mui/material'
 import type { FC } from 'react'
 import type { Asset } from '@/types'
@@ -13,7 +13,7 @@ import { useModal } from '../provider'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import { SelectAssetModal } from '../modals/SelectAssetModal'
 
-export type AssetInputProps = {
+type AssetInputProps = {
   value: string
   label: string
   helperText: string
@@ -56,27 +56,27 @@ export const AssetInput: FC<AssetInputProps> = ({
         onChange={() => undefined}
         helperText={helperText}
         FormHelperTextProps={{
-          onClick: () => undefined
+          onClick: () => undefined,
         }}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
               <Button
                 disabled
-                startIcon={
+                startIcon={(
                   <Skeleton variant="circular">
                     <Avatar
                       src=""
                       sx={{ width: 24, height: 24, background: 'none' }}
                     />
                   </Skeleton>
-                }
+                )}
                 onClick={() => undefined}
               >
                 <Skeleton>
                   <Typography
                     sx={{
-                      textTransform: 'none'
+                      textTransform: 'none',
                     }}
                   >
                     {asset.name}
@@ -84,7 +84,7 @@ export const AssetInput: FC<AssetInputProps> = ({
                 </Skeleton>
               </Button>
             </InputAdornment>
-          )
+          ),
         }}
       />
     )
@@ -95,7 +95,7 @@ export const AssetInput: FC<AssetInputProps> = ({
 
   return (
     <TextField
-      sx={{ cursor: 'pointer', '& fieldset': { border: (borderLine ?? false) ? undefined : 'none' } }}
+      sx={{ 'cursor': 'pointer', '& fieldset': { border: (borderLine ?? false) ? undefined : 'none' } }}
       color={props.invalidAmount ?? false ? 'error' : 'success'}
       fullWidth
       disabled={disabled}
@@ -104,36 +104,36 @@ export const AssetInput: FC<AssetInputProps> = ({
       onChange={onChange}
       helperText={helperText}
       FormHelperTextProps={{
-        onClick: prefillClick
+        onClick: prefillClick,
       }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
             <Button
               disabled={!isMultiAsset}
-              startIcon={
+              startIcon={(
                 <Avatar
                   src={asset.logo}
                   sx={{ width: 24, height: 24, background: 'none' }}
                 />
-              }
+              )}
               endIcon={isMultiAsset && <KeyboardArrowDownIcon />}
-              onClick={() =>
+              onClick={() => {
                 modal.open(
                   <SelectAssetModal assets={assets ?? []} callback={onAssetChange} />
                 )
-              }
+              }}
             >
               <Typography
                 sx={{
-                  textTransform: 'none'
+                  textTransform: 'none',
                 }}
               >
                 {asset.name}
               </Typography>
             </Button>
           </InputAdornment>
-        )
+        ),
       }}
     />
   )

@@ -1,12 +1,12 @@
 import {
   type LeaderboardInfo,
-  fetchLeaderboard
+  fetchLeaderboard,
 } from '@/hooks'
-import { selector, selectorFamily, waitForAll } from 'recoil'
+import { selectorFamily } from 'recoil'
 import { clientsAtom, chainAssetsSelector } from '@/state'
-import { ENDPOINTS, type ChainName } from '@/constants'
+import { type ChainName } from '@/constants'
 
-export interface LeaderboardResults {
+interface LeaderboardResults {
   uniqueBurners: number
   totalBurnedAssets: number
   avgTokensBurnedPerUniques: number
@@ -17,8 +17,8 @@ export interface LeaderboardResults {
  * The leaderboard for a single fule denom.
  */
 export const leaderboardSelector = selectorFamily<
-LeaderboardResults,
-{ chainName: ChainName, denom: string }
+  LeaderboardResults,
+  { chainName: ChainName, denom: string }
 >({
   key: 'leaderboardSelector',
   get:
@@ -26,19 +26,19 @@ LeaderboardResults,
       async ({ get }) => {
         const client = get(clientsAtom)[chainName]
         return await fetchLeaderboard(client, denom, 30)
-      }
+      },
 })
 
 /**
  * All the leaderboards for an entire chain.
  */
 export const chainLeaderboardSelector = selectorFamily<
-LeaderboardInfo[],
-ChainName
+  LeaderboardInfo[],
+  ChainName
 >({
   key: 'chainLeaderboardSelector',
   get:
-    (chainName) =>
+    chainName =>
       async ({ get }) => {
         const client = get(clientsAtom)[chainName]
         const chainAssets = get(chainAssetsSelector(chainName))
@@ -47,24 +47,9 @@ ChainName
           chainAssets.map(
             async ({ burnAsset: { id } }): Promise<LeaderboardInfo> => [
               id,
-              await fetchLeaderboard(client, id, 30)
+              await fetchLeaderboard(client, id, 30),
             ]
           )
         )
-      }
-})
-
-/**
- * All the leaderboards for the every chains that are available from the furnaces.
- */
-export const allChainLeaderboardsSelector = selector<
-Record<ChainName, LeaderboardInfo[]>
->({
-  key: 'allChainLeaderboardsSelector',
-  get: ({ get }) => {
-    const allChains = Object.keys(ENDPOINTS).map((chainName) => {
-      return [chainName, chainLeaderboardSelector(chainName)] as const
-    })
-    return get(waitForAll(Object.fromEntries(allChains)))
-  }
+      },
 })

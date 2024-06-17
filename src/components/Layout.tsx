@@ -9,7 +9,7 @@ import {
   styled,
   IconButton,
   Unstable_Grid2 as Grid,
-  Typography
+  Typography,
 } from '@mui/material'
 import { AccountMenu } from './AccountMenu'
 import { useRouter } from 'next/navigation'
@@ -17,13 +17,13 @@ import { useModal } from './provider'
 import { KadoModal } from './modals/KadoModal'
 import { Language, X } from '@mui/icons-material'
 import { Discord } from '../../public/assets/Discord'
-import FurnaceSearchBar from './furnaceSearchBar/FurnaceSearchBar'
+import { FurnaceSearchBar } from './furnaceSearchBar'
 
 const BuyWhaleBtn = styled(Button)({
-  backgroundColor: '#318b68',
-  border: 'none',
-  color: 'white',
-  '&:hover': { backgroundColor: '#276f53', border: 'none' }
+  'backgroundColor': '#318b68',
+  'border': 'none',
+  'color': 'white',
+  '&:hover': { backgroundColor: '#276f53', border: 'none' },
 })
 
 export const Layout: FC<PropsWithChildren> = ({ children }) => {
@@ -37,12 +37,12 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           <Grid
             container
             xl={9}
-            justifyContent={'space-between'}
+            justifyContent="space-between"
             sx={{ alignSelf: { xl: 'center' } }}
           >
-            <Grid alignItems="center" >
+            <Grid alignItems="center">
               <Button
-                onClick={() => router.push('/')}
+                onClick={() => { router.push('/') }}
                 sx={{ cursor: 'pointer', paddingLeft: 0 }}
               >
                 <Avatar src="/assets/ashdao.jpg" />
@@ -56,7 +56,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
                 </Typography>
               </Button>
             </Grid>
-            <Grid alignContent={'center'}>
+            <Grid alignContent="center">
               <FurnaceSearchBar />
             </Grid>
             <Grid
@@ -68,7 +68,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
               <BuyWhaleBtn
                 sx={{ display: { xs: 'none', md: 'block' } }}
                 variant="outlined"
-                onClick={() => modal.open(<KadoModal />)}
+                onClick={() => { modal.open(<KadoModal />) }}
               >
                 Buy Whale
               </BuyWhaleBtn>
@@ -77,7 +77,7 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
           </Grid>
         </Stack>
         <Stack
-        sx={{ background: 'linear-gradient(to right top, #29170b, #844c26)' }}
+          sx={{ background: 'linear-gradient(to right top, #29170b, #844c26)' }}
           component="main"
           direction="column"
           minHeight="calc(100vh - 128px)"
@@ -107,16 +107,14 @@ export const Layout: FC<PropsWithChildren> = ({ children }) => {
               <IconButton
                 aria-label="X Icon"
                 onClick={() =>
-                  window.open('https://twitter.com/_ASH_DAO', '_blank')
-                }
+                  window.open('https://twitter.com/_ASH_DAO', '_blank')}
               >
                 <X />
               </IconButton>
               <IconButton
                 aria-label="Discord Icon"
                 onClick={() =>
-                  window.open('https://discord.com/invite/PEJzbV25mX', '_blank')
-                }
+                  window.open('https://discord.com/invite/PEJzbV25mX', '_blank')}
               >
                 <Discord />
               </IconButton>

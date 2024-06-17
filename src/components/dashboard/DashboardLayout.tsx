@@ -4,14 +4,14 @@ import {
   Paper,
   Skeleton,
   Stack,
-  Typography
+  Typography,
 } from '@mui/material'
 import React, { type FC } from 'react'
 import {
   DashboardCharts,
   DashboardTable,
   type FurnaceDataByChain,
-  BurnersPerAsset
+  BurnersPerAsset,
 } from '@/components'
 import { furnaceSelector } from '@/state'
 import { useRecoilValueLoadable } from 'recoil'
@@ -31,7 +31,7 @@ export const DashboardLayout: FC = () => {
         [chainName]:
           chainName in allchartData
             ? [...allchartData[chainName], ...fuelInfo]
-            : fuelInfo
+            : fuelInfo,
       }
     },
     {}
@@ -42,13 +42,13 @@ export const DashboardLayout: FC = () => {
         <Grid
           container
           xs={4}
-          direction={'column'}
+          direction="column"
           spacing={3}
-          justifyContent={'space-between'}
+          justifyContent="space-between"
         >
-          <Grid xs={12} display='flex' direction='column' flexGrow={1}>
+          <Grid xs={12} display="flex" direction="column" flexGrow={1}>
             <Paper sx={{ p: 2 }} style={{ width: '100%', alignContent: 'center' }}>
-              <Stack direction={'row'} spacing={2}>
+              <Stack direction="row" spacing={2}>
                 <Link sx={{ alignSelf: 'center', fontSize: '50px' }} />
                 <Stack spacing={1} direction="column" alignItems="start">
                   <Typography>Total Chains</Typography>
@@ -59,9 +59,9 @@ export const DashboardLayout: FC = () => {
               </Stack>
             </Paper>
           </Grid>
-          <Grid xs={12} display='flex' direction='column' flexGrow={1}>
+          <Grid xs={12} display="flex" direction="column" flexGrow={1}>
             <Paper sx={{ p: 2 }} style={{ width: '100%', alignContent: 'center' }}>
-              <Stack direction={'row'} spacing={2}>
+              <Stack direction="row" spacing={2}>
                 <MonetizationOnOutlined
                   sx={{ alignSelf: 'center', fontSize: '50px' }}
                 />
@@ -70,7 +70,7 @@ export const DashboardLayout: FC = () => {
                   <Typography sx={{ fontSize: 35 }}>
                     {loading
                       ? (
-                      <Skeleton width={100} />
+                        <Skeleton width={100} />
                         )
                       : (
                           furnaceData

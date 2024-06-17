@@ -7,7 +7,7 @@ import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx'
 import type { ChainName } from '@/constants'
 import { useModal, useSnackbar } from '../provider'
 
-export interface ExecuteButtonProps extends UseExecuteContractResult {
+interface ExecuteButtonProps extends UseExecuteContractResult {
   action: string
   disabled?: boolean
   chainName: ChainName
@@ -19,7 +19,7 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({
   simulate,
   sign,
   broadcast,
-  chainName
+  chainName,
 }): JSX.Element => {
   const [loading, setLoading] = useState(false)
   const modal = useModal()
@@ -35,15 +35,17 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({
           .then((tx) => {
             snackbar.open('Broadcasting...', 'info')
             broadcast(TxRaw.encode(tx).finish())
-              .then((response) =>
+              .then((response) => {
                 modal.open(
-                <TransactionModal
-                  deliveryTxResp={response}
-                  chainName={chainName} />
+                  <TransactionModal
+                    deliveryTxResp={response}
+                    chainName={chainName}
+                  />
                 )
+              }
               )
-              .catch(() => snackbar.open('Broadcast Failed', 'error'))
-              .finally(() => setLoading(false))
+              .catch(() => { snackbar.open('Broadcast Failed', 'error') })
+              .finally(() => { setLoading(false) })
           })
           .catch((_) => {
             setLoading(false)
@@ -60,7 +62,7 @@ export const ExecuteButton: FC<ExecuteButtonProps> = ({
   return (
     <Button
       variant="contained"
-      onClick={() => execute()}
+      onClick={() => { execute() }}
       disabled={disabled}
       size="large"
       sx={{ width: 256, border: 'none' }}

@@ -12,8 +12,8 @@ interface Props {
   chartLoading: boolean
 }
 export const DashboardCharts: FC<Props> = ({ furnaceData, chartLoading }) => {
-  const formattedChartData: FurnaceDataByChain =
-    furnaceData.reduce<FurnaceDataByChain>(
+  const formattedChartData: FurnaceDataByChain
+    = furnaceData.reduce<FurnaceDataByChain>(
       (allFurnaceData, currentFurnaceData): FurnaceDataByChain => {
         const [chainName, fuelInfo] = currentFurnaceData
         return {
@@ -21,7 +21,7 @@ export const DashboardCharts: FC<Props> = ({ furnaceData, chartLoading }) => {
           [chainName]:
             chainName in allFurnaceData
               ? [...allFurnaceData[chainName], ...fuelInfo]
-              : fuelInfo
+              : fuelInfo,
         }
       },
       {}

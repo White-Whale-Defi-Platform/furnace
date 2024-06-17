@@ -4,7 +4,7 @@ import SearchIcon from '@mui/icons-material/Search'
 import { formatAssetAmount } from '@/util'
 import type { Asset } from '@/types'
 
-export interface SelectAssetModalProps {
+interface SelectAssetModalProps {
   assets: Asset[]
   callback: (asset: Asset) => void
 }
@@ -15,12 +15,12 @@ export const SelectAssetModal: FC<SelectAssetModalProps> = ({ assets, callback }
   return (
     <Card sx={{ width: '100%', maxWidth: 512 }}>
       <CardHeader title="Select Asset" />
-      <CardContent >
+      <CardContent>
         <TextField
           fullWidth
           label="Search"
           size="small"
-          onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => setInput(value)}
+          onChange={({ target: { value } }: React.ChangeEvent<HTMLInputElement>): void => { setInput(value) }}
           InputProps={{ endAdornment: <SearchIcon /> }}
         />
       </CardContent>
@@ -28,13 +28,15 @@ export const SelectAssetModal: FC<SelectAssetModalProps> = ({ assets, callback }
         <Stack direction="column" spacing={1}>
           {
             assets
-              .filter((asset) => asset.name.startsWith(input))
+              .filter(asset => asset.name.startsWith(input))
               .map((asset, i) => (
-                <Button key={i} color="inherit" onClick={() => callback(asset)}>
-                  <Stack direction="row" alignItems="center" justifyContent="space-between" width='100%'>
+                <Button key={i} color="inherit" onClick={() => { callback(asset) }}>
+                  <Stack direction="row" alignItems="center" justifyContent="space-between" width="100%">
                     <Avatar src={asset.logo} sx={{ width: 24, height: 24 }} />
                     <Typography sx={{ textTransform: 'none' }}>
-                      {formatAssetAmount(asset)} {asset.name}
+                      {formatAssetAmount(asset)}
+                      {' '}
+                      {asset.name}
                     </Typography>
                   </Stack>
                 </Button>
