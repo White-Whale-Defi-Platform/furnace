@@ -14,11 +14,13 @@ docker_options=(
 )
 
 if [[ "$arch" == "aarch64" || "$arch" == "arm64" ]]; then
-	docker_command=("docker" "run" "${docker_options[@]}" "cosmwasm/optimizer-arm64:0.16.0")
+	docker_command=("docker" "run" "${docker_options[@]}" "cosmwasm/rust-optimizer-arm64:0.14.0")
 else
-	docker_command=("docker" "run" "${docker_options[@]}" "cosmwasm/optimizer:0.16.0")
+	docker_command=("docker" "run" "${docker_options[@]}" "cosmwasm/rust-optimizer:0.14.0")
 fi
 
 echo "${docker_command[@]}"
 
 "${docker_command[@]}"
+
+

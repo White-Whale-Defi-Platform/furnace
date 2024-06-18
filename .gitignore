@@ -38,3 +38,7 @@ next-env.d.ts
 
 # editor files
 /.vscode
+.idea
+/smart-contracts/.idea
+
+/artifacts
