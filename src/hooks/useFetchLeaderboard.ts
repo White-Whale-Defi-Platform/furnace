@@ -8,10 +8,10 @@ export interface LeaderboardResults {
 
 export type LeaderboardInfo = [
   fuelDenom: string,
-  leaderboardResults: LeaderboardResults
+  leaderboardResults: LeaderboardResults,
 ]
 
-export type LeaderboardsByChain = Record<string, LeaderboardInfo[]>
+type LeaderboardsByChain = Record<string, LeaderboardInfo[]>
 
 /**
  * Fetches all of the leaderboard and pre-calculates some of the fuel infos in a specific fuel_denom.
@@ -42,13 +42,13 @@ export const fetchLeaderboard = async (
                 limit,
                 leaderboard.at(-1)?.[0]
               )
-            ).leaderboard
+            ).leaderboard,
           ]
     )
-    .then((leaderboard) =>
+    .then(leaderboard =>
       leaderboard.map(([address, burnAmount]): [string, number] => [
         address,
-        Number(burnAmount)
+        Number(burnAmount),
       ]).sort(([__, a], [_, b]) => b - a)
     )
     .then((leaderboard) => {
@@ -62,6 +62,6 @@ export const fetchLeaderboard = async (
         leaderboard,
         uniqueBurners,
         totalBurnedAssets,
-        avgTokensBurnedPerUniques
+        avgTokensBurnedPerUniques,
       }
     })

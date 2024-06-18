@@ -9,7 +9,7 @@ export type TotalFurnaceData = [
     fuelDenom: string
     asset: { burnAsset: ChainAsset, mintAsset: ChainAsset } | undefined
     leaderboard: LeaderboardResults
-  }
+  },
 ]
 
 /**
@@ -29,12 +29,12 @@ export const furnaceSelector = selector<Record<ChainName, Array<TotalFurnaceData
             return {
               fuelDenom: asset.burnAsset.id,
               asset,
-              leaderboard: formattedAllLeaderboard[asset.burnAsset.id]
+              leaderboard: formattedAllLeaderboard[asset.burnAsset.id],
             }
           })] as const)
       } return undefined
     })
 
     return Object.fromEntries(allFurnace.flatMap(x => x != null ? [x] : []))
-  }
+  },
 })

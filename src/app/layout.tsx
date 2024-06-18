@@ -6,7 +6,7 @@ import type { PropsWithChildren, FC } from 'react'
 export const metadata: Metadata = {
   title: 'The Furnace',
   description:
-    'The Furnace is a dApp that allows coins to be burned and receives a new burn derivative.'
+    'The Furnace is a dApp that allows coins to be burned and receives a new burn derivative.',
 }
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (

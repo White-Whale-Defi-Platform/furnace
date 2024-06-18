@@ -8,6 +8,6 @@ import { atom, RecoilLoadable } from 'recoil'
 export const clientsAtom = atom<Record<ChainName, FurnaceQueryClient>>(
   {
     key: 'clientsAtom',
-    default: RecoilLoadable.loading()
+    default: RecoilLoadable.loading(),
   }
 )

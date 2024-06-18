@@ -3,7 +3,7 @@ import { KNOWN_ADDRESSES } from '@/constants'
 import {
   formatAmountWithExponent,
   formatTokenAmount,
-  truncateAddress
+  truncateAddress,
 } from '@/util'
 import {
   Skeleton,
@@ -13,7 +13,7 @@ import {
   TableContainer,
   TableHead,
   TablePagination,
-  TableRow
+  TableRow,
 } from '@mui/material'
 import React, { type FC, useCallback, useState } from 'react'
 
@@ -25,12 +25,12 @@ interface Props {
   decimals: number
 }
 
-export const RankingTable: FC<Props> = ({ data, decimals }) => {
+const RankingTable: FC<Props> = ({ data, decimals }) => {
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(5)
 
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0
+  const emptyRows
+    = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data.length) : 0
 
   //  Table pagination click event
   const onChangePage = useCallback(
@@ -68,12 +68,13 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
         <TableBody>
           {data.length === 0
           // While the data is still loading
-            ? Array.from({ length: rowsPerPage }).map((_, i) =>
-                <TableRow key={i}>
-                  <TableCell colSpan={3}>
-                    <Skeleton />
-                  </TableCell>
-                </TableRow>
+            ? Array.from({ length: rowsPerPage }).map((_, i) => (
+              <TableRow key={i}>
+                <TableCell colSpan={3}>
+                  <Skeleton />
+                </TableCell>
+              </TableRow>
+            )
             )
           // After the data is fetched then it shows the ranking table
             : (rowsPerPage > 0
@@ -110,7 +111,7 @@ export const RankingTable: FC<Props> = ({ data, decimals }) => {
         </TableBody>
       </Table>
       <TablePagination
-        component={'div'}
+        component="div"
         colSpan={3}
         showFirstButton
         showLastButton

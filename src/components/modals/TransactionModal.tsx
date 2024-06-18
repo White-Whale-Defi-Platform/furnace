@@ -13,13 +13,13 @@ export const TransactionModal: FC<Props> = ({ deliveryTxResp, chainName }): JSX.
   return (
     <Card elevation={1} sx={theme => ({ width: 256, p: theme.spacing(2) })}>
       <Stack direction="column" alignItems="center" justifyContent="center" gap={1}>
-        <Typography variant="h6" textAlign='center'>{code === 0 ? 'Success' : 'Failure'}</Typography>
+        <Typography variant="h6" textAlign="center">{code === 0 ? 'Success' : 'Failure'}</Typography>
         <Divider />
-        <Stack direction="row" alignItems='center' justifyContent="space-between" sx={{ width: '100%' }}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: '100%' }}>
           <Typography>Height</Typography>
           <Typography>{height}</Typography>
         </Stack>
-        <Stack direction="row" alignItems='center' justifyContent="space-between" sx={{ width: '100%' }}>
+        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ width: '100%' }}>
           <Typography>Hash</Typography>
           <Typography>{formatHash(transactionHash)}</Typography>
         </Stack>
@@ -27,10 +27,11 @@ export const TransactionModal: FC<Props> = ({ deliveryTxResp, chainName }): JSX.
         <Button
           variant="outlined"
           color="inherit"
-          onClick={() => window.open(exploreTx(transactionHash, chainName), '_blank')}>
+          onClick={() => window.open(exploreTx(transactionHash, chainName), '_blank')}
+        >
           Explore
         </Button>
       </Stack>
-    </Card >
+    </Card>
   )
 }

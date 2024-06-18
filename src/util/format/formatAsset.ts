@@ -18,5 +18,5 @@ export const formatAssetAmount = (asset: Asset): string => formatAmountWithExpon
 
 export const updateAssetAmount = <A extends Asset>(asset: A, { amount }: Coin): A => ({
   ...asset,
-  amount: Number(amount)
+  amount: Number(amount),
 })

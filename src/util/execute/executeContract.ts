@@ -11,7 +11,7 @@ export const createMsgExecuteContract = <T>(senderAddress: string, contractAddre
       sender: senderAddress,
       contract: contractAddress,
       msg: toUtf8(JSON.stringify(message.executeMsg)),
-      funds: [...funds]
+      funds: [...funds],
     }
-  )
+  ),
 })

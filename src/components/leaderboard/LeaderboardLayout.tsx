@@ -7,6 +7,7 @@ import type { Asset } from '@/types'
 import { formatAmountWithExponent, formatAssetAmount, formatTokenAmount } from '@/util'
 import { RankingTable } from '@/components'
 import { useChainContext } from '@/hooks'
+
 interface Props {
   burnDenom: Asset
   mintDenom: Asset
@@ -21,14 +22,14 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
     uniqueBurners: 0,
     totalBurnedAssets: 0,
     avgTokensBurnedPerUniques: 0,
-    leaderboard: []
+    leaderboard: [],
   }
   const formattedLeaderboard = leaderboard.map(([burner, totalBurn]) => ({
     id: burner,
-    totalBurn
+    totalBurn,
   }))
 
-  const userRank = formattedLeaderboard.findIndex((burner) => burner.id === userAddress) + 1
+  const userRank = formattedLeaderboard.findIndex(burner => burner.id === userAddress) + 1
   return (
     <Grid
       container
@@ -41,13 +42,13 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>Total Burned</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {!(fetchLeaderboard.state !== 'hasValue' && totalBurnedAssets === 0) ? formatTokenAmount(Number(formatAmountWithExponent(totalBurnedAssets, decimals))) : <Skeleton width={180} /> }
+            {!(fetchLeaderboard.state !== 'hasValue' && totalBurnedAssets === 0) ? formatTokenAmount(Number(formatAmountWithExponent(totalBurnedAssets, decimals))) : <Skeleton width={180} />}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>Total Burners</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {!(fetchLeaderboard.state !== 'hasValue' && totalBurnedAssets === 0) ? uniqueBurners : <Skeleton width={180} /> }
+            {!(fetchLeaderboard.state !== 'hasValue' && totalBurnedAssets === 0) ? uniqueBurners : <Skeleton width={180} />}
           </Typography>
         </Grid>
         <Grid xs={12} sx={{ paddingY: 2 }}>
@@ -55,13 +56,13 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>My Rank</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {(typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && userRank >= 0) ? userRank : <Typography color='GrayText' fontSize='18px'>Connect Wallet</Typography> }
+            {(typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && userRank >= 0) ? userRank : <Typography component="span" color="GrayText" fontSize="18px">Connect Wallet</Typography>}
           </Typography>
         </Grid>
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>{`My ${mintDenom.name} Tokens`}</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-           {typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && totalBurnedAssets !== 0 ? formatAssetAmount(mintDenom) : <Typography color='GrayText' fontSize='18px'>Connect Wallet</Typography> }
+            {typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && totalBurnedAssets !== 0 ? formatAssetAmount(mintDenom) : <Typography component="span" color="GrayText" fontSize="18px">Connect Wallet</Typography>}
           </Typography>
         </Grid>
       </Grid>

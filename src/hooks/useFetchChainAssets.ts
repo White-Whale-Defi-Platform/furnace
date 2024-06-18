@@ -12,7 +12,7 @@ export type ChainAsset = Asset & { inChainRegistry: boolean }
  * @param startAfter The address to base the next set of paginated data off
  * @returns All of the fuel configs
  */
-export const fetchFuelConfigs = async (
+const fetchFuelConfigs = async (
   client: FurnaceQueryClient,
   limit: number,
   startAfter?: string
@@ -25,7 +25,7 @@ export const fetchFuelConfigs = async (
         ? fuels
         : [
             ...fuels,
-            ...(await fetchFuelConfigs(client, limit, fuels.at(-1)?.denom))
+            ...(await fetchFuelConfigs(client, limit, fuels.at(-1)?.denom)),
           ]
     )
 
@@ -45,7 +45,7 @@ export const fetchChainAssetsWithMintDenom = async (
   const crAssets = fetchChainRegistryAsset(chainName) ?? []
   return await fetchFuelConfigs(client, limit)
     .then(
-      (fuels) =>
+      fuels =>
         fuels.map(
           (fuel) => {
             const asset = (crAssets.find(({ base }) => base === fuel.denom) ?? fuel)
@@ -63,7 +63,7 @@ export const fetchChainAssetsWithMintDenom = async (
               burnAsset,
               mintAsset: (mintRegistryAsset != null)
                 ? { ...crAssetConvert(mintRegistryAsset), inChainRegistry: true }
-                : { ...fcAssetConvert({ denom: expectedMintDenom, subdenom: `ash${burnAsset.name}` }), inChainRegistry: false }
+                : { ...fcAssetConvert({ denom: expectedMintDenom, subdenom: `ash${burnAsset.name}` }), inChainRegistry: false },
             })
           })
     )

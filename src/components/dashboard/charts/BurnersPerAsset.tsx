@@ -2,7 +2,7 @@
 import {
   Skeleton,
   Typography,
-  styled
+  styled,
 } from '@mui/material'
 import React, { type FC } from 'react'
 import { BarChart } from '@mui/x-charts/BarChart'
@@ -12,7 +12,7 @@ import { ChartColors } from '@/util'
 const ChartLabel = styled(Typography)({
   fontSize: 20,
   fontWeight: 'bold',
-  pb: 5
+  pb: 5,
 })
 interface Props {
   fuelAssetData: FurnaceDataByChain
@@ -21,7 +21,7 @@ interface Props {
 
 export const BurnersPerAsset: FC<Props> = ({
   fuelAssetData,
-  chartLoading
+  chartLoading,
 }) => {
   const scatterChartData = Object.entries(fuelAssetData)
     .flatMap(([chainName, assetInfos]) =>
@@ -29,7 +29,7 @@ export const BurnersPerAsset: FC<Props> = ({
         name: asset?.burnAsset.name,
         burners: leaderboard.uniqueBurners,
         logo: asset?.burnAsset.logo,
-        chain: chainName
+        chain: chainName,
       }))
     )
 
@@ -38,41 +38,41 @@ export const BurnersPerAsset: FC<Props> = ({
       <ChartLabel>Burners per Asset</ChartLabel>
       {chartLoading
         ? (
-        <Skeleton variant="rectangular" height={400} />
+          <Skeleton variant="rectangular" height={400} />
           )
         : (
-        <BarChart
+          <BarChart
         // tooltip={{ trigger: 'axis' }}
-        dataset={scatterChartData}
-        yAxis={[
-          {
-            dataKey: 'name',
-            disableTicks: true
-          }
-        ]}
-        xAxis={[
-          {
-            scaleType: 'band',
-            dataKey: 'name',
-            tickMinStep: 1,
-            tickMaxStep: 1,
-            colorMap: {
-              type: 'ordinal',
-              colors: ChartColors
-            }
-          }
-        ]}
-        series={[
-          {
-            dataKey: 'burners',
-            label: 'assets'
-          }
-        ]}
-        grid={{ vertical: true }}
-        height={300}
-        margin={{ top: 50, right: 10, bottom: 20, left: 40 }}
-        slotProps={{ legend: { hidden: true } }}
-      />
+            dataset={scatterChartData}
+            yAxis={[
+              {
+                dataKey: 'name',
+                disableTicks: true,
+              },
+            ]}
+            xAxis={[
+              {
+                scaleType: 'band',
+                dataKey: 'name',
+                tickMinStep: 1,
+                tickMaxStep: 1,
+                colorMap: {
+                  type: 'ordinal',
+                  colors: ChartColors,
+                },
+              },
+            ]}
+            series={[
+              {
+                dataKey: 'burners',
+                label: 'assets',
+              },
+            ]}
+            grid={{ vertical: true }}
+            height={300}
+            margin={{ top: 50, right: 10, bottom: 20, left: 40 }}
+            slotProps={{ legend: { hidden: true } }}
+          />
           )}
     </>
   )

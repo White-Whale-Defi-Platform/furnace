@@ -11,5 +11,5 @@ export const balanceSelector = selectorFamily<Coin | undefined, { chainName: Cha
   get: ({ chainName, denom, address }) => async ({ get }) => {
     const { client } = get(clientsAtom)[chainName]
     return (address != null) ? await client.getBalance(address, denom) : undefined
-  }
+  },
 })

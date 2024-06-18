@@ -1,5 +1,3 @@
-export const FETCH_INTERVAL = 6_000
-
 export type ChainName = string
 
 export const ENDPOINTS: Record<
@@ -12,7 +10,7 @@ string,
     rest: ['https://chihuahua-api.polkachu.com'],
     contractAddress: 'chihuahua1hplyuj2hzxd75q8686g9vm3uzrrny9ggvt8aza2csupgdp98vg2sp0e3h0',
     chainColor: '#FFC452',
-    explorerUrl: 'https://ping.pub/chihuahua'
+    explorerUrl: 'https://ping.pub/chihuahua',
   },
   osmosis: {
     chainId: 'osmosis-1',
@@ -20,8 +18,8 @@ string,
     rest: ['https://osmosis-api.polkachu.com'],
     contractAddress: 'osmo1svj5kd8kzj7xxtrd6ftjk0856ffpyj4egz7f9pd9dge5wr4kwansmefq07',
     explorerUrl: 'https://ping.pub/osmosis',
-    chainColor: '#EB51F9'
-  }
+    chainColor: '#EB51F9',
+  },
 }
 
 export const chainIds = Object.values(ENDPOINTS).flatMap(({ chainId }) => chainId)

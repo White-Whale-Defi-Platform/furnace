@@ -19,7 +19,7 @@ export const Provider: FC<PropsWithChildren> = ({ children }) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     .map(([chainName, { rpc: [rpc], rest: [rest] }]) => ({
     // @ts-expect-error module type definition doesn't like us throwing a random string in it so we added a filter to ensure everything doesn't blow up
-      ...grazChains[chainName], rpc, rest
+      ...grazChains[chainName], rpc, rest,
     }))
 
   return (
@@ -29,16 +29,16 @@ export const Provider: FC<PropsWithChildren> = ({ children }) => {
           <CssBaseline />
           <ModalProvider>
             <SnackbarProvider>
-                <GrazProvider
-                  grazOptions={{
-                    chains,
-                    defaultWallet: WalletType.KEPLR
-                  }}
-                >
-                  <AppProvider>
-                    {children}
-                  </AppProvider>
-                </GrazProvider>
+              <GrazProvider
+                grazOptions={{
+                  chains,
+                  defaultWallet: WalletType.KEPLR,
+                }}
+              >
+                <AppProvider>
+                  {children}
+                </AppProvider>
+              </GrazProvider>
             </SnackbarProvider>
           </ModalProvider>
         </ThemeProvider>

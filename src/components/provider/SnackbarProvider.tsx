@@ -10,7 +10,7 @@ interface SnackbarContextType {
 
 const SnackbarContext = createContext<SnackbarContextType>({
   open: () => undefined,
-  close: () => undefined
+  close: () => undefined,
 })
 
 export const useSnackbar = (): SnackbarContextType => useContext(SnackbarContext)
@@ -24,7 +24,7 @@ export const SnackbarProvider: FC<PropsWithChildren> = ({ children }): JSX.Eleme
     changeVisibility(true)
   }
 
-  const close = (): void => changeVisibility(false)
+  const close = (): void => { changeVisibility(false) }
 
   return (
     <SnackbarContext.Provider value={{ open, close }}>

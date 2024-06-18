@@ -15,5 +15,5 @@ export const KNOWN_ADDRESSES: Partial<Record<string, string>> = {
   chihuahua1fw0xmf4574hccxsvagc6dzzg37r2gwxtrpfd0d: 'EC',
   chihuahua1gn6e0krr2fvuyfw4xu2d935vjj4u0xxaf4ce8d: 'Ginkou',
   chihuahua1eqntnl6tzcj9h86psg4y4h6hh05g2h9nuxam3n: 'Racoon Bet',
-  chihuahua12emutgfv7hy46khk5x36e9fczuvk9ktpzsmdv7: 'JiJiCodes'
+  chihuahua12emutgfv7hy46khk5x36e9fczuvk9ktpzsmdv7: 'JiJiCodes',
 }

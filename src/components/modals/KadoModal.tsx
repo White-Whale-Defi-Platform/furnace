@@ -6,7 +6,7 @@ const KadoIframe = styled('iframe')(({ theme }) => ({
   border: 'none',
   borderRadius: theme.shape.borderRadius,
   width: 480,
-  height: 620
+  height: 620,
 }))
 
 export const KadoModal = (): JSX.Element => <KadoIframe src={url} />
