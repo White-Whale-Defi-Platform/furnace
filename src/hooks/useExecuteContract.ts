@@ -46,7 +46,7 @@ export const useExecuteContract = <T>(chainName: ChainName, message: ExecuteMsg<
     broadcast: broadcastTransaction,
     simulate: async () => {
       if (!isConnected || bech32Address === undefined) return await Promise.reject(new Error('Signer not found'))
-      console.log("Hello World!", bech32Address,
+      console.log('Hello World!', bech32Address,
         [createMsgExecuteContract<T>(
           bech32Address,
           ENDPOINTS[chainName].contractAddress,

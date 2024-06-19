@@ -12,7 +12,7 @@ export const dynamicAssetsSelector = selector({
     const chainRegistryClient = new ChainRegistryClient({
       chainNames: Object.keys(ENDPOINTS),
     })
-    await chainRegistryClient.fetchUrls()
+    chainRegistryClient.fetchUrls().catch(console.log)
     return chainRegistryClient
   },
 })
