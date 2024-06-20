@@ -28,6 +28,7 @@ string,
     explorerUrl: 'https://ping.pub/terra',
     chainColor: '#EB51F9',
   },
+  /*
   juno: {
     chainId: 'juno-1',
     rpc: ['https://juno-rpc.polkachu.com'],
@@ -35,7 +36,7 @@ string,
     contractAddress: 'juno16uprl38e4ljj5ctuha9ehpvp2l93z3d5jmwj2cttt6jkhlrhscpqgglalk',
     explorerUrl: 'https://ping.pub/juno',
     chainColor: '#EB51F9',
-  },
+  },*/
 }
 
 export const chainIds = Object.values(ENDPOINTS).flatMap(({ chainId }) => chainId)
