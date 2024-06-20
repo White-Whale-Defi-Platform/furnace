@@ -10,6 +10,14 @@ pub struct InstantiateMsg {
     pub mint_cost: Uint128,
     /// Native denom
     pub native_denom: String,
+    /// The default address that will receive part of the burned token as fees.
+    pub default_fuel_fee_recipient: String,
+    /// The default fee rate that will be charged for burning the fuel token.
+    pub default_fuel_fee_rate: Decimal,
+    /// The default address that will receive the newly minted ash token fees.
+    pub default_ash_fee_recipient: String,
+    /// The default fee rate that will be charged for minting the ash token.
+    pub default_ash_fee_rate: Decimal,
 }
 
 #[cw_serde]
@@ -31,14 +39,6 @@ pub enum ExecuteMsg {
         subdenom: String,
         /// The denom that will be accepted as fuel.
         denom: String,
-        /// The address that will receive part of the burned token as fees.
-        fuel_fee_recipient: String,
-        /// The fee rate that will be charged for burning the fuel token.
-        fuel_fee_rate: Decimal,
-        /// The address that will receive the newly minted ash token fees.
-        ash_fee_recipient: String,
-        /// The fee rate that will be charged for minting the ash token.
-        ash_fee_rate: Decimal,
     },
     /// Updates the fuel config. Only the owner can update the fuel config.
     /// If a field is not sent in the message, it will not be updated.
@@ -99,6 +99,15 @@ pub struct LeaderboardResponse {
 
 #[cw_serde]
 /// To be used in the future for migrating the contract.
-pub struct MigrateMsg {}
+pub struct MigrateMsg {
+    /// The default address that will receive part of the burned token as fees.
+    pub default_fuel_fee_recipient: String,
+    /// The default fee rate that will be charged for burning the fuel token.
+    pub default_fuel_fee_rate: Decimal,
+    /// The default address that will receive the newly minted ash token fees.
+    pub default_ash_fee_recipient: String,
+    /// The default fee rate that will be charged for minting the ash token.
+    pub default_ash_fee_rate: Decimal,
+}
 
 pub type ConfigResponse = Config;
