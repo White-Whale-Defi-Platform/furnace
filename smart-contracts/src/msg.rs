@@ -35,9 +35,9 @@ pub enum ExecuteMsg {
     /// Adds a new denom to the contract with the given fuel and ash fee rates, and fee recipients.
     /// The contract will then be able to accept this denom as fuel. Only the owner can add a new fuel.
     AddFuel {
-        /// Human readable name of the fuel. i.e. `uwhale`
+        /// Human readable name of the fuel, used to create the ash token. i.e. `uwhale`
         subdenom: String,
-        /// The denom that will be accepted as fuel.
+        /// The denom that will be accepted as fuel, i.e. the token that will be burned.
         denom: String,
     },
     /// Updates the fuel config. Only the owner can update the fuel config.

@@ -1,7 +1,6 @@
 use crate::error::ContractError;
 use crate::state::CONFIG;
-use cosmwasm_std::{ensure, Addr, Decimal, Deps};
-use white_whale_std::pool_network::asset::is_ibc_token;
+use cosmwasm_std::{Addr, Decimal, Deps};
 
 /// This prevents the subdenom to be empty as all assets have a subdenom.
 pub const MIN_SUBDENOM_LENGTH: usize = 1;
@@ -34,8 +33,6 @@ pub fn assert_owner(deps: Deps, caller: &Addr) -> Result<(), ContractError> {
 /// as per Osmosis token factory docs `Subdenoms can contain [a-zA-Z0-9./].`, and
 /// returns an error if invalid.
 pub fn validate_subdenom(subdenom: &str) -> Result<(), ContractError> {
-    ensure!(!is_ibc_token(&subdenom), ContractError::InvalidIBCFuel {});
-
     if subdenom.len() > MAX_SUBDENOM_LENGTH
         || subdenom.len() < MIN_SUBDENOM_LENGTH
         || !subdenom

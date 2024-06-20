@@ -6,9 +6,10 @@ use crate::{
     state::{Config, FuelConfig, CONFIG, FUEL_CONFIG, LEADERBOARD},
 };
 use cosmwasm_std::{
-    coins, BankMsg, CosmosMsg, Decimal, DepsMut, Env, MessageInfo, Response, Uint128,
+    coins, ensure, BankMsg, CosmosMsg, Decimal, DepsMut, Env, MessageInfo, Response, Uint128,
 };
 use cw_utils::{must_pay, nonpayable, one_coin};
+use white_whale_std::pool_network::asset::is_ibc_token;
 
 pub fn execute_update_config(
     deps: DepsMut,
@@ -55,6 +56,7 @@ pub fn execute_add_fuel(
         nonpayable(&info)?;
     }
 
+    ensure!(!is_ibc_token(&denom), ContractError::InvalidIBCFuel {});
     validate_subdenom(&subdenom)?;
 
     FUEL_CONFIG.update(deps.storage, denom.clone(), |old| match old {

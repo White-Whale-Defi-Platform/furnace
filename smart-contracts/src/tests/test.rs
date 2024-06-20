@@ -15,6 +15,7 @@ use cw_utils::PaymentError;
 use prost::Message;
 
 pub const NATIVE_DENOM: &str = "uwhale";
+pub const IBC_DENOM: &str = "ibc/FA7112322CE7656DC84D441E49BAEAB9DC0AB3C7618A178A212CDE8B3F17C70B";
 pub const DENOM: &str =
     "factory/migaloo1erul6xyq0gk6ws98ncj7lnq9l4jn4gnnu9we73gdz78yyl2lr7qqrvcgup/ash";
 pub const SUBDENOM: &str = "inj";
@@ -106,10 +107,6 @@ fn add_fuel_works() {
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
 
     // check that the message is executed successfully and attributes are correct
@@ -149,23 +146,44 @@ fn add_fuel_works() {
         }]
     );
 
+    // add a second fuel
+    let info = mock_info("another_user", &coins(50_000_000, NATIVE_DENOM));
+    let msg = ExecuteMsg::AddFuel {
+        subdenom: "uatom".to_string(),
+        denom: "uatom".to_string(),
+    };
+
+    execute(deps.as_mut(), env.clone(), info, msg).unwrap();
+
     // query fuels should return the newly added fuel
     let query_msg = QueryMsg::Fuels {
         start_after: None,
         limit: None,
         fuel_denom: None,
     };
-    let res: FuelsResponse = from_json(query(deps.as_ref(), env, query_msg).unwrap()).unwrap();
+
+    let res: FuelsResponse =
+        from_json(query(deps.as_ref(), env.clone(), query_msg).unwrap()).unwrap();
     assert_eq!(
         res.fuels,
-        vec![FuelConfig {
-            subdenom: SUBDENOM.to_string(),
-            denom: DENOM.to_string(),
-            fuel_fee_recipient: Addr::unchecked("bob"),
-            fuel_fee_rate: "0.1".parse().unwrap(),
-            ash_fee_recipient: Addr::unchecked("marley"),
-            ash_fee_rate: "0.05".parse().unwrap(),
-        }]
+        vec![
+            FuelConfig {
+                subdenom: SUBDENOM.to_string(),
+                denom: DENOM.to_string(),
+                fuel_fee_recipient: Addr::unchecked("bob"),
+                fuel_fee_rate: "0.1".parse().unwrap(),
+                ash_fee_recipient: Addr::unchecked("marley"),
+                ash_fee_rate: "0.05".parse().unwrap(),
+            },
+            FuelConfig {
+                subdenom: "uatom".to_string(),
+                denom: "uatom".to_string(),
+                fuel_fee_recipient: Addr::unchecked("bob"),
+                fuel_fee_rate: "0.1".parse().unwrap(),
+                ash_fee_recipient: Addr::unchecked("marley"),
+                ash_fee_rate: "0.05".parse().unwrap(),
+            }
+        ]
     );
 }
 
@@ -178,64 +196,72 @@ fn add_fuel_should_fail() {
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
 
-    assert!(execute(deps.as_mut(), env.clone(), info, msg.clone()).is_err());
+    let res = execute(deps.as_mut(), env.clone(), info, msg.clone());
+    match res {
+        Ok(_) => panic!("should throw an error"),
+        Err(error) => assert_eq!(
+            error,
+            ContractError::PaymentError(PaymentError::MissingDenom {
+                0: "uwhale".to_string()
+            })
+        ),
+    }
 
-    // if caller is not owner
-    info = mock_info("not_owner", &coins(50_000_000, NATIVE_DENOM));
-    assert!(execute(deps.as_mut(), env.clone(), info, msg.clone()).is_err());
+    info = mock_info(
+        "anyone",
+        &[coin(50_000_000, IBC_DENOM), coin(50_000_000, NATIVE_DENOM)],
+    );
+    let res = execute(deps.as_mut(), env.clone(), info, msg.clone());
+
+    match res {
+        Ok(_) => panic!("should throw an error"),
+        Err(error) => assert_eq!(
+            error,
+            ContractError::PaymentError {
+                0: PaymentError::MultipleDenoms {}
+            }
+        ),
+    }
+
+    info = mock_info("anyone", &[coin(50_000_000, NATIVE_DENOM)]);
+    let res = execute(
+        deps.as_mut(),
+        env.clone(),
+        info,
+        ExecuteMsg::AddFuel {
+            subdenom: SUBDENOM.to_string(),
+            denom: IBC_DENOM.to_string(),
+        },
+    );
+
+    match res {
+        Ok(_) => panic!("should throw an error"),
+        Err(error) => assert_eq!(error, ContractError::InvalidIBCFuel {}),
+    }
 
     // if subdenom is invalid
     info = mock_info("owner", &coins(50_000_000, NATIVE_DENOM));
     let msg = ExecuteMsg::AddFuel {
         subdenom: "{invalid_subdenom!".to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
     assert!(execute(deps.as_mut(), env.clone(), info.clone(), msg).is_err());
-
-    // if fuel fee rate is invalid
-    let msg = ExecuteMsg::AddFuel {
-        subdenom: SUBDENOM.to_string(),
-        denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "1.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
-    };
-    assert!(execute(deps.as_mut(), env.clone(), info.clone(), msg).is_err());
-
-    // if ash fee rate is invalid
-    let msg = ExecuteMsg::AddFuel {
-        subdenom: SUBDENOM.to_string(),
-        denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "1.1".parse().unwrap(),
-    };
-    assert!(execute(deps.as_mut(), env.clone(), info, msg).is_err());
 
     // if denom already exists
     let info = mock_info("owner", &coins(50_000_000, NATIVE_DENOM));
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
     assert!(execute(deps.as_mut(), env.clone(), info.clone(), msg.clone()).is_ok());
-    assert!(execute(deps.as_mut(), env, info, msg).is_err());
+
+    let res = execute(deps.as_mut(), env, info, msg);
+    match res {
+        Ok(_) => panic!("should throw an error"),
+        Err(error) => assert_eq!(error, ContractError::FuelAlreadyExists {}),
+    }
 }
 
 //test burn message
@@ -259,10 +285,6 @@ fn test_burn_works() {
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
     execute(deps.as_mut(), env.clone(), info.clone(), msg.clone()).unwrap();
 
@@ -390,10 +412,6 @@ fn test_burn_should_fail() {
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
     execute(deps.as_mut(), env.clone(), info.clone(), msg.clone()).unwrap();
 
@@ -501,10 +519,6 @@ fn test_update_fuel_config_works() {
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
 
     let _ = execute(deps.as_mut(), env.clone(), info.clone(), msg.clone()).unwrap();
@@ -583,10 +597,6 @@ fn test_update_fuel_config_should_fail() {
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
 
     let _ = execute(deps.as_mut(), env.clone(), info.clone(), msg.clone()).unwrap();
@@ -677,7 +687,6 @@ fn test_update_fuel_config_should_fail() {
         ]
     );
 }
-
 #[test]
 fn test_burn_10_coins() {
     let (mut deps, env) = init();
@@ -686,10 +695,6 @@ fn test_burn_10_coins() {
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
 
     let _ = execute(deps.as_mut(), env.clone(), info.clone(), msg.clone()).unwrap();
@@ -770,10 +775,6 @@ fn test_add_fuel_when_mint_cost_is_zero() {
     let msg = ExecuteMsg::AddFuel {
         subdenom: SUBDENOM.to_string(),
         denom: DENOM.to_string(),
-        fuel_fee_recipient: "bob".to_string(),
-        fuel_fee_rate: "0.1".parse().unwrap(),
-        ash_fee_recipient: "marley".to_string(),
-        ash_fee_rate: "0.05".parse().unwrap(),
     };
 
     // should not let add fuel when mint cost is zero and funds are sent
