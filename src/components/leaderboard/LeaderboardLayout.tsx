@@ -30,6 +30,7 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
   }))
 
   const userRank = formattedLeaderboard.findIndex(burner => burner.id === userAddress) + 1
+  const { isConnected } = useChainContext(chainName)
   return (
     <Grid
       container
@@ -62,7 +63,7 @@ export const LeaderboardLayout: FC<Props> = ({ chainName, burnDenom: { id, decim
         <Grid xs={6} flexGrow={1} gap={3}>
           <Typography>{`My ${mintDenom.name} Tokens`}</Typography>
           <Typography sx={{ fontSize: 20, fontWeight: 'bold' }}>
-            {typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && totalBurnedAssets !== 0 ? formatAssetAmount(mintDenom) : <Typography component="span" color="GrayText" fontSize="18px">Connect Wallet</Typography>}
+            {!isConnected ? (<Typography component="span" color="GrayText" fontSize="18px">Connect Wallet</Typography>) : typeof userAddress === 'string' && fetchLeaderboard.state === 'hasValue' && totalBurnedAssets !== 0 ? formatAssetAmount(mintDenom) : 0}
           </Typography>
         </Grid>
       </Grid>
