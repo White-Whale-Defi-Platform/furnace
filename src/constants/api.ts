@@ -20,6 +20,22 @@ string,
     explorerUrl: 'https://ping.pub/osmosis',
     chainColor: '#EB51F9',
   },
+  terra2: {
+    chainId: 'phoenix-1',
+    rpc: ['https://terra-rpc.polkachu.com'],
+    rest: ['https://terra-api.polkachu.com'],
+    contractAddress: 'terra1f5cfm48gcezl3cx25l64ngc4yktnmx7rcpj3kggu6v273742sqqs5yn5ks',
+    explorerUrl: 'https://ping.pub/terra',
+    chainColor: '#EB51F9',
+  },
+  juno: {
+    chainId: 'juno-1',
+    rpc: ['https://juno-rpc.polkachu.com'],
+    rest: ['https://juno-api.polkachu.com'],
+    contractAddress: 'juno16uprl38e4ljj5ctuha9ehpvp2l93z3d5jmwj2cttt6jkhlrhscpqgglalk',
+    explorerUrl: 'https://ping.pub/juno',
+    chainColor: '#EB51F9',
+  },
 }
 
 export const chainIds = Object.values(ENDPOINTS).flatMap(({ chainId }) => chainId)
