@@ -3,7 +3,7 @@ import { Skeleton, Typography, styled } from '@mui/material'
 import React, { type FC } from 'react'
 import { BarChart } from '@mui/x-charts/BarChart'
 import type { FurnaceDataByChain } from '@/components'
-import { ChartColors } from '@/util'
+import { ChartColors, formatPrettyName } from '@/util'
 
 const ChartLabel = styled(Typography)({
   fontSize: 20,
@@ -27,12 +27,12 @@ export const BurnersPerChain: FC<Props> = ({
       // The Set checks the each unique address in the leaderboard
       const leaderboards = new Set(
         assets.flatMap(({ leaderboard: { leaderboard } }) =>
-          leaderboard.map(([address, _]) => address)
+          leaderboard.map(([address]) => address)
         )
       ).size
 
       return {
-        name: chainName,
+        name: formatPrettyName(chainName),
         burners: leaderboards,
       }
     }

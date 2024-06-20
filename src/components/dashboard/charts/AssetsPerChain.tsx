@@ -3,7 +3,7 @@ import type { FurnaceDataByChain } from '@/components'
 import { Skeleton, styled, Typography } from '@mui/material'
 import React, { type FC } from 'react'
 import { BarChart } from '@mui/x-charts/BarChart'
-import { ChartColors } from '@/util'
+import { ChartColors, formatPrettyName } from '@/util'
 
 const ChartLabel = styled(Typography)({
   fontSize: 20,
@@ -23,7 +23,7 @@ export const AssetsPerChain: FC<Props> = ({
   // keyed by chain name and value being number of fuel assets
   const fuelAssets = Object.entries(fuelAssetData).map(
     ([chainName, assetInfos]) => ({
-      name: chainName,
+      name: formatPrettyName(chainName),
       length: assetInfos.length,
     })
   )
