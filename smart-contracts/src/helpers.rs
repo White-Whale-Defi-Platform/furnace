@@ -66,6 +66,10 @@ pub fn calc_range_start(start_after: Option<Addr>) -> Option<Vec<u8>> {
 
 #[test]
 fn test_validate_subdenom() {
+    let _valid_subdenom_1 = validate_subdenom(
+        &"ibc/FA7112322CE7656DC84D441E49BAEAB9DC0AB3C7618A178A212CDE8B3F17C70B".to_string(),
+    )
+    .unwrap_err();
     let _valid_subdenom_1 = validate_subdenom(&"uwhale".to_string()).unwrap();
     let _valid_subdenom_2 = validate_subdenom(&"....///".to_string()).unwrap();
     let _valid_subdenom_3 =

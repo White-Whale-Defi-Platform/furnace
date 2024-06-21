@@ -7,6 +7,14 @@ pub struct Config {
     pub owner: Addr,
     pub mint_cost: Uint128,
     pub native_denom: String,
+    /// The default address that will receive part of the burned token as fees.
+    pub default_fuel_fee_recipient: Addr,
+    /// The default fee rate that will be charged for burning the fuel token.
+    pub default_fuel_fee_rate: Decimal,
+    /// The default address that will receive the newly minted ash token fees.
+    pub default_ash_fee_recipient: Addr,
+    /// The default fee rate that will be charged for minting the ash token.
+    pub default_ash_fee_rate: Decimal,
 }
 
 #[cw_serde]

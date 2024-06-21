@@ -6,9 +6,10 @@ use crate::{
     state::{Config, FuelConfig, CONFIG, FUEL_CONFIG, LEADERBOARD},
 };
 use cosmwasm_std::{
-    coins, BankMsg, CosmosMsg, Decimal, DepsMut, Env, MessageInfo, Response, Uint128,
+    coins, ensure, BankMsg, CosmosMsg, Decimal, DepsMut, Env, MessageInfo, Response, Uint128,
 };
 use cw_utils::{must_pay, nonpayable, one_coin};
+use white_whale_std::pool_network::asset::is_ibc_token;
 
 pub fn execute_update_config(
     deps: DepsMut,
@@ -43,10 +44,6 @@ pub fn execute_add_fuel(
     info: MessageInfo,
     subdenom: String,
     denom: String,
-    fuel_fee_recipient: String,
-    fuel_fee_rate: Decimal,
-    ash_fee_recipient: String,
-    ash_fee_rate: Decimal,
 ) -> Result<Response, ContractError> {
     let config = CONFIG.load(deps.storage)?;
 
@@ -59,7 +56,7 @@ pub fn execute_add_fuel(
         nonpayable(&info)?;
     }
 
-    assert_owner(deps.as_ref(), &info.sender)?;
+    ensure!(!is_ibc_token(&denom), ContractError::InvalidIBCFuel {});
     validate_subdenom(&subdenom)?;
 
     FUEL_CONFIG.update(deps.storage, denom.clone(), |old| match old {
@@ -67,10 +64,10 @@ pub fn execute_add_fuel(
         None => Ok(FuelConfig {
             subdenom: subdenom.clone(),
             denom: denom.clone(),
-            fuel_fee_recipient: deps.api.addr_validate(&fuel_fee_recipient)?,
-            fuel_fee_rate: validate_fee_rate(fuel_fee_rate)?,
-            ash_fee_recipient: deps.api.addr_validate(&ash_fee_recipient)?,
-            ash_fee_rate: validate_fee_rate(ash_fee_rate)?,
+            fuel_fee_recipient: config.default_fuel_fee_recipient.clone(),
+            fuel_fee_rate: config.default_fuel_fee_rate.clone(),
+            ash_fee_recipient: config.default_ash_fee_recipient.clone(),
+            ash_fee_rate: config.default_ash_fee_rate.clone(),
         }),
     })?;
 
@@ -84,13 +81,19 @@ pub fn execute_add_fuel(
 
     Ok(Response::default()
         .add_messages(messages)
-        .add_attribute("action", "add_fuel")
+        .add_attribute("action", "add_fuel".to_string())
         .add_attribute("subdenom", subdenom)
         .add_attribute("denom", denom)
-        .add_attribute("fuel_fee_recipient", fuel_fee_recipient)
-        .add_attribute("fuel_fee_rate", fuel_fee_rate.to_string())
-        .add_attribute("ash_fee_recipient", ash_fee_recipient)
-        .add_attribute("ash_fee_rate", ash_fee_rate.to_string()))
+        .add_attribute(
+            "fuel_fee_recipient",
+            config.default_fuel_fee_recipient.to_string(),
+        )
+        .add_attribute("fuel_fee_rate", config.default_fuel_fee_rate.to_string())
+        .add_attribute(
+            "ash_fee_recipient",
+            config.default_ash_fee_recipient.to_string(),
+        )
+        .add_attribute("ash_fee_rate", config.default_ash_fee_rate.to_string()))
 }
 
 pub fn execute_update_fuel_config(

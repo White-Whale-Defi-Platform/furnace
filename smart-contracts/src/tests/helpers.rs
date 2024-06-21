@@ -1,7 +1,7 @@
 use cosmwasm_std::{
     attr, coins,
     testing::{mock_dependencies, mock_env, mock_info, MockApi, MockQuerier},
-    Env, MemoryStorage, OwnedDeps, Uint128,
+    Decimal, Env, MemoryStorage, OwnedDeps, Uint128,
 };
 
 use crate::tests::test::NATIVE_DENOM;
@@ -15,6 +15,10 @@ pub fn init() -> (OwnedDeps<MemoryStorage, MockApi, MockQuerier>, Env) {
         owner: "owner".to_string(),
         mint_cost: Uint128::new(50_000_000),
         native_denom: NATIVE_DENOM.to_string(),
+        default_fuel_fee_recipient: "bob".to_string(),
+        default_fuel_fee_rate: Decimal::percent(10),
+        default_ash_fee_recipient: "marley".to_string(),
+        default_ash_fee_rate: Decimal::percent(5),
     };
     let res = instantiate(deps.as_mut(), env.clone(), info, msg).unwrap();
 
