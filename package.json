@@ -48,7 +48,7 @@
     "husky": "9.0.x",
     "knip": "5.21.x",
     "lint-staged": "15.2.x",
-    "typescript": "5.4.x",
+    "typescript": "5.5.x",
     "typescript-eslint": "7.13.x"
   },
   "lint-staged": {
