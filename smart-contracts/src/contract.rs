@@ -62,9 +62,11 @@ pub fn execute(
         ExecuteMsg::AddFuel { subdenom, denom } => {
             execute_add_fuel(deps, env, info, subdenom, denom)
         }
-        ExecuteMsg::UpdateConfig { owner, mint_cost } => {
-            execute_update_config(deps, info, owner, mint_cost)
-        }
+        ExecuteMsg::UpdateConfig {
+            owner,
+            mint_cost,
+            native_denom,
+        } => execute_update_config(deps, info, owner, mint_cost, native_denom),
         ExecuteMsg::UpdateFuelConfig {
             fuel_denom,
             fuel_fee_recipient,

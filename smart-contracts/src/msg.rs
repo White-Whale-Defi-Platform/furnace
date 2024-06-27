@@ -28,6 +28,8 @@ pub enum ExecuteMsg {
         owner: Option<String>,
         /// New cost to mint token factory tokens.
         mint_cost: Option<Uint128>,
+        /// New native denom. TODO remove in v0.2.2
+        native_denom: Option<String>,
     },
     /// Burns tokens sent to the contract and mints ash tokens to the sender.
     /// Anyone can burn tokens, if the token sent is a fuel token.

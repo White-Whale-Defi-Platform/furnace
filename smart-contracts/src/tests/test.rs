@@ -36,6 +36,7 @@ fn test_update_config_works() {
     let update_config_message = UpdateConfig {
         owner: Some("new_owner".to_string()),
         mint_cost: Some(Uint128::zero()),
+        native_denom: Some("uwillyz".to_string()),
     };
 
     // change owner to new_owner
@@ -51,7 +52,8 @@ fn test_update_config_works() {
         vec![
             ("action", "update_config"),
             ("owner", "new_owner"),
-            ("mint_cost", "0")
+            ("mint_cost", "0"),
+            ("native_denom", "uwillyz")
         ]
     );
     assert_eq!(res.messages.len(), 0);
@@ -61,6 +63,7 @@ fn test_update_config_works() {
         from_json(&query(deps.as_ref(), mock_env(), QueryMsg::Config {}).unwrap()).unwrap();
     assert_eq!(config.owner, Addr::unchecked("new_owner"));
     assert_eq!(config.mint_cost, Uint128::zero());
+    assert_eq!(config.native_denom, "uwillyz".to_string());
 }
 
 #[test]
@@ -70,6 +73,7 @@ fn test_update_config_should_fail() {
     let update_config_message = UpdateConfig {
         owner: Some("new_owner".to_string()),
         mint_cost: Some(Uint128::new(100)),
+        native_denom: None,
     };
 
     // if funds are sent
@@ -760,6 +764,7 @@ fn test_add_fuel_when_mint_cost_is_zero() {
     let update_config_message = UpdateConfig {
         owner: None,
         mint_cost: Some(Uint128::zero()),
+        native_denom: None,
     };
 
     // change mint cost to zero

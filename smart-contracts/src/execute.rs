@@ -16,6 +16,7 @@ pub fn execute_update_config(
     info: MessageInfo,
     owner: Option<String>,
     mint_cost: Option<Uint128>,
+    native_denom: Option<String>,
 ) -> Result<Response, ContractError> {
     nonpayable(&info)?;
 
@@ -29,12 +30,16 @@ pub fn execute_update_config(
     if let Some(mint_cost) = mint_cost {
         config.mint_cost = mint_cost;
     }
+    if let Some(native_denom) = native_denom {
+        config.native_denom = native_denom;
+    }
 
     CONFIG.save(deps.storage, &config)?;
     Ok(Response::default()
         .add_attribute("action", "update_config")
         .add_attribute("owner", config.owner.as_str())
-        .add_attribute("mint_cost", config.mint_cost.to_string()))
+        .add_attribute("mint_cost", config.mint_cost.to_string())
+        .add_attribute("native_denom", config.native_denom.to_string()))
 }
 
 #[allow(clippy::too_many_arguments)]
