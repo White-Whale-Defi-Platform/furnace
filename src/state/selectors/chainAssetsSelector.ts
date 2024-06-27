@@ -42,7 +42,7 @@ ChainName
           ).assets
 
           // map over all the items and utilize the crAssets dynamic fetcher for any assets that were not in the registry
-          return assets.flatMap(({ burnAsset, mintAsset }) => {
+          assets.flatMap(({ burnAsset, mintAsset }) => {
             if (!(burnAsset.inChainRegistry && mintAsset.inChainRegistry)) {
               const newBurnAsset = findRegistryAssetBySymbol(
                 chainName,

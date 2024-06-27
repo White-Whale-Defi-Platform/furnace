@@ -49,11 +49,11 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
       ? flattenedFurnaceData
       : flattenedFurnaceData.filter(([chainName]) => chainName === filterChain)
 
-  const fuelAssets = Object.entries(furnaceData).map(([_, assetInfos]) => (
+  const fuelAssets = Object.entries(furnaceData).map(([, assetInfos]) => (
     [assetInfos[0],
       assetInfos[1].length] as const
   ))
-  const totalAssets = fuelAssets.reduce((assets, [_, asset]) => assets + asset, 0)
+  const totalAssets = fuelAssets.reduce((assets, [, asset]) => assets + asset, 0)
 
   //  Table pagination click event
   const onChangePage = useCallback(
@@ -86,10 +86,10 @@ export const DashboardTable: FC<Props> = ({ furnaceData }) => {
           color={filterChain === undefined ? 'primary' : 'secondary'}
           onClick={() => { setFilterChain(undefined) }}
         />
-        {(flattenedFurnaceData.length > 0
+        {Array.from(new Set((flattenedFurnaceData.length > 0
           ? flattenedFurnaceData
           : Object.entries(ENDPOINTS)
-        ).map(([chainName]) => (
+        ).map(([chainName]) => chainName))).map(chainName => (
           <Chip
             avatar={<Avatar sx={{ backgroundColor: '#ae6628' }}>{Object.fromEntries(fuelAssets)[chainName] ?? 0}</Avatar>}
             key={chainName}
