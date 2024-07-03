@@ -28,6 +28,22 @@ string,
     explorerUrl: 'https://ping.pub/terra',
     chainColor: '#EB51F9',
   },
+  migaloo: {
+    chainId: 'migaloo-1',
+    rpc: ['https://migaloo-rpc.polkachu.com'],
+    rest: ['https://migaloo-api.polkachu.com'],
+    contractAddress: 'migaloo14w9qu85aqwur9cm65ym68zfnprck9atk2h2vy64j5eyan3zh6vgsmn90lm',
+    explorerUrl: 'https://ping.pub/migaloo',
+    chainColor: '#EB51F9',
+  },
+  injective: {
+    chainId: 'injective-1',
+    rpc: ['https://injective-rpc.polkachu.com'],
+    rest: ['https://injective-api.polkachu.com'],
+    contractAddress: 'inj1ej2f3lmpxj4djsmmuxvnfuvplrut7zmwrq7zj8',
+    explorerUrl: 'https://ping.pub/injective',
+    chainColor: '#EB51F9',
+  },
   /*
   juno: {
     chainId: 'juno-1',
