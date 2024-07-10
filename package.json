@@ -26,7 +26,7 @@
     "@mui/icons-material": "5.16.x",
     "@mui/material": "5.15.x",
     "@mui/x-charts": "7.9.x",
-    "@tanstack/react-query": "5.45.x",
+    "@tanstack/react-query": "5.50.x",
     "bech32": "2.0.x",
     "chain-registry": "1.63.x",
     "graz": "0.1.x",
