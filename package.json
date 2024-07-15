@@ -46,7 +46,7 @@
     "eslint": "9.6.x",
     "eslint-config-next": "14.2.x",
     "husky": "9.0.x",
-    "knip": "5.25.x",
+    "knip": "5.26.x",
     "lint-staged": "15.2.x",
     "typescript": "5.5.x",
     "typescript-eslint": "7.16.x"
