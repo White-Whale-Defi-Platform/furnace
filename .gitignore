@@ -42,3 +42,4 @@ next-env.d.ts
 /smart-contracts/.idea
 
 /artifacts
+/package-lock.json
