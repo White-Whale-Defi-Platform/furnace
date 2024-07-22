@@ -43,7 +43,7 @@
     "@types/react": "18.3.x",
     "@types/react-dom": "18.3.x",
     "@types/swagger-ui-react": "4.18.x",
-    "eslint": "8.56.x",
+    "eslint": "9.7.x",
     "eslint-config-next": "14.2.x",
     "husky": "9.0.x",
     "knip": "5.26.x",
