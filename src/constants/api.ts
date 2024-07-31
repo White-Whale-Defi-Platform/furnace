@@ -35,7 +35,7 @@ export const ENDPOINTS: Record<
     contractAddress: 'migaloo14w9qu85aqwur9cm65ym68zfnprck9atk2h2vy64j5eyan3zh6vgsmn90lm',
     explorerUrl: 'https://ping.pub/migaloo',
     chainColor: '#EB51F9',
-  },
+  },/*
   injective: {
     chainId: 'injective-1',
     rpc: ['https://injective-rpc.polkachu.com'],
@@ -43,7 +43,7 @@ export const ENDPOINTS: Record<
     contractAddress: 'inj1ej2f3lmpxj4djsmmuxvnfuvplrut7zmwrq7zj8',
     explorerUrl: 'https://ping.pub/injective',
     chainColor: '#EB51F9',
-  },
+  },*/
   juno: {
     chainId: 'juno-1',
     rpc: ['https://juno-rpc.polkachu.com'],
