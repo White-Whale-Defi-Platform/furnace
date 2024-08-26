@@ -21,7 +21,7 @@
     "@cosmjs/proto-signing": "0.32.x",
     "@cosmjs/stargate": "0.32.x",
     "@cosmjs/tendermint-rpc": "0.32.x",
-    "@emotion/react": "11.11.x",
+    "@emotion/react": "11.13.x",
     "@emotion/styled": "11.11.x",
     "@mui/icons-material": "5.16.x",
     "@mui/material": "5.16.x",
