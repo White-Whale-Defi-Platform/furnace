@@ -22,7 +22,7 @@
     "@cosmjs/stargate": "0.32.x",
     "@cosmjs/tendermint-rpc": "0.32.x",
     "@emotion/react": "11.11.x",
-    "@emotion/styled": "11.11.x",
+    "@emotion/styled": "11.13.x",
     "@mui/icons-material": "5.16.x",
     "@mui/material": "5.16.x",
     "@mui/x-charts": "7.11.x",
